@@ -1,79 +1,83 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:flutter/material.dart';
+import 'package:flutter_com1/view/auth/second_screen.dart';
+import 'package:flutter_com1/view/auth/widgets/custom_button.dart';
 import 'package:flutter_com1/view/auth/widgets/custom_text.dart';
-import 'package:flutter_com1/view/auth/widgets/custom_text_form_field.dart';
+import 'package:flutter_com1/view/auth/widgets/custom_txt_from.dart';
+import 'package:flutter_com1/view/auth/widgets/primary_color.dart';
+import 'package:get/get.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
 
 class LoginScreen extends StatelessWidget {
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
-        elevation: 0.0,
-        backgroundColor: Colors.white,
+        // elevation for the edges there is no edges 0.0
+        elevation: 0.0, backgroundColor: Colors.white,
       ),
       body: Padding(
-        padding: const EdgeInsets.only(
-          top: 50,
-          right: 20,
-          left: 20,
-        ),
+        padding: const EdgeInsets.only(top: 50.0, right: 20, left: 20),
         child: Column(
           children: [
             Row(
-              children: const [
-                Text(
-                  "Brandz",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 50,
-                    fontWeight: FontWeight.bold,
-                    // fontFamily: 'Roboto',
-                  ),
+              children: [
+                CustomText(
+                  text: "BRANDZ",
+                  fontSize: 85.0,
+                  alignment: Alignment.topCenter,
                 ),
               ],
             ),
-            SizedBox(
-              height: 60,
-            ),
-            CustomTextFormField(
-              text: 'Email',
-              hint: 'Email',
-              onSave: (value) {},
-              validator: (value) {},
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CustomText(text: "Welcome,", fontSize: 30),
+                CustomText(text: "Sign Up", fontSize: 18, color: primaryColor),
+              ],
             ),
             SizedBox(
-              height: 40,
+              height: 20,
             ),
-            CustomTextFormField(
-              text: 'Email',
-              hint: 'Password',
-              onSave: (value) {},
-              validator: (value) {},
+            CustomText(
+              text: "Sign in to continue",
+              fontSize: 14,
+              color: Colors.grey,
+              alignment: Alignment.topLeft,
             ),
+            SizedBox(
+              height: 30,
+            ),
+            custom_txt_from(
+                text: "Email",
+                hint: "brandz@brandz.com",
+                onSave: (Value) {},
+                validato: (Value) {}),
+            SizedBox(
+              height: 15,
+            ),
+            custom_txt_from(
+                text: "Password",
+                hint: "********",
+                onSave: (Value) {},
+                validato: (Value) {}),
             SizedBox(
               height: 10,
             ),
             CustomText(
-              text: 'forgot password?',
-              fontSize: 15,
+              text: "Forget Password",
+              fontSize: 14.0,
+              color: Colors.grey,
+              alignment: Alignment.bottomRight,
             ),
             SizedBox(
               height: 15,
             ),
-            CustomText(
-              text: "Don't have an account?",
-              fontSize: 15,
-              color: Colors.black,
-              alignment: Alignment.center,
-              // textAlign: TextAlign.center,
-            ),
-            FlatButton(
-                onPressed: () {},
-                color: Colors.black,
-                child: CustomText(
-                  text: 'Log in',
-                )),
+            // ignore: deprecated_member_use
+            Custom_button(
+                text: "Sign in",
+                onPerssed: () {
+                  Get.to(SecondScreen());
+                }),
           ],
         ),
       ),
