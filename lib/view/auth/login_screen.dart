@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_com1/core/view_model/auth.dart';
 import 'package:flutter_com1/view/auth/second_screen.dart';
 import 'package:flutter_com1/view/auth/widgets/custom_button.dart';
 import 'package:flutter_com1/view/auth/widgets/custom_text.dart';
@@ -7,7 +8,7 @@ import 'package:flutter_com1/view/auth/widgets/primary_color.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends GetWidget<Auth> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
