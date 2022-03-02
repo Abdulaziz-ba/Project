@@ -2,7 +2,8 @@ import 'dart:ffi';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_com1/view/auth/widgets/custom_text.dart';
+
+import '../model/custom_text.dart';
 
 class HomeView extends StatelessWidget {
   final List<String> names = <String>[
@@ -43,10 +44,7 @@ class HomeView extends StatelessWidget {
                 ),
                 height: 60,
                 width: 60,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Image.asset("assets/images/Icon_Mens Shoe.png"),
-                ),
+                
               ),
               SizedBox(
                 height: 20,
@@ -80,11 +78,7 @@ class HomeView extends StatelessWidget {
                 ),
                 width: MediaQuery.of(context).size.width * 0.4,
                 child: Column(
-                  children: [
-                    Container(
-                        height: 40,
-                        child: Image.asset("assets/images/Icon_Mens Shoe.png")),
-                  ],
+              
                 ),
               ),
               SizedBox(
@@ -144,10 +138,7 @@ class HomeView extends StatelessWidget {
                         ),
                         height: 60,
                         width: 60,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Image.asset("assets/images/brand2.png"),
-                        ),
+                    
                       ),
                       SizedBox(
                         height: 20,

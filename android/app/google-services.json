@@ -1,42 +1,41 @@
 {
   "project_info": {
-    "project_number": "916344320134",
-    "project_id": "brandz-d87f4",
-    "storage_bucket": "brandz-d87f4.appspot.com"
+    "project_number": "499189223668",
+    "project_id": "brandz-n",
+    "storage_bucket": "brandz-n.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:916344320134:android:d498361e8234d4e8256107",
+        "mobilesdk_app_id": "1:499189223668:android:0984039748361a95c94ea1",
         "android_client_info": {
-          "package_name": "com.example.flutter_com1"
+          "package_name": "com.example.brandzapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "916344320134-8rt8ldsig4lo7tmgp0cqf2rlr0uamusp.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.flutter_com1",
-            "certificate_hash": "68a4c6f6ad08c3b14208bac4dc850a3325a8e323"
-          }
-        },
-        {
-          "client_id": "916344320134-atid75u11sbnskp9kb0i21dqn2itvrpt.apps.googleusercontent.com",
+          "client_id": "499189223668-6l6a5cc11dev9aav6b2kdcjrfivofpgi.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDT4nzOX-15cQTqIZ45typsnbeNBb4J1kY"
+          "current_key": "AIzaSyDDsUIcPXq7i2Evwv49OPrQViK-wCFH2_Q"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "916344320134-atid75u11sbnskp9kb0i21dqn2itvrpt.apps.googleusercontent.com",
+              "client_id": "499189223668-6l6a5cc11dev9aav6b2kdcjrfivofpgi.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "499189223668-j9h7lmga7kgmr8gkvkt851b11qhm38tp.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.brandzapp"
+              }
             }
           ]
         }
