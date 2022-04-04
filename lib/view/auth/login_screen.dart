@@ -4,12 +4,15 @@
 //import 'package:brandz/view/auth/widget/custom_txt_from.dart';
 //import 'package:brandz/view/home_screen.dart';
 //import 'package:brandz/view/regScreen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/route_manager.dart';
-
+import 'package:brandz/model/user_model.dart';
 import '../main_screen.dart';
 import '../regScreen.dart';
 
@@ -21,12 +24,14 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final _auth = FirebaseAuth.instance;
 // form key for email & Password
   final _formkey = GlobalKey<FormState>();
+  bool check = false;
+  bool justOne = false;
   // Editing Controller
   final TextEditingController emailController = new TextEditingController();
   final TextEditingController passwordController = new TextEditingController();
-  final _auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     //Email Field
@@ -212,17 +217,44 @@ class _LoginScreenState extends State<LoginScreen> {
           .then((uid) => {
                 Fluttertoast.showToast(msg: "Login Successful"),
                 // Get.to(reg_screen())
+                CreatingCart(uid),
                 Navigator.of(context).pushReplacement(
                     //here we should put the hom Screen instead of the login screen
                     MaterialPageRoute(builder: (context) => MainPage()))
-              })
+              }
+              )
           .catchError((e) {
         Fluttertoast.showToast(msg: e!.message);
       });
     }
   }
-}
+ Future<void> CreatingCart(uid) async {
+  bool isHere = false;
+  
+    FirebaseFirestore  firebaseFirestore = FirebaseFirestore.instance;
+    User? user = _auth.currentUser;
+    UserModel userModel = UserModel();
+await FirebaseFirestore.instance.collection("Cart").get().then((querySnapshot) {
+     for (var doc in querySnapshot.docs) {
+      if (doc.data()['cartId'].toString() == user!.uid.toString()) {
+        isHere = true;
+      return;
+      }
+    }
+});
 
+if(isHere == false){
+       FirebaseFirestore.instance.collection('Cart').add({
+                  "cartId" : user!.uid
+      });
+}
+    
+
+   
+      
+
+
+}
 
 
 
@@ -244,3 +276,4 @@ class _LoginScreenState extends State<LoginScreen> {
 // ),
 
 
+}

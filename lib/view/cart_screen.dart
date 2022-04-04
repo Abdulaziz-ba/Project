@@ -9,14 +9,17 @@ import '../widgets/cart_total.dart';
 
 class CartPage extends StatefulWidget {
   @override
+  late String BrandName;
+  CartPage({required this.BrandName});
   State<CartPage> createState() => _CartPageState();
 }
 
 class _CartPageState extends State<CartPage> {
+  _CartPageState();
   final CartController controller = Get.find();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold (
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
@@ -25,7 +28,11 @@ class _CartPageState extends State<CartPage> {
         title: Text('Shopping Cart', style: TextStyle(color: Colors.black)),
       ),
       body:
-          CartProducts(),
+        CartProducts(),
+    
+      
+
+           
       persistentFooterButtons: [
         CartTotal(),
         Column(
@@ -48,4 +55,6 @@ class _CartPageState extends State<CartPage> {
       ],
     );
   }
+  
+ 
 }

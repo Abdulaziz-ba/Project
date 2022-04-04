@@ -18,14 +18,16 @@ import '../model/home_view_model.dart';
 import 'auth/widget/custom_text.dart';
 
 final controller = ControlViewModel();
+late String id;
 class HomeView extends StatefulWidget {
   const HomeView({ Key? key }) : super(key: key);
-
+  
   @override
   _HomeViewState createState() => _HomeViewState();
 }
 
 class _HomeViewState extends State<HomeView> {
+  
   @override
   Widget build(BuildContext context) {
    return Scaffold(
@@ -107,7 +109,6 @@ class _HomeViewState extends State<HomeView> {
   late String displayCategory;
     // retrieving the brand name when button is pressed
   late String displayBrand;
-
   final Stream<QuerySnapshot> categories =
       FirebaseFirestore.instance.collection('Categories').snapshots();
 
@@ -249,7 +250,7 @@ class _HomeViewState extends State<HomeView> {
                        FirebaseFirestore.instance.collection("Brands").get().then((querySnapshot) {
                        querySnapshot.docs.forEach((doc){
                       if(doc.data()['name'] == displayBrand){
-                      var id = doc.id; // randomly generated document ID
+                      id = doc.id; // randomly generated document ID
                       var data = doc.data(); 
                       Navigator.push(
                                  context,

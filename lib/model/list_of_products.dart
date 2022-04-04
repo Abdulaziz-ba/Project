@@ -45,12 +45,12 @@ class ProductCard extends StatelessWidget {
       //color: Colors.grey,
       child: Column(
         children: [
-          //Image(
-          //  image: CachedNetworkImageProvider(Product.products[index]),
-          //  height: 100,
+          Image(
+           image: CachedNetworkImageProvider(Product.products[index].imageURL),
+           height: 100,
             //width: 100,
-          //),
-          Text("Brand Name"),
+          ),
+          
           Text(Product.products[index].name),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -59,7 +59,7 @@ class ProductCard extends StatelessWidget {
               IconButton(
                   onPressed: () {
                     // add product to cart
-                    cartController.addProduct(Product.products[index]);
+                    //cartController.addProduct(Product.products[index]);
                   },
                   icon: Icon(Icons.add))
             ],

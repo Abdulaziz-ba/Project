@@ -24,7 +24,7 @@ class _MainPageState extends State<MainPage> {
     HomeView(),
     SearchPage(),
     CategoryPage(),
-    CartPage(),
+    CartPage(BrandName: ""),
     ProfilePage()
   ];
   int currentIndex = 0;
