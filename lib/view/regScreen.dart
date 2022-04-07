@@ -28,6 +28,7 @@ class _reg_screenState extends State<reg_screen> {
   final TextEditingController fNameController = new TextEditingController();
   final TextEditingController lNameController = new TextEditingController();
   final TextEditingController emailController = new TextEditingController();
+  final TextEditingController phoneController = new TextEditingController();
   final TextEditingController passwordController = new TextEditingController();
   final TextEditingController conpasswordController =
       new TextEditingController();
@@ -118,6 +119,32 @@ class _reg_screenState extends State<reg_screen> {
         ),
       ),
     ); //fName Field
+    //Phone Field
+    final PhoneField = TextFormField(
+      autofocus: false,
+      controller: phoneController,
+      keyboardType: TextInputType.name,
+      validator: (value) {
+        RegExp regex = new RegExp(r'^.{3,}$');
+        if (value!.isEmpty) return ("First Name cannot be Empty!");
+        if (!regex.hasMatch(value))
+          return ("Enter a valid name (Min: 3 character)");
+      },
+      onSaved: (value) {
+        phoneController.text = value!;
+      },
+      textInputAction: TextInputAction.next,
+      decoration: InputDecoration(
+        prefixIcon: Icon(
+          Icons.phone,
+        ),
+        contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+        hintText: "Phone Number",
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),
+    );
     //Password Field
     final passwordField = TextFormField(
       autofocus: false,
@@ -167,6 +194,7 @@ class _reg_screenState extends State<reg_screen> {
         ),
       ),
     );
+    //SignUp Buutn
     final signUpButton = Material(
       elevation: 5,
       borderRadius: BorderRadius.circular(30),
@@ -212,6 +240,7 @@ class _reg_screenState extends State<reg_screen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   //were we add our UI components
                   children: <Widget>[
+                    //logo in the middle
                     SizedBox(
                       height: 200,
                       child: Image.asset(
@@ -220,10 +249,12 @@ class _reg_screenState extends State<reg_screen> {
                       ),
                     ),
                     FnameField,
+
                     SizedBox(
                       height: 15,
                     ),
                     LnameField,
+
                     SizedBox(
                       height: 15,
                     ),
@@ -231,6 +262,11 @@ class _reg_screenState extends State<reg_screen> {
                     SizedBox(
                       height: 15,
                     ),
+                    PhoneField,
+                    SizedBox(
+                      height: 15,
+                    ),
+
                     passwordField,
                     SizedBox(
                       height: 15,
@@ -274,6 +310,7 @@ class _reg_screenState extends State<reg_screen> {
     userModel.FirstName = fNameController.text;
     userModel.LastName = lNameController.text;
     userModel.email = user!.email;
+    userModel.phone = phoneController.text;
     userModel.uid = user.uid;
     await firebaseFirestore
         .collection("users")

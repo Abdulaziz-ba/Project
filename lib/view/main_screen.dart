@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 import 'cart_screen.dart';
 import 'category_screen.dart';
 import 'home_screen.dart';
-import 'profile_screen.dart';
+import 'Profile/profile_screen.dart';
 import 'search_screen.dart';
 
 class MainPage extends StatefulWidget {

@@ -4,6 +4,7 @@
 //import 'package:brandz/view/auth/widget/custom_txt_from.dart';
 //import 'package:brandz/view/home_screen.dart';
 //import 'package:brandz/view/regScreen.dart';
+import 'package:brandz/view/auth/reset_password_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -145,6 +146,32 @@ class _LoginScreenState extends State<LoginScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
+                        Text("Forgot your password? "),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ResetScreen()));
+                          },
+                          child: Text(
+                            "Reset Password",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 15,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+
+//Aaaaaaaaaaa
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
                         Text("Don't have an account? "),
                         GestureDetector(
                           onTap: () {
@@ -210,6 +237,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+// SignIn for each user (auth)
   void signIn(String email, String password) async {
     if (_formkey.currentState!.validate()) {
       await _auth
@@ -221,49 +249,36 @@ class _LoginScreenState extends State<LoginScreen> {
                 Navigator.of(context).pushReplacement(
                     //here we should put the hom Screen instead of the login screen
                     MaterialPageRoute(builder: (context) => MainPage()))
-              }
-              )
+              })
           .catchError((e) {
         Fluttertoast.showToast(msg: e!.message);
       });
     }
   }
- Future<void> CreatingCart(uid) async {
-  bool isHere = false;
-  
-    FirebaseFirestore  firebaseFirestore = FirebaseFirestore.instance;
+
+// Creating a cart for each User
+  Future<void> CreatingCart(uid) async {
+    bool isHere = false;
+
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     User? user = _auth.currentUser;
     UserModel userModel = UserModel();
-await FirebaseFirestore.instance.collection("Cart").get().then((querySnapshot) {
-     for (var doc in querySnapshot.docs) {
-      if (doc.data()['cartId'].toString() == user!.uid.toString()) {
-        isHere = true;
-      return;
+    await FirebaseFirestore.instance
+        .collection("Cart")
+        .get()
+        .then((querySnapshot) {
+      for (var doc in querySnapshot.docs) {
+        if (doc.data()['cartId'].toString() == user!.uid.toString()) {
+          isHere = true;
+          return;
+        }
       }
+    });
+
+    if (isHere == false) {
+      FirebaseFirestore.instance.collection('Cart').add({"cartId": user!.uid});
     }
-});
-
-if(isHere == false){
-       FirebaseFirestore.instance.collection('Cart').add({
-                  "cartId" : user!.uid
-      });
-}
-    
-
-   
-      
-
-
-}
-
-
-
-
-
-
-
-
-
+  }
 
 //elevation: 5,
 // borderRadius: BorderRadius.circular(30),
@@ -274,6 +289,5 @@ if(isHere == false){
 //     "Login",
 //   ),
 // ),
-
 
 }
