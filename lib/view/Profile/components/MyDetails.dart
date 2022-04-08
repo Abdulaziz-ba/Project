@@ -1,54 +1,77 @@
 import 'package:brandz/view/Profile/components/body.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class MyDetails extends StatelessWidget {
-  const MyDetails({Key? key}) : super(key: key);
+  MyDetails({Key? key}) : super(key: key);
+
+  final userData = FirebaseFirestore.instance
+      .collection('users')
+      .doc(FirebaseAuth.instance.currentUser?.uid)
+      .snapshots();
+
+  var data;
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          leading: BackButton(color: Colors.black),
-          centerTitle: true,
-          title:
-              const Text('MY DETAILS', style: TextStyle(color: Colors.black)),
-        ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            displayBox2(
-                hintText: 'BASSEM',
-                lableText: 'FIRST NAME',
-                icon: Icon(
-                  Icons.face,
-                )),
-            displayBox2(
-                hintText: 'ALOTAIG',
-                lableText: 'LAST NAME',
-                icon: Icon(
-                  Icons.face,
-                )),
-            displayBox2(
-                hintText: 'Bassem@gmail.com',
-                lableText: 'EMAIL ADDRESS',
-                icon: Icon(
-                  Icons.mail,
-                )),
-            displayBox2(
-                hintText: '0557701594',
-                lableText: 'PHONE NUMBER',
-                icon: Icon(
-                  Icons.phone,
-                )),
-            displayBox2(
-                hintText: 'RIYADH, ALHAMRA',
-                lableText: 'ADDRESS',
-                icon: Icon(
-                  Icons.location_city,
-                ))
-          ],
-        ));
+    return Container(
+        child: StreamBuilder(
+            stream: userData,
+            builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+              if (!snapshot.hasData) {
+                return Text("first if");
+              }
+              if (snapshot.hasError) {
+                return Text("There is an error");
+              }
+              data = snapshot.requireData;
+
+              return Scaffold(
+                  appBar: AppBar(
+                    backgroundColor: Colors.white,
+                    leading: BackButton(color: Colors.black),
+                    centerTitle: true,
+                    title: const Text('MY DETAILS',
+                        style: TextStyle(color: Colors.black)),
+                  ),
+                  body: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      displayBox2(
+                          hintText: data['FirstName'],
+                          lableText: 'FIRST NAME',
+                          icon: Icon(
+                            Icons.face,
+                          )),
+                      displayBox2(
+                          hintText: data['LastName'],
+                          lableText: 'LAST NAME',
+                          icon: Icon(
+                            Icons.face,
+                          )),
+                      displayBox2(
+                          hintText: data['email'],
+                          lableText: 'EMAIL ADDRESS',
+                          icon: Icon(
+                            Icons.mail,
+                          )),
+                      displayBox2(
+                          hintText: 'add new phone number', //data['phone']
+                          lableText: 'PHONE NUMBER',
+                          icon: Icon(
+                            Icons.phone,
+                          )),
+                      displayBox2(
+                          hintText: 'add new location', //data['location']
+                          lableText: 'ADDRESS',
+                          icon: Icon(
+                            Icons.location_city,
+                          ))
+                    ],
+                  ));
+            }));
   }
 }
 

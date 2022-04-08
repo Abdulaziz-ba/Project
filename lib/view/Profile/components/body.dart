@@ -23,7 +23,7 @@ class Body extends StatelessWidget {
           press: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const MyDetails()),
+              MaterialPageRoute(builder: (context) => MyDetails()),
             );
           },
           text: 'My Details',
