@@ -1,5 +1,4 @@
 import 'package:brandz/model/custom_text.dart';
-import 'package:brandz/view/home_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';

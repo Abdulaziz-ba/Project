@@ -16,18 +16,18 @@ class CartProducts extends StatelessWidget {
   //final CartController controller = Get.find();
 
   CartProducts({Key? key}) : super(key: key);
-
+ 
   @override
   Widget build(BuildContext context) {
     // ignore: non_constant_identifier_names
     CartController getItems = CartController();
     getItems.getId();
-
-    Stream<QuerySnapshot> Products = FirebaseFirestore.instance
+ Stream<QuerySnapshot> Products = FirebaseFirestore.instance
         .collection('Cart')
         .doc(CartController.id.toString())
         .collection('Products')
         .snapshots();
+  
     return Scaffold(
         body: StreamBuilder(
             stream: Products,
@@ -56,7 +56,6 @@ class CartProductsCard extends StatelessWidget {
   final int index;
   final QuerySnapshot<Object?> data;
   static double total = 0;
-
   int number = 1;
   CartProductsCard({required this.data, required this.index});
   Widget build(BuildContext context) {

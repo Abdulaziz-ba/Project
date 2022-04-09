@@ -5,6 +5,7 @@
 //import 'package:brandz/view/home_screen.dart';
 //import 'package:brandz/view/regScreen.dart';
 import 'package:brandz/view/auth/reset_password_screen.dart';
+import 'package:brandz/view/home_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -95,7 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final loginButton = Material(
       elevation: 5,
       borderRadius: BorderRadius.circular(30),
-      color: Colors.grey,
+      color: Colors.black,
       child: MaterialButton(
           padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           minWidth: MediaQuery.of(context).size.width,

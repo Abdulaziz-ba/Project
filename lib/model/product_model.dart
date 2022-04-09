@@ -13,12 +13,14 @@ class Product {
   late final String imageURL;
   late final String brandName;
   late final int quantitiy;
+  late final String description;
   Product({
     required this.name,
     required this.price,
     required this.imageURL,
     required this.brandName,
-    required this.quantitiy
+    required this.quantitiy,
+    required this.description
   });
 
 static List<Product> products = <Product>[

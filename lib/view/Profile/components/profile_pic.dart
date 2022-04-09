@@ -32,7 +32,7 @@ class ProfilePic extends StatelessWidget {
                     side: BorderSide(color: Colors.white)),
                 color: Colors.grey[200],
                 onPressed: () {},
-                child: CircleAvatar(
+                  child: CircleAvatar(
                   backgroundImage: AssetImage("assets/cc.jpeg"),
                 ),
               ),

@@ -98,8 +98,7 @@ class _reg_screenState extends State<reg_screen> {
           return ("Please enter your Email");
         }
         //This is a Regex for the email Valdiation ==> (Valid Email or Not)
-        if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9+_.-]+.[a-z]")
-            .hasMatch(value)) {
+        if (!RegExp(r"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$").hasMatch(value)) {
           return ("Please enter a valid Email!");
         }
         return null;
@@ -125,10 +124,10 @@ class _reg_screenState extends State<reg_screen> {
       controller: phoneController,
       keyboardType: TextInputType.name,
       validator: (value) {
-        RegExp regex = new RegExp(r'^.{3,}$');
-        if (value!.isEmpty) return ("First Name cannot be Empty!");
+        RegExp regex = new RegExp(r'^(05)\d{8}$');
+        if (value!.isEmpty) return ("Phone Number cannot be Empty!");
         if (!regex.hasMatch(value))
-          return ("Enter a valid name (Min: 3 character)");
+          return ("Enter a valid phone number (10 digits starting with 05)");
       },
       onSaved: (value) {
         phoneController.text = value!;

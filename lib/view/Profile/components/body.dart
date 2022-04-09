@@ -1,9 +1,8 @@
-// ignore_for_file: deprecated_member_use
-
-import 'package:brandz/view/Profile/components/MyDetails.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import 'MyDetails.dart';
 import 'profile_pic.dart';
 import 'profile_menu.dart';
 

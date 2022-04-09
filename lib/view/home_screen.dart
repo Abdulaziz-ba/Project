@@ -1,10 +1,12 @@
 //import 'package:brandz/model/category_model.dart';
 //import 'package:brandz/model/home_view_model.dart';
 import 'package:brandz/brand_Category.dart';
+import 'package:brandz/controller/cart_controller.dart';
 import 'package:brandz/product_brand.dart';
 import 'package:brandz/view/auth/login_screen.dart';
 import 'package:brandz/view/regScreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
@@ -31,73 +33,176 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
    return Scaffold(
-    /*  appBar: PreferredSize(
-        preferredSize: Size.fromHeight(20),
-        child: AppBar(
-          title: Text('Brandz'),
-          // toolbarHeight: 9,
-          centerTitle: true,
-          titleSpacing: 0,
-          backgroundColor: Colors.black,
-          // leadingWidth: 3,),
-        ),
-      ),*/
-      body: SafeArea(
-        child: Container(
-          padding: EdgeInsets.only(top: 10, left: 20, right: 20),
-          child: Column(
-            children: [
-              Align(
-                alignment: Alignment(-1, -0.80),
-                child: Text(
-                  "Home",
-                  style: GoogleFonts.comfortaa(
-                    textStyle: HeaderTextStyle,
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              CustomText(
-                text: 'Categories',
-              ),
-              _listViewCategory(),
-              SizedBox(
-                height: 20,
-              ),
-              SizedBox(
-                height: 0,
-              ),
-              CustomText(
-                text: "Brands",
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              //container
-             _listViewBrands(),
-              SizedBox(
-                height: 5,
-              ),
+      appBar: 
+       AppBar(
+     
+
+                                                    
+      title: Text('Brandz' ,style: GoogleFonts.adamina(
+        fontWeight: FontWeight.bold,
+        fontSize : 25,
+        color: Colors.black
+        
+      ),
+       ),
+      centerTitle: true,
+      backgroundColor: Colors.white10,
+      elevation: 0.0,
+       actions: [
+
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  CustomText(
-                    text: 'Best selling',
-                    fontSize: 18,
+ Container(
+                    height: 40,width: 40,
+                  alignment: Alignment.center,
+
+                    decoration: BoxDecoration(
+
+                  
+
+                      shape: BoxShape.circle,
+
+                      color: Colors.white10
+
+                    ),
+
+                      child: Icon(Icons.favorite_border,size: 20,
+                      color: Colors.black,
+
+                      ),
+
                   ),
-                  CustomText(
-                    text: 'See all',
-                    fontSize: 16,
+
+
+
+
+                  Container(
+                  
+                    height: 40,width: 40,
+                  alignment: Alignment.center,
+                    
+                    decoration: BoxDecoration(
+
+                  
+
+                      shape: BoxShape.circle,
+
+                      color: Colors.white10
+
+                    ),
+
+                    child : FlatButton(
+                      onPressed: (){
+                        final _auth = FirebaseAuth.instance;
+                        _auth.signOut();
+                        Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => LoginScreen()));
+                      }, child: Icon(Icons.logout,size: 20,
+                      color: Colors.black, ), 
+                      
+
+                    
+
+                      ),
+
                   ),
+
+                  SizedBox(width: 26,)
+
+                ],
+
+              )
+
+            ],
+
+           ),
+      
+      body:  ListView(
+     scrollDirection: Axis.vertical ,
+       children: 
+            [
+              Column(
+         children: [
+          
+             _searchBox(),
+            Image(image:AssetImage("assets/woman-black-dress-hm.jpg") ),  
+             Container(
+              padding: EdgeInsets.only(top: 10, left: 20, right: 20),
+              child: Column(
+                children: [
+             
+                  SizedBox(
+                    height: 20,
+                  ),
+      Container(
+        alignment: Alignment.topLeft,
+        child: Text('Categories' , style: GoogleFonts.adamina(
+    
+          color: Colors.black,
+          fontSize: 22
+          
+        ),),
+      ),
+                  _listViewCategory(),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  SizedBox(
+                    height: 0,
+                  ),
+                  Container(
+                alignment: Alignment.topLeft,
+               child: Text('Brands' , style: GoogleFonts.adamina(
+          color: Colors.black,
+          fontSize: 22
+          
+        ),),
+      ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  //container
+                 _listViewBrands(),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                     Text('Recently viewed' , style: GoogleFonts.adamina(
+          color: Colors.black,
+          fontSize: 22
+          
+        ),),
+                      FlatButton(
+                        onPressed: () { 
+                         FirebaseFirestore.instance
+      .collection('users')
+      .doc(FirebaseAuth.instance.currentUser?.uid)
+      .collection('LastViewdProducts').get().then((snapshot) {
+  for (DocumentSnapshot ds in snapshot.docs){
+    ds.reference.delete();
+  };;;
+});
+                         },
+                        child: Text('Clear' , 
+                        style: GoogleFonts.adamina(
+                        color: Colors.black,
+                        fontSize: 18
+          
+        ),)
+                      ),
+                    ],
+                  ),
+                  _listViewProduct(),
                 ],
               ),
-              _listViewProduct(),
-            ],
-          ),
-        ),
-      ),
+             ),
+         ],
+            ),
+          ],
+     ),
+      
      // bottomNavigationBar: _bottomNavigationBar(),
     );
   }
@@ -109,18 +214,13 @@ class _HomeViewState extends State<HomeView> {
   late String displayCategory;
     // retrieving the brand name when button is pressed
   late String displayBrand;
-  final Stream<QuerySnapshot> categories =
-      FirebaseFirestore.instance.collection('Categories').snapshots();
 
-  final Stream<QuerySnapshot> brands =
-      FirebaseFirestore.instance.collection('Brands').snapshots();
 
-  final List<String> names = <String>[
-    'men',
-    's',
-    's',
-    's',
-  ];
+
+
+
+
+
 
   Widget _searchTextFormField() {
     return Container(
@@ -138,13 +238,13 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  Future getImage(BuildContext context, String ImageName) async {
-    Image image;
-    // a
-  }
+
 
   Widget _listViewCategory() {
     // return Text('data');
+      final Stream<QuerySnapshot> categories =
+      FirebaseFirestore.instance.collection('Categories').snapshots();
+      print('hellllllllllllllllllllllllllllllllllllo');
     return Container(
       height: 100,
       child: StreamBuilder(
@@ -152,14 +252,13 @@ class _HomeViewState extends State<HomeView> {
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (!snapshot.hasData) {
-              return Text("first if");
+              return Text("");
             }
             if (snapshot.hasError) {
-              return Text("There is an error");
+              return Text("");
             }
             final data = snapshot.requireData;
 
-            print(data.docs[1]['name']);
             return ListView.separated(
               itemCount: data.size,
               scrollDirection: Axis.horizontal,
@@ -172,12 +271,13 @@ class _HomeViewState extends State<HomeView> {
                           borderRadius: BorderRadius.circular(50),
                           color: Colors.white,
                         ),
-                        height: 60,
-                        width: 60,
+                        height: 70,
+                        width: 70,
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                         child: Image.network(
                             data.docs[index]['image'],
+                            
                           ),
                           
                         ),
@@ -208,9 +308,12 @@ class _HomeViewState extends State<HomeView> {
                     SizedBox(
                       height: 10,
                     ),
-                    CustomText(
-                      text: data.docs[index]['name'],
-                      
+                   Text(
+                      data.docs[index]['name'], style: GoogleFonts.adamina(
+                        fontSize : 15,
+                        fontWeight: FontWeight.bold
+
+                      ),
                     )
                   ],
                 );
@@ -223,6 +326,8 @@ class _HomeViewState extends State<HomeView> {
     );
   }
   Widget _listViewBrands(){
+      final Stream<QuerySnapshot> brands =
+      FirebaseFirestore.instance.collection('Brands').snapshots();
     return Container(
       height: 100,
       child: StreamBuilder(
@@ -230,10 +335,10 @@ class _HomeViewState extends State<HomeView> {
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (!snapshot.hasData) {
-              return Text("first if");
+              return Text("");
             }
             if (snapshot.hasError) {
-              return Text("There is an error");
+              return Text("");
             }
             final data = snapshot.requireData;
 
@@ -268,8 +373,8 @@ class _HomeViewState extends State<HomeView> {
                           borderRadius: BorderRadius.circular(50),
                           color: Colors.white,
                         ),
-                        height: 60,
-                        width: 60,
+                        height: 70,
+                        width: 70,
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                         child: Image.network(
@@ -281,8 +386,12 @@ class _HomeViewState extends State<HomeView> {
                     SizedBox(
                       height: 10,
                     ),
-                    CustomText(
-                      text: data.docs[index]['name'],
+                    Text(
+                      data.docs[index]['name'], style: GoogleFonts.adamina(
+                        fontSize : 15,
+                        fontWeight: FontWeight.bold
+
+                      ),
                     )
                   ],
                 );
@@ -292,61 +401,79 @@ class _HomeViewState extends State<HomeView> {
               ),
             );
           }),
-    );
     
+   );
   }
 
   Widget _listViewProduct() {
+       final Stream<QuerySnapshot> products = FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser?.uid)
+        .collection('LastViewdProducts')
+        .snapshots();
     return Container(
       height: 220,
-      child: ListView.separated(
-        itemCount: names.length,
+      child: StreamBuilder(
+        stream: products,
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (!snapshot.hasData) {
+              return Text("");
+            }
+            if (snapshot.hasError) {
+              return Text("");
+            }
+            final data = snapshot.requireData;
+            print('yaaaaaaa');
+            print(FirebaseAuth.instance.currentUser?.uid);
+            print(data.size);
+           return ListView.separated( 
+        itemCount: data.size,
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
-          return Container(
-            width: MediaQuery.of(context).size.width * .3,
-            child: Column(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
-                    color: Colors.grey.shade100,
+          return Card(
+            shadowColor: Colors.white,
+            child: Container(
+              width: MediaQuery.of(context).size.width * .3,
+              child: Column(
+                children: [
+                  Container(
+                 
+                    width: MediaQuery.of(context).size.width * 0.3,
+                    child: Container(
+                        height: 120,
+                        child: Padding(
+                          padding: const EdgeInsets.all(12),
+                          child: Image.network(
+                            data.docs[index]['productImage'],
+                            fit: BoxFit.fill,
+                          ),
+                        )),
                   ),
-                  width: MediaQuery.of(context).size.width * 0.3,
-                  child: Container(
-                      height: 120,
-                      child: Image.asset(
-                        'assets/images/blackHoodie.jpg',
-                        fit: BoxFit.fill,
-                      )),
-                ),
-                SizedBox(
-                  height: 3,
-                ),
-               CustomText(
-                  text: 'Black Hoodie ',
-                  alignment: Alignment.bottomLeft,
-                  fontSize: 16,
-                ),
-                CustomText(
-                  text: 'Black Hoodie ',
-                  alignment: Alignment.bottomLeft,
-                  color: Colors.grey,
-                  fontSize: 13,
-                ),
-                CustomText(
-                  text: '\$45 ',
-                  alignment: Alignment.bottomLeft,
-                ),
-              ],
+                  SizedBox(
+                    height: 3,
+                  ),
+            
+                  SizedBox(height: 7),
+                     CustomText(
+                    text: data.docs[index]['productDescription'],
+                    alignment: Alignment.bottomLeft,
+                    color: Colors.grey,
+                    fontSize: 13,
+                  ),
+                ],
+              ),
+              
             ),
+            
           );
         },
         separatorBuilder: (context, int index) => SizedBox(
           width: 20,
         ),
-      ),
-    );
+      );
+       
+              }));
   }
 
   Widget _bottomNavigationBar() {
@@ -384,5 +511,26 @@ class _HomeViewState extends State<HomeView> {
       selectedItemColor: Colors.black,
       backgroundColor: Colors.grey.shade100,
     );
+    
   }
-
+  final _formKey = GlobalKey<FormState>();
+Widget _searchBox() {
+  return Form(
+    key: _formKey,
+    child: Column(children: [
+      Padding(
+        padding: EdgeInsets.all(8),
+        child: TextFormField(
+          
+          decoration: InputDecoration(
+            contentPadding: EdgeInsets.only(top: 5 , bottom: 5),
+            prefixIcon: Icon(Icons.search),
+            hintText: 'Enter search',
+            border: OutlineInputBorder(),
+            filled: false,
+          ),
+        ),
+      ),
+    ]),
+  );
+}
