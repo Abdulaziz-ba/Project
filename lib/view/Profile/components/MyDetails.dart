@@ -43,6 +43,8 @@ class _MyDetailsState extends State<MyDetails> {
       final pphone = userData.data()!['phone'];
       final llocation = userData.data()!['location'];
 
+      print('ffname:' + ffname);
+
       this.fname = ffname;
       this.lname = llname;
       this.email = eemail;
@@ -51,6 +53,7 @@ class _MyDetailsState extends State<MyDetails> {
 
       setState(() {
         fNameController.text = ffname;
+        print('setstate - fnameController:' + fNameController.text);
         lNameController.text = llname;
         emailController.text = eemail;
         phoneController.text = pphone;
@@ -64,8 +67,10 @@ class _MyDetailsState extends State<MyDetails> {
     super.initState();
     _getdata();
 
+    print('done geting data');
     // FirstName Controller
     fNameController = TextEditingController(text: fname);
+    print('fNameController.text:' + fNameController.text);
     fNameController.addListener(() {
       final isButtonActive =
           fNameController.text.isNotEmpty && fNameController.text != fname;

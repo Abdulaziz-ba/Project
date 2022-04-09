@@ -4,7 +4,15 @@ class UserModel {
   String? phone;
   String? FirstName;
   String? LastName;
-  UserModel({this.uid, this.phone, this.email, this.FirstName, this.LastName});
+  String? location;
+
+  UserModel(
+      {this.uid,
+      this.phone,
+      this.email,
+      this.FirstName,
+      this.LastName,
+      this.location});
 
 //Retriving data form the server (Firebase DB)
   factory UserModel.fromMap(map) {
@@ -13,7 +21,8 @@ class UserModel {
         email: map['email'],
         phone: map['phone'],
         FirstName: map['FirstName'],
-        LastName: map['LastName']);
+        LastName: map['LastName'],
+        location: map['location']);
   }
 //Sending data to our Server
   Map<String, dynamic> toMap() {
@@ -22,7 +31,8 @@ class UserModel {
       'email': email,
       'phone': phone,
       "FirstName": FirstName,
-      "LastName": LastName
+      "LastName": LastName,
+      "location": location
     };
   }
 }

@@ -310,6 +310,9 @@ class _reg_screenState extends State<reg_screen> {
     userModel.LastName = lNameController.text;
     userModel.email = user!.email;
     userModel.phone = phoneController.text;
+    userModel.location =
+        ''; // added an empty field for location when new user signup
+
     userModel.uid = user.uid;
     await firebaseFirestore
         .collection("users")
