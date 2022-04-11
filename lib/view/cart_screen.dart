@@ -16,7 +16,7 @@ class CartPage extends StatefulWidget {
 
 class _CartPageState extends State<CartPage> {
   _CartPageState();
-  final CartController controller = Get.find();
+  //final CartController controller = Get.find();
   @override
   Widget build(BuildContext context) {
     return Scaffold (

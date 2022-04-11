@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:brandz/model/product_model.dart';
 import 'package:brandz/widgets/cart_products.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -8,7 +10,7 @@ import 'package:flutter/material.dart';
  import '../model/product_model.dart';
 import 'package:collection/collection.dart';
 import "package:brandz/model/user_model.dart";
-class CartController extends GetxController {
+class CartController{
   var _products = {}.obs;
   static var id;
   static var Total = 0.obs;
@@ -45,25 +47,24 @@ class CartController extends GetxController {
   }
 
 
-  get products => _products;
+  //get products => _products;
 
   //get ProductSubtotal => _products.entries.map((product) => product.key.price * product.value).toList();
 
-  get total {
-
+  get total  {
   Total.value = 0;
   Total.value = CartProductsCard.total.toInt();
   return Total;
 
   }
-  void getId(){
+void getId(){
 User? user = _auth.currentUser;
 UserModel userModel = UserModel();
 FirebaseFirestore.instance.collection("Cart").get().then((querySnapshot) {
-   querySnapshot.docs.forEach((doc){
-    if(doc.data()['cartId'] == user!.uid){
-                       id = doc.id; // randomly generated document ID
-                      }
+querySnapshot.docs.forEach((doc){
+if(doc.data()['cartId'] == user!.uid){
+        id = doc.id; // randomly generated document ID
+          }
     });
 
   }

@@ -27,7 +27,7 @@ class ListOfProducts extends StatelessWidget {
 }
 
 class ProductCard extends StatelessWidget {
-  final cartController = Get.put(CartController());
+  //final cartController = Get.put(CartController());
   final int index;
   ProductCard({Key? key, required this.index}) : super(key: key);
 

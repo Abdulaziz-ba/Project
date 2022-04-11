@@ -1,5 +1,6 @@
-
 import 'package:brandz/product_brand.dart';
+import 'package:brandz/view/home_screen.dart';
+import 'package:brandz/view/main_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/get_navigation.dart';
@@ -15,34 +16,39 @@ import 'package:google_fonts/google_fonts.dart';
 import 'model/product_model.dart';
 import 'model/user_model.dart';
 import 'package:brandz/view/auth/login_screen.dart';
-
-class product_page extends StatelessWidget {
-  String id;
-  final _auth = FirebaseAuth.instance;
-  int pressed = 0;
+class product_from_home extends StatelessWidget {
+String id;
+final _auth = FirebaseAuth.instance;
+int pressed = 0;
   final cartController = Get.put(CartController());
 
-  product_page({required this.id});
+product_from_home({required this.id});
 
   @override
   Widget build(BuildContext context) {
-    final productData =
-        FirebaseFirestore.instance.collection('Products').doc(id).snapshots();
-    return Container(
-      child: StreamBuilder(
-        stream: productData,
-        builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-          if (!snapshot.hasData) {
-            return Text("");
-          }
-          if (snapshot.hasError) {
-            return Text("");
-          }
-          DocumentSnapshot<Object?> data = snapshot.requireData;
+final productData = FirebaseFirestore.instance
+      .collection('users')
+      .doc(FirebaseAuth.instance.currentUser?.uid)
+      .collection('LastViewdProducts')
+      .doc(id)
+      .snapshots();
 
-          return Scaffold(
-            appBar: AppBar(
-              title: Text(
+
+    return Container(
+         child: StreamBuilder(
+            stream: productData,
+            builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+              if (!snapshot.hasData) {
+                return Text("");
+              }
+              if (snapshot.hasError) {
+                return Text("");
+              }
+            DocumentSnapshot<Object?>  data = snapshot.requireData;
+
+              return Scaffold(
+                     appBar: AppBar(
+                       title: Text(
                 'Product Details ',
                 style: GoogleFonts.adamina(
                     fontWeight: FontWeight.bold,
@@ -54,12 +60,15 @@ class product_page extends StatelessWidget {
               leading: BackButton(
                   color: Colors.black,
                   onPressed: () {
-                    Navigator.of(context).pop();
+                           Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => MainPage()));
                   }),
               elevation: 0.0,
-            ),
-            body: Container(
-              width: double.infinity,
+                  ),
+
+
+                body: Container(
+                      width: double.infinity,
               height: double.infinity,
               child: Column(
                 children: <Widget>[
@@ -74,7 +83,7 @@ class product_page extends StatelessWidget {
                           topLeft: Radius.circular(60),
                         ),
                         image: DecorationImage(
-                            image: NetworkImage(data["image"]),
+                            image: NetworkImage(data["productImage"]),
                             fit: BoxFit.cover),
                       ),
                     ),
@@ -89,7 +98,7 @@ class product_page extends StatelessWidget {
                           children: <Widget>[
                             // Product Name Field
                             Text(
-                              data["name"],
+                              data["productName"],
                               // "Perfume",
                               style: TextStyle(
                                 fontSize: 20,
@@ -101,7 +110,7 @@ class product_page extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  data["price"] + " SAR",
+                                  data["productPrice"].toString() + " SAR",
                                   style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.w600,
@@ -129,7 +138,7 @@ class product_page extends StatelessWidget {
                               ],
                             ),
                             Text(
-                              "About Products",
+                              "About Product",
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -137,7 +146,7 @@ class product_page extends StatelessWidget {
                             ),
 
                             Text(
-                              data["description"],
+                              data["productDescription"],
                               style: TextStyle(
                                 fontSize: 16,
                               ),
@@ -152,20 +161,19 @@ class product_page extends StatelessWidget {
                                         borderRadius:
                                             BorderRadius.circular(25)),
                                     onPressed: () async {
-                                      print('hello');
                                       bool found = false;
                                       User? user = _auth.currentUser;
                                       UserModel userModel = UserModel();
-                                      String Brand = data['name'].toString();
+                                      String Brand = data['productBrandName'].toString();
                                       var noteInfo = data!.data()! as Map;
                                       var object = Product(
-                                          imageURL: noteInfo['image'],
-                                          name: noteInfo['name'],
+                                          imageURL: noteInfo['productImage'],
+                                          name: noteInfo['productName'],
                                           price:
-                                              double.parse(noteInfo['price']),
-                                          brandName: noteInfo['BrandName'],
+                                              double.parse(noteInfo['productPrice'].toString()),
+                                          brandName: noteInfo['productBrandName'],
                                           quantitiy: 1,
-                                          description: noteInfo['description']);
+                                          description: noteInfo['productDescription']);
                                       await FirebaseFirestore.instance
                                           .collection("Cart")
                                           .doc(CartController.id)
@@ -176,7 +184,7 @@ class product_page extends StatelessWidget {
                                           print(doc.data()['productImage'] ==
                                               noteInfo['image']);
                                           if (doc.data()['productImage'] ==
-                                              noteInfo['image']) {
+                                              noteInfo['productImage']) {
                                             found = true;
                                           }
                                         });
@@ -226,10 +234,17 @@ class product_page extends StatelessWidget {
                   ),
                 ],
               ),
-            ),
-          );
-        },
-      ),
+                )
+
+
+
+
+
+
+              );
+
+  })
+      
     );
   }
 }

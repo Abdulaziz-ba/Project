@@ -4,6 +4,7 @@
 //import 'package:brandz/view/auth/widget/custom_txt_from.dart';
 //import 'package:brandz/view/home_screen.dart';
 //import 'package:brandz/view/regScreen.dart';
+import 'package:brandz/controller/cart_controller.dart';
 import 'package:brandz/view/auth/reset_password_screen.dart';
 import 'package:brandz/view/home_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -12,6 +13,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get_instance/get_instance.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/route_manager.dart';
 import 'package:brandz/model/user_model.dart';
@@ -27,6 +29,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _auth = FirebaseAuth.instance;
+
 // form key for email & Password
   final _formkey = GlobalKey<FormState>();
   bool check = false;
@@ -247,6 +250,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Fluttertoast.showToast(msg: "Login Successful"),
                 // Get.to(reg_screen())
                 CreatingCart(uid),
+                
                 Navigator.of(context).pushReplacement(
                     //here we should put the hom Screen instead of the login screen
                     MaterialPageRoute(builder: (context) => MainPage()))

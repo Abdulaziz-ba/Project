@@ -1,7 +1,8 @@
 import 'package:brandz/model/custom_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:brandz/product_brand.dart';
+
 
 class BrandzCategory extends StatelessWidget {
   String id;
@@ -81,6 +82,23 @@ class BrandzCategory extends StatelessWidget {
                             
                           ),
                            onPressed: () {
+                                                displayBrand = data.docs[index]['name'].toString();
+                       FirebaseFirestore.instance.collection("Brands").get().then((querySnapshot) {
+                       querySnapshot.docs.forEach((doc){
+                      if(doc.data()['name'] == displayBrand){
+                      id = doc.id; // randomly generated document ID
+                      var data = doc.data(); 
+                      Navigator.push(
+                                 context,
+                      MaterialPageRoute(builder: (context) =>  product_brand(id: id,)),
+                      );
+
+
+                     
+                      }
+    });
+});
+
 
                           
                          

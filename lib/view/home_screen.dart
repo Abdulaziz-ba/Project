@@ -2,7 +2,11 @@
 //import 'package:brandz/model/home_view_model.dart';
 import 'package:brandz/brand_Category.dart';
 import 'package:brandz/controller/cart_controller.dart';
+import 'package:brandz/model/product_model.dart';
+import 'package:brandz/model/user_model.dart';
 import 'package:brandz/product_brand.dart';
+import 'package:brandz/product_from_home_page.dart';
+import 'package:brandz/product_page.dart';
 import 'package:brandz/view/auth/login_screen.dart';
 import 'package:brandz/view/regScreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -21,6 +25,7 @@ import 'auth/widget/custom_text.dart';
 
 final controller = ControlViewModel();
 late String id;
+
 class HomeView extends StatefulWidget {
   const HomeView({ Key? key }) : super(key: key);
   
@@ -241,10 +246,8 @@ class _HomeViewState extends State<HomeView> {
 
 
   Widget _listViewCategory() {
-    // return Text('data');
       final Stream<QuerySnapshot> categories =
       FirebaseFirestore.instance.collection('Categories').snapshots();
-      print('hellllllllllllllllllllllllllllllllllllo');
     return Container(
       height: 100,
       child: StreamBuilder(
@@ -259,70 +262,104 @@ class _HomeViewState extends State<HomeView> {
             }
             final data = snapshot.requireData;
 
-            return ListView.separated(
-              itemCount: data.size,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                return Column(
-                  children: [
-                    FlatButton(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
-                          color: Colors.white,
-                        ),
-                        height: 70,
-                        width: 70,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                        child: Image.network(
-                            data.docs[index]['image'],
-                            
-                          ),
-                          
-                        ),
-                      ),
-                       onPressed: () {
-                       
-                       displayCategory = data.docs[index]['name'].toString();
-                       FirebaseFirestore.instance.collection("Categories").get().then((querySnapshot) {
-                       querySnapshot.docs.forEach((doc){
-                      if(doc.data()['name'] == displayCategory){
-                      var id = doc.id; // randomly generated document ID
-                      var data = doc.data(); 
-                      Navigator.push(
-                                 context,
-                      MaterialPageRoute(builder: (context) =>  BrandzCategory(id: id,)),
-                      );
+
+             return  ListView.separated(
+                  itemCount: data.size,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+
+                         return Column(
+                              children: [
+                                    FlatButton(
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(50),
+                                          color: Colors.white,
+                                        ),
+                                        height: 70,
+                                        width: 70,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                        child: Image.network(
+                                            data.docs[index]['image'],
+                                            
+                                          ),
+                                          
+                                        ),
+                                      ),
+                                       onPressed: () {
+                                       
+                                       displayCategory = data.docs[index]['name'].toString();
+                                       FirebaseFirestore.instance.collection("Categories").get().then((querySnapshot) {
+                                       querySnapshot.docs.forEach((doc){
+                                      if(doc.data()['name'] == displayCategory){
+                                      var id = doc.id; // randomly generated document ID
+                                      var data = doc.data(); 
+                                      Navigator.push(
+                                                 context,
+                                      MaterialPageRoute(builder: (context) =>  BrandzCategory(id: id,)),
+                                      );
 
 
-                     
-                      }
+                                     
+                                      }
     });
 });
-                      
-                     
+                                      
+                                     
 }
-                      
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                   Text(
-                      data.docs[index]['name'], style: GoogleFonts.adamina(
-                        fontSize : 15,
-                        fontWeight: FontWeight.bold
+                                      
+                                    ),
+                                    
+                                    
 
-                      ),
-                    )
-                  ],
+
+
+                  
+
+
+
+                                  
+                                
+                                SizedBox(
+                                  height: 10,
+                                ),
+                               Text(
+                                  data.docs[index]['name'], style: GoogleFonts.adamina(
+                                    fontSize : 15,
+                                    fontWeight: FontWeight.bold
+
+                                  ),
+                                ),
+                                
+                              ],
+                                
+                       );
+
+
+
+
+
+
+                    
+                  },
+
+                  
+
+
+
+
+                  separatorBuilder: (context, int index) => SizedBox(
+                    width: 20,
+                  ),
                 );
-              },
-              separatorBuilder: (context, int index) => SizedBox(
-                width: 20,
-              ),
-            );
+            
+
+            
+
           }),
+          
+
     );
   }
   Widget _listViewBrands(){
@@ -342,57 +379,67 @@ class _HomeViewState extends State<HomeView> {
             }
             final data = snapshot.requireData;
 
-            print(data.docs[1]['name']);
             return ListView.separated(
               itemCount: data.size,
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
-                return Column(
+                return Row(
                   children: [
-                    FlatButton(
-                      onPressed: (){
-                       displayBrand = data.docs[index]['name'].toString();
-                       FirebaseFirestore.instance.collection("Brands").get().then((querySnapshot) {
-                       querySnapshot.docs.forEach((doc){
-                      if(doc.data()['name'] == displayBrand){
-                      id = doc.id; // randomly generated document ID
-                      var data = doc.data(); 
-                      Navigator.push(
-                                 context,
-                      MaterialPageRoute(builder: (context) =>  product_brand(id: id,)),
-                      );
+                    Column(
+                      children: [
+                        FlatButton(
+                          onPressed: (){
+                           displayBrand = data.docs[index]['name'].toString();
+                           FirebaseFirestore.instance.collection("Brands").get().then((querySnapshot) {
+                           querySnapshot.docs.forEach((doc){
+                          if(doc.data()['name'] == displayBrand){
+                          id = doc.id; // randomly generated document ID
+                          var data = doc.data(); 
+                          Navigator.push(
+                                     context,
+                          MaterialPageRoute(builder: (context) =>  product_brand(id: id,)),
+                          );
 
 
-                     
-                      }
+                         
+                          }
     });
 });
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
-                          color: Colors.white,
-                        ),
-                        height: 70,
-                        width: 70,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                        child: Image.network(
-                            data.docs[index]['image'],
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50),
+                              color: Colors.white,
+                            ),
+                            height: 70,
+                            width: 70,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                            child: Image.network(
+                                data.docs[index]['image'],
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      data.docs[index]['name'], style: GoogleFonts.adamina(
-                        fontSize : 15,
-                        fontWeight: FontWeight.bold
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          data.docs[index]['name'], style: GoogleFonts.adamina(
+                            fontSize : 15,
+                            fontWeight: FontWeight.bold
 
-                      ),
-                    )
+                          ),
+                        )
+                      ],
+                    ),
+                    
+
+
+
+
+
+
                   ],
                 );
               },
@@ -401,6 +448,7 @@ class _HomeViewState extends State<HomeView> {
               ),
             );
           }),
+          
     
    );
   }
@@ -411,10 +459,13 @@ class _HomeViewState extends State<HomeView> {
         .doc(FirebaseAuth.instance.currentUser?.uid)
         .collection('LastViewdProducts')
         .snapshots();
+
+    final _auth = FirebaseAuth.instance;
+    print(FirebaseAuth.instance.currentUser?.uid);
     return Container(
       height: 220,
       child: StreamBuilder(
-        stream: products,
+        stream: products, 
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (!snapshot.hasData) {
@@ -424,53 +475,79 @@ class _HomeViewState extends State<HomeView> {
               return Text("");
             }
             final data = snapshot.requireData;
-            print('yaaaaaaa');
-            print(FirebaseAuth.instance.currentUser?.uid);
-            print(data.size);
-           return ListView.separated( 
+           return ListView.builder( 
         itemCount: data.size,
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
-          return Card(
-            shadowColor: Colors.white,
-            child: Container(
-              width: MediaQuery.of(context).size.width * .3,
-              child: Column(
-                children: [
-                  Container(
-                 
-                    width: MediaQuery.of(context).size.width * 0.3,
-                    child: Container(
-                        height: 120,
-                        child: Padding(
-                          padding: const EdgeInsets.all(12),
-                          child: Image.network(
-                            data.docs[index]['productImage'],
-                            fit: BoxFit.fill,
+          return FlatButton(
+            onPressed: () async{
+ dynamic displayProduct = data.docs[index].id.toString();
+ print('idddddddd$displayProduct');
+         User? user = _auth.currentUser;
+          UserModel userModel = UserModel();
+                    var noteInfo = data!.docs[index].data()! as Map;
+                                        var object = Product(imageURL: noteInfo['productImage'], name: noteInfo['productName'], 
+                    price: double.parse(noteInfo['productPrice'].toString()) , brandName: noteInfo['productBrandName'] , quantitiy: 1 , description: noteInfo['productDescription'].toString());
+                           
+                    Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => product_from_home(id : displayProduct.toString())));
+                  
+                
+
+
+          
+
+            },
+            child: Card(
+                 shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30.0),
+                  ),
+              shadowColor: Colors.white,
+              child: Container(
+                width: MediaQuery.of(context).size.width * .3,
+                child: Column(
+                  children: [
+                    Container(
+                   
+                      width: MediaQuery.of(context).size.width * 0.3,
+                      child: Container(
+                          height: 120,
+                          child: Padding(
+                            padding: const EdgeInsets.all(12),
+                            child: Image.network(
+                              data.docs[index]['productImage'],
+                              fit: BoxFit.fill,
+                            ),
+                          )),
+                    ),
+          
+              
+                    SizedBox(height: 7),
+                          Text(
+                            data.docs[index]['productBrandName'], style: GoogleFonts.adamina(
+                              fontSize : 15,
+                              fontWeight: FontWeight.bold
+          
+                            ),
                           ),
-                        )),
-                  ),
-                  SizedBox(
-                    height: 3,
-                  ),
-            
-                  SizedBox(height: 7),
-                     CustomText(
-                    text: data.docs[index]['productDescription'],
-                    alignment: Alignment.bottomLeft,
-                    color: Colors.grey,
-                    fontSize: 13,
-                  ),
-                ],
+                          SizedBox(height: 5),
+                           Text(
+                            data.docs[index]['productPrice'].toString() + " SAR", style: GoogleFonts.adamina(
+                              fontSize : 15,
+                          
+          
+                            ),
+                          ),
+          
+                  ],
+                ),
+                
               ),
               
             ),
-            
           );
         },
-        separatorBuilder: (context, int index) => SizedBox(
-          width: 20,
-        ),
+   
       );
        
               }));

@@ -59,11 +59,20 @@ class CartProductsCard extends StatelessWidget {
   int number = 1;
   CartProductsCard({required this.data, required this.index});
   Widget build(BuildContext context) {
+    if(FirebaseAuth.instance.currentUser?.uid != null){
     return Card(
       child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[_productBox(index)]),
     );
+    }
+    else{
+       return Card(
+      child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[]),
+    );
+    }
   }
 
   Widget _productBox(int index) {
@@ -225,7 +234,6 @@ class CartProductsCard extends StatelessWidget {
             ])
           ])
         ]));
-    CartController().total;
   }
 
   void getTotal() {
