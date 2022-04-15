@@ -1,7 +1,7 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../controller/cart_controller.dart';
 import '../widgets/cart_products.dart';
@@ -19,20 +19,19 @@ class _CartPageState extends State<CartPage> {
   //final CartController controller = Get.find();
   @override
   Widget build(BuildContext context) {
-    return Scaffold (
+    return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.white10,
         leading: BackButton(color: Colors.black),
         centerTitle: true,
-        title: Text('Shopping Cart', style: TextStyle(color: Colors.black)),
+        title: Text(
+          'Shopping Cart',
+          style: GoogleFonts.adamina(
+              fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black),
+        ),
       ),
-      body:
-        CartProducts(),
-    
-      
-
-           
+      body: CartProducts(),
       persistentFooterButtons: [
         CartTotal(),
         Column(
@@ -55,6 +54,4 @@ class _CartPageState extends State<CartPage> {
       ],
     );
   }
-  
- 
 }

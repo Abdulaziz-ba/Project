@@ -33,7 +33,8 @@ class CartController{
            'productImage' : product.imageURL ,
            'productPrice' : product.price ,
            'productBrandName' : product.brandName,
-           'productQuantity' : product.quantitiy
+           'productQuantity' : product.quantitiy,
+           'productSize' : product.size
          }
           
          );
@@ -57,12 +58,12 @@ class CartController{
   return Total;
 
   }
-void getId(){
+void getId() async{
 User? user = _auth.currentUser;
 UserModel userModel = UserModel();
-FirebaseFirestore.instance.collection("Cart").get().then((querySnapshot) {
+await FirebaseFirestore.instance.collection("Cart").get().then((querySnapshot) {
 querySnapshot.docs.forEach((doc){
-if(doc.data()['cartId'] == user!.uid){
+if(doc.data()['cartId'] == user?.uid){
         id = doc.id; // randomly generated document ID
           }
     });

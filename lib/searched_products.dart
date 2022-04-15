@@ -1,5 +1,4 @@
-import 'dart:async';
-
+import 'package:brandz/model/user_model.dart';
 import 'package:brandz/product_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,40 +6,46 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import "package:brandz/controller/cart_controller.dart";
 import 'package:google_fonts/google_fonts.dart';
-import 'model/product_model.dart';
-import 'model/user_model.dart';
+import '../model/product_model.dart';
+
 import 'package:brandz/view/auth/login_screen.dart';
 
 var data;
+bool flag = true;
 
-class product_brand extends StatelessWidget {
+class Serached_products extends StatelessWidget {
   String id;
+  String brand;
   late String displayBrand;
 
-  product_brand({required this.id});
+  Serached_products({required this.id, required this.brand});
   @override
   Widget build(BuildContext context) {
-    final Stream<QuerySnapshot> brands = FirebaseFirestore.instance
+    print(brand);
+    final Stream<QuerySnapshot> products = FirebaseFirestore.instance
         .collection('Products')
-        .where('parentId', isEqualTo: id)
+        .where('name', isGreaterThanOrEqualTo: id.capitalizeFirst)
         .snapshots();
-
+    final Stream<QuerySnapshot> brandProduct = FirebaseFirestore.instance
+        .collection('Products')
+        .where('BrandName', isEqualTo: id.capitalizeFirst)
+        .snapshots();
+    var finalProducts;
+    if (brand == "brand") {
+      finalProducts = brandProduct;
+    } else {
+      finalProducts = products;
+    }
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
           elevation: 0.0,
           backgroundColor: Colors.white,
           leading: BackButton(color: Colors.black),
-          centerTitle: true,
-            title: Text(
-            'Brand Name',
-            style: GoogleFonts.adamina(
-                fontWeight: FontWeight.bold, fontSize: 25, color: Colors.black),
-          ),
         ),
         body: SafeArea(
           child: StreamBuilder(
-              stream: brands,
+              stream: finalProducts,
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (!snapshot.hasData) {
@@ -63,19 +68,19 @@ class product_brand extends StatelessWidget {
                                     mainAxisSpacing: 4.0),
                             scrollDirection: Axis.vertical,
                             itemBuilder: (context, index) {
-                              return ProductCard(index: index);
+                              return ProductCardSearch(index: index);
                             })));
               }),
         ));
   }
 }
 
-class ProductCard extends StatelessWidget {
+class ProductCardSearch extends StatelessWidget {
   final cartController = Get.put(CartController());
   final _auth = FirebaseAuth.instance;
   int pressed = 0;
   final int index;
-  ProductCard({Key? key, required this.index}) : super(key: key);
+  ProductCardSearch({Key? key, required this.index}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -98,11 +103,11 @@ class ProductCard extends StatelessWidget {
         var object = Product(
             imageURL: noteInfo['image'][0],
             name: noteInfo['name'],
-            price: double.parse(noteInfo['Size'][0]['price']),
+            price: double.parse(noteInfo['price']),
             brandName: noteInfo['BrandName'],
             quantitiy: 1,
             description: noteInfo['description'].toString(),
-            size: null );
+            size: null);
         if (FirebaseAuth.instance.currentUser?.uid == null) {
           Navigator.of(context).pushReplacement(MaterialPageRoute(
               builder: (context) => product_page(id: displayProduct)));
@@ -115,7 +120,7 @@ class ProductCard extends StatelessWidget {
               .get();
           if (value.docs.isNotEmpty == false) {
             lastVisitedProducts(object, user);
-            Navigator.of(context).push(MaterialPageRoute(
+            Navigator.of(context).pushReplacement(MaterialPageRoute(
                 builder: (context) => product_page(id: displayProduct)));
             return;
           }
@@ -158,80 +163,56 @@ class ProductCard extends StatelessWidget {
       },
       child: Column(
         children: [
-          Text(data.docs[index]['name'],
+          Text(data.docs[index]['name'] + "- " + data.docs[index]['BrandName'],
               style: GoogleFonts.adamina(
                 fontSize: 16,
               )),
+          // Text(data.docs[index]['BrandName'],
+          //     style: GoogleFonts.adamina(
+          //       fontSize: 13,
+          //     )),
           Row(
             children: [
               IconButton(
                   onPressed: () async {
-     dynamic displayProduct = data.docs[index].id.toString();
-        User? user = _auth.currentUser;
-        UserModel userModel = UserModel();
-        var noteInfo = data!.docs[index].data()! as Map;
-        var object = Product(
-            imageURL: noteInfo['image'][0],
-            name: noteInfo['name'],
-            price: double.parse(noteInfo['Size'][0]['price']),
-            brandName: noteInfo['BrandName'],
-            quantitiy: 1,
-            description: noteInfo['description'].toString(),
-            size: null);
-        if (FirebaseAuth.instance.currentUser?.uid == null) {
-          return;
-        } else if (FirebaseAuth.instance.currentUser?.uid != null) {
-          var value = await FirebaseFirestore.instance
-              .collection('users')
-              .doc(FirebaseAuth.instance.currentUser?.uid)
-              .collection('Favourites')
-              .limit(1)
-              .get();
-          if (value.docs.isNotEmpty == false) {
-            if(pressed == 0)
-            AddToFavourites(object, user);
-            pressed++;
- 
-            return;
-          }
-
-          bool found = false;
-          await FirebaseFirestore.instance
-              .collection("users")
-              .doc(FirebaseAuth.instance.currentUser?.uid)
-              .collection('Favourites')
-              .get()
-              .then((querySnapshot) {
-            querySnapshot.docs.forEach((doc) {
-              //  print( noteInfo['BrandName']);
-              if (doc.data()['productBrandName'] == noteInfo['BrandName'] &&
-                      doc.data()['productDescription'] ==
-                          noteInfo['description'] &&
-                      doc.data()['productName'] == noteInfo['name'] //&&
-                  //  doc.data()['productPrice'] == noteInfo['price']
-                  ) {
-                found = true;
-              }
-            });
-            if (found == true) {
-              return;
-            } 
-            else{
-               if(pressed == 0){
-            print(pressed);
-              AddToFavourites(object, user);
-              ++pressed;
-
-              return;
-            }
-          
-              }
-           
-              
-              });
-        }
-                            
-                  }, icon: Icon(Icons.favorite_outline))
+                    print('hello');
+                    bool found = false;
+                    User? user = _auth.currentUser;
+                    UserModel userModel = UserModel();
+                    String Brand = data.docs[index]['name'].toString();
+                    var noteInfo = data!.docs[index].data()! as Map;
+                    var object = Product(
+                        imageURL: noteInfo['image'][0],
+                        name: noteInfo['name'],
+                        price: double.parse(noteInfo['price']),
+                        brandName: noteInfo['BrandName'],
+                        quantitiy: 1,
+                        description: noteInfo['description'],
+                        size: null);
+                    await FirebaseFirestore.instance
+                        .collection("Cart")
+                        .doc(CartController.id)
+                        .collection('Products')
+                        .get()
+                        .then((querySnapshot) async {
+                      querySnapshot.docs.forEach((doc) {
+                        print(doc.data()['productImage'] == noteInfo['image'][0]);
+                        if (doc.data()['productImage'] == noteInfo['image'][0]) {
+                          found = true;
+                        }
+                      });
+                      if (found == true) {
+                        return;
+                      } else {
+                        if (pressed == 0)
+                          cartController.addProduct(object, user);
+                        ++pressed;
+                        return;
+                      }
+                      ;
+                    });
+                  },
+                  icon: Icon(Icons.shopping_cart_checkout_rounded))
             ],
           ),
           Image.network(
@@ -252,31 +233,13 @@ class ProductCard extends StatelessWidget {
   }
 
   void lastVisitedProducts(Product product, User? user) async {
-  dynamic displayProduct = data.docs[index].id.toString();
-
-    DocumentReference ref =  FirebaseFirestore.instance
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser?.uid)
-        .collection('LastViewdProducts')
-        .doc(displayProduct);
-        ref.set(   {
-      'productName': product.name,
-      'productImage': product.imageURL,
-      'productPrice': product.price,
-      'productBrandName': product.brandName,
-      'productQuantity': product.quantitiy,
-      'productDescription': product.description
-    });
-
-     
-  }
-   void AddToFavourites(Product product, User? user) async {
     var id;
 
+    print(id);
     await FirebaseFirestore.instance
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser?.uid)
-        .collection('Favourites')
+        .collection('LastViewdProducts')
         .add({
       'productName': product.name,
       'productImage': product.imageURL,

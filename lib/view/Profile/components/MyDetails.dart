@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class MyDetails extends StatefulWidget {
   MyDetails({Key? key}) : super(key: key);
@@ -129,7 +130,11 @@ class _MyDetailsState extends State<MyDetails> {
         backgroundColor: Colors.white,
         leading: BackButton(color: Colors.black),
         centerTitle: true,
-        title: const Text('MY DETAILS', style: TextStyle(color: Colors.black)),
+        title: Text(
+          'My Details',
+          style: GoogleFonts.adamina(
+              fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black),
+        ),
       ),
       // all above been checked!
       body: Center(

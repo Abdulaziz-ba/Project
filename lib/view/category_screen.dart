@@ -12,25 +12,21 @@ class CategoryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-      final Stream<QuerySnapshot> categories =
-      FirebaseFirestore.instance.collection('Categories').snapshots();
-
-
+    final Stream<QuerySnapshot> categories =
+        FirebaseFirestore.instance.collection('Categories').snapshots();
 
     return Scaffold(
-
-      appBar: AppBar(
-       title: Text('Categories' ,style: GoogleFonts.adamina(
-        fontWeight: FontWeight.bold,
-        fontSize : 25,
-        color: Colors.black
-      ),
-       ),
-      centerTitle: true,
-      backgroundColor: Colors.white10,
-      elevation: 0.0, 
-      ),
-      body: StreamBuilder(
+        appBar: AppBar(
+          title: Text(
+            'Categories',
+            style: GoogleFonts.adamina(
+                fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black),
+          ),
+          centerTitle: true,
+          backgroundColor: Colors.white10,
+          elevation: 0,
+        ),
+        body: StreamBuilder(
             stream: categories,
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -47,14 +43,8 @@ class CategoryPage extends StatelessWidget {
                       itemBuilder: (context, index) {
                         return CartProductsCard(data: data, index: index);
                       }));
-            })
-
-
-      
-
-    );
+            }));
   }
-
 }
 
 class CartProductsCard extends StatelessWidget {
@@ -66,25 +56,26 @@ class CartProductsCard extends StatelessWidget {
   CartProductsCard({required this.data, required this.index});
   Widget build(BuildContext context) {
     return FlatButton(
-      onPressed: (){
-                            String displayCategory = data.docs[index]['name'].toString();
-                       FirebaseFirestore.instance.collection("Categories").get().then((querySnapshot) {
-                       querySnapshot.docs.forEach((doc){
-                      if(doc.data()['name'] == displayCategory){
-                      var id = doc.id; // randomly generated document ID
-                      var data = doc.data(); 
-                      Navigator.push(
-                                 context,
-                      MaterialPageRoute(builder: (context) =>  BrandzCategory(id: id,)),
-                      );
-
-
-                     
-                      }
-    });
-});
-   
-
+      onPressed: () {
+        String displayCategory = data.docs[index]['name'].toString();
+        FirebaseFirestore.instance
+            .collection("Categories")
+            .get()
+            .then((querySnapshot) {
+          querySnapshot.docs.forEach((doc) {
+            if (doc.data()['name'] == displayCategory) {
+              var id = doc.id; // randomly generated document ID
+              var data = doc.data();
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => BrandzCategory(
+                          id: id,
+                        )),
+              );
+            }
+          });
+        });
       },
       child: Card(
         shape: RoundedRectangleBorder(
@@ -99,28 +90,25 @@ class CartProductsCard extends StatelessWidget {
 
   Widget _productBox(int index) {
     return Container(
-      
         height: 95,
         padding: const EdgeInsets.all(8.0),
         // width: 100,
         margin: EdgeInsets.all(4.0),
         child: Row(children: [
-         Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
-                          color: Colors.white,
-                        ),
-                        height: 110,
-                        width: 110,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                        child: Image.network(
-                            data.docs[index]['image'],
-                            
-                          ),
-                          
-                        ),
-                      ),
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(50),
+              color: Colors.white,
+            ),
+            height: 110,
+            width: 110,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Image.network(
+                data.docs[index]['image'],
+              ),
+            ),
+          ),
           SizedBox(width: 16),
           Expanded(
               child: Padding(
@@ -128,21 +116,14 @@ class CartProductsCard extends StatelessWidget {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        SizedBox(height : 30),
+                        SizedBox(height: 30),
                         Text(
-                      data.docs[index]['name'], style: GoogleFonts.adamina(
-                        fontSize : 15,
-                        fontWeight: FontWeight.bold
-
-                      ),
-                                   
-          )]))),
-
-          Icon(
-            Icons.arrow_forward
-          )
-        
+                          data.docs[index]['name'],
+                          style: GoogleFonts.adamina(
+                              fontSize: 15, fontWeight: FontWeight.bold),
+                        )
+                      ]))),
+          Icon(Icons.arrow_forward)
         ]));
   }
-
 }

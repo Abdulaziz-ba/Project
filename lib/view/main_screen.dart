@@ -3,6 +3,7 @@
 //import 'package:brandz/view/search_screen.dart';
 
 import 'package:brandz/controller/cart_controller.dart';
+import 'package:brandz/view/compare_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -22,7 +23,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   List pages = [
     HomeView(),
-    SearchPage(),
+    ComparePage(),
     CategoryPage(),
     CartPage(BrandName: ""),
     ProfilePage()
@@ -53,7 +54,7 @@ class _MainPageState extends State<MainPage> {
           elevation: 0,
           items: [
             BottomNavigationBarItem(label: "Home", icon: Icon(Icons.home)),
-            BottomNavigationBarItem(label: "Search", icon: Icon(Icons.search)),
+            BottomNavigationBarItem(label: "Search", icon: Icon(Icons.compare_arrows)),
             BottomNavigationBarItem(
                 label: "Category", icon: Icon(Icons.category_sharp)),
             BottomNavigationBarItem(

@@ -1,9 +1,3 @@
-//import '..constats.dart';
-//import '../view/auth/widget/custom_button.dart';
-//import 'package:brandz/view/auth/widget/custom_txt.dart';
-//import 'package:brandz/view/auth/widget/custom_txt_from.dart';
-//import 'package:brandz/view/home_screen.dart';
-//import 'package:brandz/view/regScreen.dart';
 import 'package:brandz/controller/cart_controller.dart';
 import 'package:brandz/view/auth/reset_password_screen.dart';
 import 'package:brandz/view/home_screen.dart';

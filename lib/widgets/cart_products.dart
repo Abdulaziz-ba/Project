@@ -110,7 +110,11 @@ class CartProductsCard extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          data.docs[index]['productName'] + '\nSize: X',
+                          data.docs[index]['productName'] ,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                          Text(
+                          data.docs[index]['productSize'] ,
                           overflow: TextOverflow.ellipsis,
                         ),
                         Padding(padding: EdgeInsets.only(bottom: 10)),

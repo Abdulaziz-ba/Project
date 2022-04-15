@@ -1,10 +1,3 @@
-//import 'package:brandz/constats.dart';
-//import 'package:brandz/model/user_model.dart';
-//import 'package:brandz/view/auth/login_screen.dart';
-//import 'package:brandz/view/auth/widget/custom_button.dart';
-//import 'package:brandz/view/auth/widget/custom_txt.dart';
-//import 'package:brandz/view/auth/widget/custom_txt_from.dart';
-//import 'package:brandz/view/home_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

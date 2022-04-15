@@ -1,4 +1,6 @@
 import 'package:brandz/model/custom_text.dart';
+import 'package:brandz/view/home_screen.dart';
+import 'package:brandz/view/main_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:brandz/product_brand.dart';
@@ -11,9 +13,15 @@ class BrandzCategory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-      
-     final Stream<QuerySnapshot> brands = FirebaseFirestore.instance.collection('Brands')
-            .where('parentId', isEqualTo : id).snapshots();
+    final Stream<QuerySnapshot> brands;
+    if(id != 'ALL'){
+      brands = FirebaseFirestore.instance.collection('Brands')
+      .where('parentId', isEqualTo : id).snapshots();
+    }
+    else{
+          brands = FirebaseFirestore.instance.collection('Brands')
+          .snapshots();
+    }
       
    return Scaffold(
      backgroundColor: Colors.white,
@@ -21,7 +29,12 @@ class BrandzCategory extends StatelessWidget {
        elevation: 0.0,
                backgroundColor: Colors.white,
 
-       leading: BackButton(color: Colors.black),
+          leading: BackButton(
+                  color: Colors.black,
+                  onPressed: () {
+                         Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => MainPage()));
+                  }),
     
        
       ),
