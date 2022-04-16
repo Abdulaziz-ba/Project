@@ -12,23 +12,19 @@ import '../model/list_of_products.dart';
 import '../model/user_model.dart';
 
 class ComparePage extends StatefulWidget {
-  static List<Product> productInComparison = [];
-
-  //static int itemsInComp = 0;
-  static ValueNotifier<bool> valueNotifier = ValueNotifier(false);
+  static List<Product> productInComparison = []; // list to store products
 
   ComparePage({Key? key}) : super(key: key);
 
   @override
-  State<ComparePage> createState() =>
-      _ComparePageState(valueNotifier, productInComparison);
+  State<ComparePage> createState() => _ComparePageState(productInComparison);
 }
 
 /* 
 // add logic
 if (!isEmpty) {
  if (!isFull) {  
-  if(p1.cate == p2.cate){
+  if(p1.cate == p2.cate){ // edit later
   // add & set isFull to true 
   }//reject.  Display (can't compare 2 product not in same cate) 
  }// reject. Display (camparison is Full)
@@ -43,11 +39,7 @@ class _ComparePageState extends State<ComparePage> {
   int pressed1 = 0;
   int pressed2 = 0;
 
-  //bool isFull = false; // 2 product // productInComparison.length == 2
-  //bool isEmpty = true; // 0 product //productInComparison.isEmpty
-  //int itemCount = 0; // keep count of product
-  ValueNotifier<bool> valueNotifier;
-  _ComparePageState(this.valueNotifier, this.productInComparison);
+  _ComparePageState(this.productInComparison);
 
   @override
   Widget build(BuildContext context) {
@@ -66,14 +58,8 @@ class _ComparePageState extends State<ComparePage> {
             FlatButton(
                 onPressed: () {
                   clearFromCompare();
-                  //valueNotifier = ValueNotifier(false);
-                  //Provider.of(context, listen: false);
                   print('cleared!');
                   setState(() {});
-                  /*     Navigator.pushReplacement(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (context) => this.build(context))); */
                 },
                 child: Text(
                   'Clear',
@@ -85,28 +71,37 @@ class _ComparePageState extends State<ComparePage> {
             ? emptyComparison() // case 1
             : productInComparison.length == 1
                 ? columnOfRPNI() // case 2 one product in comparison
-                //Text(productInComparison[0].name)
-                : /* Column(
-                    children: [
-                      Text(productInComparison[0].name),
-                      Text(productInComparison[1].name)
-                    ],
-                  ) */
+                :
                 // case 3 compare 2 products
                 Column(
                     children: [
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          columnOfRPNI2(0), //Column(),
+                          columnOfRPNI2(0),
                           Column(
-                            children: [Center(child: Text('Products'))],
+                            children: [
+                              SizedBox(
+                                height: 75,
+                              ),
+                              Center(
+                                  child: Text(
+                                'Products',
+                                style: GoogleFonts.adamina(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12,
+                                    color: Colors.black),
+                              ))
+                            ],
                           ),
-                          columnOfRPNI2(1) //Column()
+                          columnOfRPNI2(1)
                         ],
                       ),
+                      SizedBox(
+                        height: 15,
+                      ),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           RaisedButton(
                             shape: RoundedRectangleBorder(
@@ -144,6 +139,9 @@ class _ComparePageState extends State<ComparePage> {
                               style: TextStyle(color: Colors.white),
                             ),
                             color: Colors.black,
+                          ),
+                          SizedBox(
+                            width: 30,
                           ),
                           RaisedButton(
                             shape: RoundedRectangleBorder(
@@ -184,115 +182,129 @@ class _ComparePageState extends State<ComparePage> {
                           ),
                         ],
                       ),
-                      //Container(
-                      //color: Colors.lightBlue,
-                      //  child: Row(
-                      // children: [
+                      SizedBox(
+                        height: 30,
+                      ),
                       Container(
-                        //color: Colors.lightBlueAccent,
                         child: Column(
                           children: <Widget>[
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 Text(productInComparison[0].price.toString() +
                                     ' SAR'),
-                                Text('Price'),
+                                Center(
+                                    child: Text(
+                                  'Price',
+                                  style: GoogleFonts.adamina(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12,
+                                      color: Colors.black),
+                                )),
                                 Text(productInComparison[1].price.toString() +
                                     ' SAR')
                               ],
                             ),
                             // price
                             Divider(
-                              // endIndent: 30,
-                              //height: 100,
+                              endIndent: 30,
+                              indent: 30,
+                              height: 30,
                               thickness: 1,
                               color: Colors.black,
                             ),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
+                                /* Text(
+                                    '150 ml'), */
                                 Text(
-                                    productInComparison[0].size), //Text(productInComparison[0].size),
-                                Text('Size'),
-                                Text(
-                                    productInComparison[1].size) //Text(productInComparison[1].size)
+                                    productInComparison[0].size), // update late
+                                Center(
+                                    child: Text(
+                                  'Size',
+                                  style: GoogleFonts.adamina(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12,
+                                      color: Colors.black),
+                                )),
+                                /* Text(
+                                    '150 ml') */
+                                Text(productInComparison[1]
+                                    .size) //  update later
                               ],
                             ), //size
                             Divider(
-                              //endIndent: 30,
+                              endIndent: 30,
+                              indent: 30,
+                              height: 30,
                               thickness: 1,
                               color: Colors.black,
                             ),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 Text(productInComparison[0].brandName),
-                                Text('Brand'),
+                                Center(
+                                    child: Text(
+                                  'Brand',
+                                  style: GoogleFonts.adamina(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12,
+                                      color: Colors.black),
+                                )),
                                 Text(productInComparison[1].brandName)
                               ],
                             ), // brand
                             Divider(
-                              //endIndent: 30,
+                              endIndent: 30,
+                              indent: 30,
+                              height: 30,
                               thickness: 1,
                               color: Colors.black,
                             ),
+                            // Details Start here
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                Expanded(
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 16.0),
+                                  child: SizedBox(
+                                    width: 100,
                                     child: Text(
-                                        productInComparison[0].description)),
-                                Text('Details'),
-                                Expanded(
+                                      productInComparison[0].description,
+                                      textAlign: TextAlign.justify,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 10,
+                                    ),
+                                  ),
+                                ),
+                                Text(
+                                  'Details',
+                                  style: GoogleFonts.adamina(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12,
+                                      color: Colors.black),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 16.0),
+                                  child: SizedBox(
+                                    width: 100,
                                     child: Text(
-                                        productInComparison[1].description))
+                                      productInComparison[1].description,
+                                      textAlign: TextAlign.justify,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 10,
+                                    ),
+                                  ),
+                                )
                               ],
-                            ), // details
+                            ), // Details End here
                           ],
                         ),
                       )
                     ],
-                    //  ),
-                    //)
-                    // ],
-                  )
-
-        //Only1Product()
-
-        /* Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  FlatButton(
-                      // poduct 1
-                      onPressed: () {
-                        /*  if (!productInComparison.isEmpty)
-                    for (var product in productInComparison)
-                      print(product.name);
-                  print(productInComparison.length); */
-                        if (!productInComparison.isEmpty) {
-                          print(productInComparison[0].name);
-                          removeFromCompare(0);
-                        }
-                      },
-                      child: Text('000000000000000')),
-                  FlatButton(
-                      // product 2
-                      onPressed: () {
-                        if (!productInComparison.isEmpty) {
-                          if (productInComparison.length == 2) {
-                            print(productInComparison[1].name);
-                            removeFromCompare(1);
-                          } else {
-                            print(productInComparison[0].name);
-                            removeFromCompare(0);
-                          }
-                        }
-                      },
-                      child: Text('111111111111111111'))
-                ],
-              ) */
-        );
+                  ));
   }
 
   Column columnOfRPNI2(int index) {
@@ -310,13 +322,40 @@ class _ComparePageState extends State<ComparePage> {
                         setState(() {});
                       }
                     },
-                    child: Text('Remove Product')),
-                Text(productInComparison[index].name),
-                Image.network(
-                  productInComparison[index].imageURL,
-                  width: 155, //150,
-                  height: 155,
+                    child: Text(
+                      'Remove Product',
+                      style: GoogleFonts.adamina(
+                          textStyle: TextStyle(
+                            decoration: TextDecoration.underline,
+                          ),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                          color: Color.fromARGB(88, 0, 0, 0)),
+                    )),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: Text(
+                    productInComparison[index].name,
+                    style: GoogleFonts.adamina(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        color: Colors.black),
+                  ),
                 ),
+                Container(
+                  padding: EdgeInsets.all(8), // Border width
+                  decoration: BoxDecoration(
+                      color: Color.fromARGB(88, 0, 0, 0),
+                      borderRadius: BorderRadius.circular(20)),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: SizedBox.fromSize(
+                      size: Size.fromRadius(48), // Image radius
+                      child: Image.network(productInComparison[index].imageURL,
+                          fit: BoxFit.cover),
+                    ),
+                  ),
+                )
               ],
             )
           ],
@@ -333,7 +372,6 @@ class _ComparePageState extends State<ComparePage> {
             Column(
               children: [
                 FlatButton(
-                    // poduct 1
                     onPressed: () {
                       if (!productInComparison.isEmpty) {
                         print(productInComparison[0].name);
@@ -341,13 +379,40 @@ class _ComparePageState extends State<ComparePage> {
                         setState(() {});
                       }
                     },
-                    child: Text('Remove Product')),
-                Text(productInComparison[0].name),
-                Image.network(
-                  productInComparison[0].imageURL,
-                  width: 155, //150,
-                  height: 155,
+                    child: Text(
+                      'Remove Product',
+                      style: GoogleFonts.adamina(
+                          textStyle: TextStyle(
+                            decoration: TextDecoration.underline,
+                          ),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                          color: Color.fromARGB(88, 0, 0, 0)),
+                    )),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: Text(
+                    productInComparison[0].name,
+                    style: GoogleFonts.adamina(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        color: Colors.black),
+                  ),
                 ),
+                Container(
+                  padding: EdgeInsets.all(8), // Border width
+                  decoration: BoxDecoration(
+                      color: Color.fromARGB(88, 0, 0, 0),
+                      borderRadius: BorderRadius.circular(20)),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: SizedBox.fromSize(
+                      size: Size.fromRadius(48), // Image radius
+                      child: Image.network(productInComparison[0].imageURL,
+                          fit: BoxFit.cover),
+                    ),
+                  ),
+                )
               ],
             )
           ],
@@ -355,14 +420,16 @@ class _ComparePageState extends State<ComparePage> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            /* Center(child: Column()) */
             SizedBox(
               height: 169,
             ),
             Center(
                 child: Column(
               children: [
-                Text('Add Another Product To Compare With'),
+                Text(
+                  'Add Another Product To Compare With',
+                  style: GoogleFonts.adamina(fontSize: 12, color: Colors.black),
+                ),
                 RaisedButton(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25)),
@@ -409,7 +476,10 @@ class emptyComparison extends StatelessWidget {
         child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text('No Products To Compare With'),
+        Text(
+          'No Products To Compare With',
+          style: GoogleFonts.adamina(fontSize: 12, color: Colors.black),
+        ),
         RaisedButton(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),

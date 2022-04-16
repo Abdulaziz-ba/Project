@@ -15,11 +15,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import "package:brandz/controller/cart_controller.dart";
 import 'package:google_fonts/google_fonts.dart';
-import 'package:photo_view/photo_view_gallery.dart';
+//import 'package:photo_view/photo_view_gallery.dart';
 import 'model/product_model.dart';
 import 'model/user_model.dart';
 import 'package:brandz/view/auth/login_screen.dart';
-import 'package:photo_view/photo_view.dart';
+//import 'package:photo_view/photo_view.dart';
 
 import 'view/cart_screen.dart';
 
@@ -36,22 +36,24 @@ class _product_pageState extends State<product_page> {
   final _auth = FirebaseAuth.instance;
 
   int pressed = 0;
-  late String? newValue ='';
+  late String? newValue = '';
   final cartController = Get.put(CartController());
 
-  List <String> items = [];
+  List<String> items = [];
 
   String? value;
 
   List urlimages = [];
 
   List Sizes = [];
-  
+
   bool entered = false;
   @override
   Widget build(BuildContext context) {
-    final productData =
-        FirebaseFirestore.instance.collection('Products').doc(widget.id).snapshots();
+    final productData = FirebaseFirestore.instance
+        .collection('Products')
+        .doc(widget.id)
+        .snapshots();
     return Container(
       child: StreamBuilder(
         stream: productData,
@@ -63,20 +65,16 @@ class _product_pageState extends State<product_page> {
             return Text("There is an error");
           }
           DocumentSnapshot<Object?> data = snapshot.requireData;
-          
+
           urlimages = data["image"];
           Sizes = data['Size'];
           SizesFromDataBase(Sizes.length);
-                 
+
           /* void openGalley() => Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => GalleryWidget(
                   urlImages: urlimages,
                 ),
               ));*/
- 
-        
-
-             
 
           return Scaffold(
             appBar: AppBar(
@@ -92,7 +90,7 @@ class _product_pageState extends State<product_page> {
               leading: BackButton(
                   color: Colors.black,
                   onPressed: () {
-                       Navigator.of(context).pop();
+                    Navigator.of(context).pop();
                   }),
               elevation: 0.0,
               actions: [
@@ -145,16 +143,13 @@ class _product_pageState extends State<product_page> {
                         ),
                         child: PageView(
                           children: [
-                            
                             for (var i = 0; i < urlimages.length; i++)
                               Container(
                                 child: Image.network(urlimages[i]),
-                                
                               ),
                           ],
                         )),
                   ),
-                  
                   Expanded(
                     child: Container(
                       color: Colors.white,
@@ -177,7 +172,8 @@ class _product_pageState extends State<product_page> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  data["Size"][productIndex()]['price'] + " SAR",
+                                  data["Size"][productIndex()]['price'] +
+                                      " SAR",
                                   style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.w600,
@@ -197,15 +193,16 @@ class _product_pageState extends State<product_page> {
                                     children: <Widget>[
                                       IconButton(
                                         onPressed: () {
-                                                 var thisProduct = Product(
+                                          var thisProduct = Product(
                                               imageURL: data["image"][0],
                                               name: data['name'],
-                                              price:
-                                                  double.parse(data['Size'][productIndex()]['price']),
+                                              price: double.parse(data['Size']
+                                                  [productIndex()]['price']),
                                               brandName: data['BrandName'],
                                               quantitiy: 1,
                                               description: data['description'],
-                                              size: data['Size'][productIndex()]['size']);
+                                              size: data['Size'][productIndex()]
+                                                  ['size']);
                                           if (ComparePage
                                                   .productInComparison.length ==
                                               0) {
@@ -247,15 +244,6 @@ class _product_pageState extends State<product_page> {
                                             print(
                                                 'sorry we cant compare more than 2 products!');
                                           }
-
-                                          ComparePage.valueNotifier.value =
-                                              true;
-
-                                          ComparePage.valueNotifier.value
-                                              ? print(
-                                                  ' ComparePage.valueNotifier.value = true!')
-                                              : print(
-                                                  ' ComparePage.valueNotifier.value = false!');
                                         },
                                         icon: Icon(
                                           Icons.compare_arrows,
@@ -273,26 +261,23 @@ class _product_pageState extends State<product_page> {
                                     borderRadius: BorderRadius.circular(300),
                                   ),
                                   child: DropdownButton<String>(
-                                    elevation: 0,
-                                    hint: Text(
-                                      Sizes[0]['size'],
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.black,
+                                      elevation: 0,
+                                      hint: Text(
+                                        Sizes[0]['size'],
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          color: Colors.black,
+                                        ),
+                                        textAlign: TextAlign.center,
                                       ),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    
-                                    value: value,
-                                    items: items.map(buildMenuItem).toList(),
-                                    onChanged: (valueNew) {
-                                      setState(() {
-                                        value =valueNew;
-                                        newValue = valueNew;
-                                      });
-                                      
-                                    }
-                                  ),
+                                      value: value,
+                                      items: items.map(buildMenuItem).toList(),
+                                      onChanged: (valueNew) {
+                                        setState(() {
+                                          value = valueNew;
+                                          newValue = valueNew;
+                                        });
+                                      }),
                                 ),
                               ],
                             ),
@@ -320,58 +305,58 @@ class _product_pageState extends State<product_page> {
                                         borderRadius:
                                             BorderRadius.circular(25)),
                                     onPressed: () async {
-                                      if(newValue == ''){
+                                      if (newValue == '') {
                                         newValue = Sizes[0]['size'];
                                         print('I am here too');
                                       }
-                                      
+
                                       bool found = false;
                                       User? user = _auth.currentUser;
                                       UserModel userModel = UserModel();
                                       String Brand = data['name'].toString();
                                       var noteInfo = data!.data()! as Map;
                                       var object = Product(
-                                          //1
-                                          imageURL: noteInfo['image'][0],
-                                          name: noteInfo['name'],
-                                          price:
-                                          double.parse(noteInfo['Size'][productIndex()]['price']),
-                                          brandName: noteInfo['BrandName'],
-                                          quantitiy: 1,
-                                          description: noteInfo['description'],
-                                          size: newValue,
-                                          );
+                                        //1
+                                        imageURL: noteInfo['image'][0],
+                                        name: noteInfo['name'],
+                                        price: double.parse(noteInfo['Size']
+                                            [productIndex()]['price']),
+                                        brandName: noteInfo['BrandName'],
+                                        quantitiy: 1,
+                                        description: noteInfo['description'],
+                                        size: newValue,
+                                      );
                                       await FirebaseFirestore.instance
                                           .collection("Cart")
                                           .doc(CartController.id)
                                           .collection('Products')
                                           .get()
                                           .then((querySnapshot) async {
-                                            print(querySnapshot.docs);
-                                            print(CartController.id);
+                                        print(querySnapshot.docs);
+                                        print(CartController.id);
                                         querySnapshot.docs.forEach((doc) {
-                                                print(doc.data()['productImage']);
-                                                print(noteInfo['image'][0]);
-                                                print(newValue);
-                                                print(doc.data()['productSize']);
+                                          print(doc.data()['productImage']);
+                                          print(noteInfo['image'][0]);
+                                          print(newValue);
+                                          print(doc.data()['productSize']);
                                           if (doc.data()['productImage'] ==
-                                              noteInfo['image'][0] && newValue == doc.data()['productSize'] ) {
-                                          
+                                                  noteInfo['image'][0] &&
+                                              newValue ==
+                                                  doc.data()['productSize']) {
                                             found = true;
                                           }
                                         });
                                         if (found == true) {
                                           return;
                                         } else {
-                                          if (pressed == 0){
+                                          if (pressed == 0) {
                                             print('I am here');
                                             cartController.addProduct(
                                                 object, user);
-                                          ++pressed;
+                                            ++pressed;
                                           }
                                           return;
                                         }
-                                        
                                       });
                                     },
                                     child: Text(
@@ -392,65 +377,76 @@ class _product_pageState extends State<product_page> {
                                         borderRadius:
                                             BorderRadius.circular(25)),
                                     onPressed: () async {
-                                           dynamic displayProduct = data.id.toString();
-      print(displayProduct);
-        User? user = _auth.currentUser;
-        UserModel userModel = UserModel();
-        var noteInfo = data.data()! as Map;
-        var object = Product(
-            imageURL: noteInfo['image'][0],
-            name: noteInfo['name'],
-            price: double.parse(noteInfo['Size'][0]['price']),
-            brandName: noteInfo['BrandName'],
-            quantitiy: 1,
-            description: noteInfo['description'].toString(),
-            size: null);
-        if (FirebaseAuth.instance.currentUser?.uid == null) {
-          return;
-        } else if (FirebaseAuth.instance.currentUser?.uid != null) {
-          var value = await FirebaseFirestore.instance
-              .collection('users')
-              .doc(FirebaseAuth.instance.currentUser?.uid)
-              .collection('Favourites')
-              .limit(1)
-              .get();
-          if (value.docs.isNotEmpty == false) {
-            print('hiihihhiih');
-            AddToFavourites(object, user);
- 
-            return;
-          }
+                                      dynamic displayProduct =
+                                          data.id.toString();
+                                      print(displayProduct);
+                                      User? user = _auth.currentUser;
+                                      UserModel userModel = UserModel();
+                                      var noteInfo = data.data()! as Map;
+                                      var object = Product(
+                                          imageURL: noteInfo['image'][0],
+                                          name: noteInfo['name'],
+                                          price: double.parse(
+                                              noteInfo['Size'][0]['price']),
+                                          brandName: noteInfo['BrandName'],
+                                          quantitiy: 1,
+                                          description: noteInfo['description']
+                                              .toString(),
+                                          size: null);
+                                      if (FirebaseAuth
+                                              .instance.currentUser?.uid ==
+                                          null) {
+                                        return;
+                                      } else if (FirebaseAuth
+                                              .instance.currentUser?.uid !=
+                                          null) {
+                                        var value = await FirebaseFirestore
+                                            .instance
+                                            .collection('users')
+                                            .doc(FirebaseAuth
+                                                .instance.currentUser?.uid)
+                                            .collection('Favourites')
+                                            .limit(1)
+                                            .get();
+                                        if (value.docs.isNotEmpty == false) {
+                                          print('hiihihhiih');
+                                          AddToFavourites(object, user);
 
-          bool found = false;
-          await FirebaseFirestore.instance
-              .collection("users")
-              .doc(FirebaseAuth.instance.currentUser?.uid)
-              .collection('Favourites')
-              .get()
-              .then((querySnapshot) {
-            querySnapshot.docs.forEach((doc) {
-              //  print( noteInfo['BrandName']);
-              if (doc.data()['productBrandName'] == noteInfo['BrandName'] &&
-                      doc.data()['productDescription'] ==
-                          noteInfo['description'] &&
-                      doc.data()['productName'] == noteInfo['name'] //&&
-                  //  doc.data()['productPrice'] == noteInfo['price']
-                  ) {
-                found = true;
-              }
-            });
-            if (found == true) {
-              return;
-            } else {
-              AddToFavourites(object, user);
+                                          return;
+                                        }
 
-              return;
-            }
-          });
-        }
+                                        bool found = false;
+                                        await FirebaseFirestore.instance
+                                            .collection("users")
+                                            .doc(FirebaseAuth
+                                                .instance.currentUser?.uid)
+                                            .collection('Favourites')
+                                            .get()
+                                            .then((querySnapshot) {
+                                          querySnapshot.docs.forEach((doc) {
+                                            //  print( noteInfo['BrandName']);
+                                            if (doc.data()['productBrandName'] ==
+                                                        noteInfo['BrandName'] &&
+                                                    doc.data()[
+                                                            'productDescription'] ==
+                                                        noteInfo[
+                                                            'description'] &&
+                                                    doc.data()['productName'] ==
+                                                        noteInfo['name'] //&&
+                                                //  doc.data()['productPrice'] == noteInfo['price']
+                                                ) {
+                                              found = true;
+                                            }
+                                          });
+                                          if (found == true) {
+                                            return;
+                                          } else {
+                                            AddToFavourites(object, user);
 
-
-
+                                            return;
+                                          }
+                                        });
+                                      }
                                     },
                                     color: Colors.red,
                                     child: Text(
@@ -473,7 +469,6 @@ class _product_pageState extends State<product_page> {
         },
       ),
     );
-    
   }
 
   DropdownMenuItem<String> buildMenuItem(String item) => DropdownMenuItem(
@@ -484,7 +479,7 @@ class _product_pageState extends State<product_page> {
         ),
       );
 
- void AddToFavourites(Product product, User? user) async {
+  void AddToFavourites(Product product, User? user) async {
     var id;
 
     await FirebaseFirestore.instance
@@ -500,30 +495,28 @@ class _product_pageState extends State<product_page> {
       'productDescription': product.description
     });
   }
- void SizesFromDataBase(int length){
-  if(entered == false){
-  for(int i = 0 ; i< length ; i++){
-        items.add(Sizes[i]['size']  );
-       }
-       entered = true;
+
+  void SizesFromDataBase(int length) {
+    if (entered == false) {
+      for (int i = 0; i < length; i++) {
+        items.add(Sizes[i]['size']);
+      }
+      entered = true;
+    }
   }
-       
 
- }
- int productIndex(){
-
-  for(int i =0 ; i < Sizes.length ; i++){
-    if(Sizes[i]['size'] == newValue){
-      return i;
+  int productIndex() {
+    for (int i = 0; i < Sizes.length; i++) {
+      if (Sizes[i]['size'] == newValue) {
+        return i;
+      }
     }
 
+    return 0;
   }
-
-return 0;
- }
 }
 
-class GalleryWidget extends StatefulWidget {
+/* class GalleryWidget extends StatefulWidget {
   final List<String> urlImages;
   GalleryWidget({required this.urlImages});
 
@@ -551,4 +544,4 @@ class _GalleyWidgetState extends State<GalleryWidget> {
           },
         ),
       );
-}
+} */

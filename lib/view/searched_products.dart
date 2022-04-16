@@ -106,7 +106,8 @@ class ProductCardSearch extends StatelessWidget {
             price: double.parse(noteInfo['price']),
             brandName: noteInfo['BrandName'],
             quantitiy: 1,
-            description: noteInfo['description'].toString());
+            description: noteInfo['description'].toString(),
+            size: noteInfo['Size'][0]['size']);
         if (FirebaseAuth.instance.currentUser?.uid == null) {
           Navigator.of(context).pushReplacement(MaterialPageRoute(
               builder: (context) => product_page(id: displayProduct)));
@@ -186,7 +187,8 @@ class ProductCardSearch extends StatelessWidget {
                         price: double.parse(noteInfo['price']),
                         brandName: noteInfo['BrandName'],
                         quantitiy: 1,
-                        description: noteInfo['description']);
+                        description: noteInfo['description'],
+                        size: noteInfo['Size'][0]['size']);
                     await FirebaseFirestore.instance
                         .collection("Cart")
                         .doc(CartController.id)
