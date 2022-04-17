@@ -24,7 +24,7 @@ class Serached_products extends StatelessWidget {
     print(brand);
     final Stream<QuerySnapshot> products = FirebaseFirestore.instance
         .collection('Products')
-        .where('name', isGreaterThanOrEqualTo: id.capitalizeFirst)
+        .where('name', isEqualTo: id.capitalizeFirst)
         .snapshots();
     final Stream<QuerySnapshot> brandProduct = FirebaseFirestore.instance
         .collection('Products')
@@ -205,7 +205,7 @@ class ProductCardSearch extends StatelessWidget {
                         return;
                       } else {
                         if (pressed == 0)
-                          cartController.addProduct(object, user);
+                          AddToCart(object, user);
                         ++pressed;
                         return;
                       }
@@ -248,5 +248,25 @@ class ProductCardSearch extends StatelessWidget {
       'productQuantity': product.quantitiy,
       'productDescription': product.description
     });
+  }
+    void AddToCart(Product product, User? user) async {
+     try{
+     await FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser?.uid)
+        .collection('Cart')
+        .add({
+      'productName': product.name,
+      'productImage': product.imageURL,
+      'productPrice': product.price,
+      'productBrandName': product.brandName,
+      'productQuantity': product.quantitiy,
+      'productDescription': product.description,
+      'productSize' : product.size
+    });
+     }catch(e){
+       
+     }
+
   }
 }

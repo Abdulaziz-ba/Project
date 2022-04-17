@@ -1,4 +1,3 @@
-//import 'dart:html';
 import 'package:brandz/product_brand.dart';
 import 'package:brandz/view/compare_screen.dart';
 import 'package:brandz/view/main_screen.dart';
@@ -327,22 +326,17 @@ class _product_pageState extends State<product_page> {
                                         size: newValue,
                                       );
                                       await FirebaseFirestore.instance
-                                          .collection("Cart")
-                                          .doc(CartController.id)
-                                          .collection('Products')
+                                          .collection("users")
+                                          .doc(FirebaseAuth.instance.currentUser?.uid)
+                                          .collection('Cart')
                                           .get()
                                           .then((querySnapshot) async {
                                         print(querySnapshot.docs);
                                         print(CartController.id);
                                         querySnapshot.docs.forEach((doc) {
-                                          print(doc.data()['productImage']);
-                                          print(noteInfo['image'][0]);
-                                          print(newValue);
-                                          print(doc.data()['productSize']);
                                           if (doc.data()['productImage'] ==
-                                                  noteInfo['image'][0] &&
-                                              newValue ==
-                                                  doc.data()['productSize']) {
+                                        noteInfo['image'][0] && newValue == doc.data()['productSize']) {
+
                                             found = true;
                                           }
                                         });
@@ -351,8 +345,7 @@ class _product_pageState extends State<product_page> {
                                         } else {
                                           if (pressed == 0) {
                                             print('I am here');
-                                            cartController.addProduct(
-                                                object, user);
+                                            AddToCart(object, user);
                                             ++pressed;
                                           }
                                           return;
@@ -478,6 +471,27 @@ class _product_pageState extends State<product_page> {
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
         ),
       );
+  void AddToCart(Product product, User? user) async {
+   try{
+     await FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser?.uid)
+        .collection('Cart')
+        .add({
+      'productName': product.name,
+      'productImage': product.imageURL,
+      'productPrice': product.price,
+      'productBrandName': product.brandName,
+      'productQuantity': product.quantitiy,
+      'productDescription': product.description,
+      'productSize' : product.size
+    });
+   } catch(e){
+     e.toString();
+   }
+
+
+  }
 
   void AddToFavourites(Product product, User? user) async {
     var id;
@@ -515,33 +529,3 @@ class _product_pageState extends State<product_page> {
     return 0;
   }
 }
-
-/* class GalleryWidget extends StatefulWidget {
-  final List<String> urlImages;
-  GalleryWidget({required this.urlImages});
-
-  @override
-  State<StatefulWidget> createState() => _GalleyWidgetState();
-}
-
-class _GalleyWidgetState extends State<GalleryWidget> {
-  Widget build(BuildContext) => Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.black,
-          leading: BackButton(
-              color: Colors.white,
-              onPressed: () {
-                Navigator.of(context).pop();
-              }),
-          elevation: 0.0,
-        ),
-        body: PhotoViewGallery.builder(
-          itemCount: widget.urlImages.length,
-          builder: (context, index) {
-            final urlImage = widget.urlImages[index];
-            return PhotoViewGalleryPageOptions(
-                imageProvider: NetworkImage(urlImage));
-          },
-        ),
-      );
-} */

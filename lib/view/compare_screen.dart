@@ -34,8 +34,6 @@ if (!isEmpty) {
 class _ComparePageState extends State<ComparePage> {
   List<Product> productInComparison;
   final _auth = FirebaseAuth.instance;
-  final cartController = Get.put(CartController());
-
   int pressed1 = 0;
   int pressed2 = 0;
 
@@ -112,9 +110,9 @@ class _ComparePageState extends State<ComparePage> {
 
                               var object = productInComparison[0];
                               await FirebaseFirestore.instance
-                                  .collection("Cart")
-                                  .doc(CartController.id)
-                                  .collection('Products')
+                                  .collection("users")
+                                  .doc(FirebaseAuth.instance.currentUser?.uid)
+                                  .collection('Cart')
                                   .get()
                                   .then((querySnapshot) async {
                                 querySnapshot.docs.forEach((doc) {
@@ -127,7 +125,7 @@ class _ComparePageState extends State<ComparePage> {
                                   return;
                                 } else {
                                   if (pressed1 == 0)
-                                    cartController.addProduct(object, user);
+                                    AddToCart(object, user);
                                   ++pressed1;
                                   return;
                                 }
@@ -152,9 +150,9 @@ class _ComparePageState extends State<ComparePage> {
 
                               var object = productInComparison[1];
                               await FirebaseFirestore.instance
-                                  .collection("Cart")
-                                  .doc(CartController.id)
-                                  .collection('Products')
+                                  .collection("users")
+                                  .doc(FirebaseAuth.instance.currentUser?.uid)
+                                  .collection('Cart')
                                   .get()
                                   .then((querySnapshot) async {
                                 querySnapshot.docs.forEach((doc) {
@@ -167,7 +165,7 @@ class _ComparePageState extends State<ComparePage> {
                                   return;
                                 } else {
                                   if (pressed2 == 0)
-                                    cartController.addProduct(object, user);
+                                    AddToCart(object, user);
                                   ++pressed2;
                                   return;
                                 }
@@ -305,6 +303,8 @@ class _ComparePageState extends State<ComparePage> {
                       )
                     ],
                   ));
+                  
+                  
   }
 
   Column columnOfRPNI2(int index) {
@@ -362,6 +362,7 @@ class _ComparePageState extends State<ComparePage> {
         ),
       ],
     );
+    
   }
 
   Column columnOfRPNI() {
@@ -462,6 +463,28 @@ class _ComparePageState extends State<ComparePage> {
     for (int i = 0; i < count; i++) {
       removeFromCompare(0); // because after removing list item will be shifed
     }
+  }
+
+  void AddToCart(Product product, User? user) async {
+     try{
+     await FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser?.uid)
+        .collection('Cart')
+        .add({
+      'productName': product.name,
+      'productImage': product.imageURL,
+      'productPrice': product.price,
+      'productBrandName': product.brandName,
+      'productQuantity': product.quantitiy,
+      'productDescription': product.description,
+      'productSize' : product.size
+    });
+     }catch(e){
+       
+     }
+
+
   }
 }
 

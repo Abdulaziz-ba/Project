@@ -20,17 +20,14 @@ class CartProducts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // ignore: non_constant_identifier_names
-    CartController getItems = CartController();
-    getItems.getId();
- Stream<QuerySnapshot> Products = FirebaseFirestore.instance
-        .collection('Cart')
-        .doc(CartController.id.toString())
-        .collection('Products')
-        .snapshots();
   
     return Scaffold(
         body: StreamBuilder(
-            stream: Products,
+            stream: FirebaseFirestore.instance
+            .collection('users')
+            .doc(FirebaseAuth.instance.currentUser?.uid)
+            .collection('Cart')
+            .snapshots(),
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (!snapshot.hasData) {
@@ -132,17 +129,17 @@ class CartProductsCard extends StatelessWidget {
 
                 // this query is for getting the specific document id of the clicked product
                 var collection = FirebaseFirestore.instance
-                    .collection('Cart')
-                    .doc(CartController.id.toString())
-                    .collection('Products');
+                    .collection('users')
+                    .doc(FirebaseAuth.instance.currentUser?.uid)
+                    .collection('Cart');
                 var querySnapshots = await collection.get();
                 // for assigning the id
                 documentID = querySnapshots.docs[index].id;
                 //deleting the product
                 await FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(FirebaseAuth.instance.currentUser?.uid)
                     .collection('Cart')
-                    .doc(CartController.id.toString())
-                    .collection('Products')
                     .doc(documentID)
                     .delete();
                 getTotal();
@@ -163,18 +160,18 @@ class CartProductsCard extends StatelessWidget {
                   int quantity = data.docs[index]['productQuantity'];
                   // this query is for getting the specific document id of the clicked product
                   var collection = FirebaseFirestore.instance
-                      .collection('Cart')
-                      .doc(CartController.id.toString())
-                      .collection('Products');
+                      .collection('users')
+                      .doc(FirebaseAuth.instance.currentUser?.uid)
+                      .collection('Cart');
                   var querySnapshots = await collection.get();
                   // for assigning the id
                   documentID = querySnapshots.docs[index].id;
                   // decreasing the quantity
                   if (quantity > 1) {
                     FirebaseFirestore.instance
+                        .collection('users')
+                        .doc(FirebaseAuth.instance.currentUser?.uid)
                         .collection('Cart')
-                        .doc(CartController.id.toString())
-                        .collection('Products')
                         .doc(documentID)
                         .update({'productQuantity': --quantity});
                   }
@@ -206,17 +203,17 @@ class CartProductsCard extends StatelessWidget {
                   int quantity = data.docs[index]['productQuantity'];
                   // this query is for getting the specific document id of the clicked product
                   var collection = FirebaseFirestore.instance
-                      .collection('Cart')
-                      .doc(CartController.id.toString())
-                      .collection('Products');
+                      .collection('users')
+                      .doc(FirebaseAuth.instance.currentUser?.uid)
+                      .collection('Cart');
                   var querySnapshots = await collection.get();
                   // for assigning the id
                   documentID = querySnapshots.docs[index].id;
                   //increasing the quantity
                   FirebaseFirestore.instance
+                      .collection('users')
+                      .doc(FirebaseAuth.instance.currentUser?.uid)
                       .collection('Cart')
-                      .doc(CartController.id.toString())
-                      .collection('Products')
                       .doc(documentID)
                       .update({'productQuantity': ++quantity});
                   print("Quantity:$quantity");
@@ -247,9 +244,9 @@ class CartProductsCard extends StatelessWidget {
 //print(data.size);
 
     FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser?.uid)
         .collection('Cart')
-        .doc(CartController.id.toString())
-        .collection('Products')
         .get()
         .then((doc) {
       print(doc.size);

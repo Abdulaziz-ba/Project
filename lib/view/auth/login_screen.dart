@@ -242,9 +242,7 @@ class _LoginScreenState extends State<LoginScreen> {
           .signInWithEmailAndPassword(email: email, password: password)
           .then((uid) => {
                 Fluttertoast.showToast(msg: "Login Successful"),
-                // Get.to(reg_screen())
-                CreatingCart(uid),
-                
+                // Get.to(reg_screen())                
                 Navigator.of(context).pushReplacement(
                     //here we should put the hom Screen instead of the login screen
                     MaterialPageRoute(builder: (context) => MainPage()))
@@ -256,29 +254,6 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
 // Creating a cart for each User
-  Future<void> CreatingCart(uid) async {
-    bool isHere = false;
-
-    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-    User? user = _auth.currentUser;
-    UserModel userModel = UserModel();
-    await FirebaseFirestore.instance
-        .collection("Cart")
-        .get()
-        .then((querySnapshot) {
-      for (var doc in querySnapshot.docs) {
-        if (doc.data()['cartId'].toString() == user!.uid.toString()) {
-          isHere = true;
-          return;
-        }
-      }
-    });
-
-    if (isHere == false) {
-      FirebaseFirestore.instance.collection('Cart').add({"cartId": user!.uid});
-    }
-  }
-
 //elevation: 5,
 // borderRadius: BorderRadius.circular(30),
 // color: Colors.grey,

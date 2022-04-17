@@ -16,36 +16,6 @@ class CartController{
   static var Total = 0.obs;
   final _auth = FirebaseAuth.instance;
 
-  void addProduct(Product product ,  User? user) {
-   FirebaseFirestore.instance.collection("Cart").get().then((querySnapshot) {
-   querySnapshot.docs.forEach((doc){
-    if(doc.data()['cartId'] == user!.uid){
-                       id = doc.id; // randomly generated document ID
-                      }
-    });
-    querySnapshot.docs.forEach((doc){
-      if (doc.data()['cartId'].toString() == user!.uid.toString()) {
-        print(id);
-         FirebaseFirestore.instance.collection('Cart').doc(id)
-         .collection('Products').add({
-           
-           'productName' : product.name ,
-           'productImage' : product.imageURL ,
-           'productPrice' : product.price ,
-           'productBrandName' : product.brandName,
-           'productQuantity' : product.quantitiy,
-           'productSize' : product.size
-         }
-          
-         );
-
-      }
-       else { 
-     
-    } 
-    });
-  });
-  }
 
 
   //get products => _products;
@@ -58,17 +28,4 @@ class CartController{
   return Total;
 
   }
-void getId() async{
-User? user = _auth.currentUser;
-UserModel userModel = UserModel();
-await FirebaseFirestore.instance.collection("Cart").get().then((querySnapshot) {
-querySnapshot.docs.forEach((doc){
-if(doc.data()['cartId'] == user?.uid){
-        id = doc.id; // randomly generated document ID
-          }
-    });
-
-  }
-      );}
-
 }
