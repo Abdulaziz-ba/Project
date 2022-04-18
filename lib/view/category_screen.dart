@@ -17,6 +17,7 @@ class CategoryPage extends StatelessWidget {
 
     return Scaffold(
         appBar: AppBar(
+          leading: BackButton(color: Colors.black),
           title: Text(
             'Categories',
             style: GoogleFonts.adamina(

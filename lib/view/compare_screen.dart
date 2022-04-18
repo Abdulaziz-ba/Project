@@ -1,4 +1,5 @@
 import 'package:brandz/model/product_model.dart';
+import 'package:brandz/view/category_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -124,8 +125,7 @@ class _ComparePageState extends State<ComparePage> {
                                 if (found == true) {
                                   return;
                                 } else {
-                                  if (pressed1 == 0)
-                                    AddToCart(object, user);
+                                  if (pressed1 == 0) AddToCart(object, user);
                                   ++pressed1;
                                   return;
                                 }
@@ -164,8 +164,7 @@ class _ComparePageState extends State<ComparePage> {
                                 if (found == true) {
                                   return;
                                 } else {
-                                  if (pressed2 == 0)
-                                    AddToCart(object, user);
+                                  if (pressed2 == 0) AddToCart(object, user);
                                   ++pressed2;
                                   return;
                                 }
@@ -303,8 +302,6 @@ class _ComparePageState extends State<ComparePage> {
                       )
                     ],
                   ));
-                  
-                  
   }
 
   Column columnOfRPNI2(int index) {
@@ -362,7 +359,6 @@ class _ComparePageState extends State<ComparePage> {
         ),
       ],
     );
-    
   }
 
   Column columnOfRPNI() {
@@ -434,9 +430,14 @@ class _ComparePageState extends State<ComparePage> {
                 RaisedButton(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25)),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => CategoryPage()),
+                    );
+                  },
                   child: Text(
-                    "View All Products",
+                    "View Products Category",
                     style: TextStyle(color: Colors.white),
                   ),
                   color: Colors.black,
@@ -466,25 +467,21 @@ class _ComparePageState extends State<ComparePage> {
   }
 
   void AddToCart(Product product, User? user) async {
-     try{
-     await FirebaseFirestore.instance
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser?.uid)
-        .collection('Cart')
-        .add({
-      'productName': product.name,
-      'productImage': product.imageURL,
-      'productPrice': product.price,
-      'productBrandName': product.brandName,
-      'productQuantity': product.quantitiy,
-      'productDescription': product.description,
-      'productSize' : product.size
-    });
-     }catch(e){
-       
-     }
-
-
+    try {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser?.uid)
+          .collection('Cart')
+          .add({
+        'productName': product.name,
+        'productImage': product.imageURL,
+        'productPrice': product.price,
+        'productBrandName': product.brandName,
+        'productQuantity': product.quantitiy,
+        'productDescription': product.description,
+        'productSize': product.size
+      });
+    } catch (e) {}
   }
 }
 
@@ -506,9 +503,14 @@ class emptyComparison extends StatelessWidget {
         RaisedButton(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => CategoryPage()),
+            );
+          },
           child: Text(
-            "View All Products",
+            "View Products Category",
             style: TextStyle(color: Colors.white),
           ),
           color: Colors.black,

@@ -22,7 +22,7 @@ class Serached_products extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print("brand");
-    if (id.substring(id.length - 1) != 's') {
+    if (id.substring(id.length - 1) != 's' && brand == 'product') {
       id = id + 's';
     }
     final Stream<QuerySnapshot> products = FirebaseFirestore.instance

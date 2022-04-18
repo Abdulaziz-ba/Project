@@ -32,7 +32,7 @@ class product_brand extends StatelessWidget {
           backgroundColor: Colors.white,
           leading: BackButton(color: Colors.black),
           centerTitle: true,
-            title: Text(
+          title: Text(
             'Brand Name',
             style: GoogleFonts.adamina(
                 fontWeight: FontWeight.bold, fontSize: 25, color: Colors.black),
@@ -102,10 +102,14 @@ class ProductCard extends StatelessWidget {
             brandName: noteInfo['BrandName'],
             quantitiy: 1,
             description: noteInfo['description'].toString(),
-            size: null );
+            size: null);
         if (FirebaseAuth.instance.currentUser?.uid == null) {
-          Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (context) => product_page(id: displayProduct)));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => product_page(id: displayProduct)));
+          /* Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (context) => product_page(id: displayProduct))); */
         } else if (FirebaseAuth.instance.currentUser?.uid != null) {
           var value = await FirebaseFirestore.instance
               .collection('users')
@@ -144,13 +148,21 @@ class ProductCard extends StatelessWidget {
               }
             });
             if (found == true) {
-              Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => product_page(id: displayProduct)));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => product_page(id: displayProduct)));
+              /* Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => product_page(id: displayProduct))); */
               return;
             } else {
               lastVisitedProducts(object, user);
-              Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => product_page(id: displayProduct)));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => product_page(id: displayProduct)));
+              /*  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => product_page(id: displayProduct))); */
               return;
             }
           });
@@ -166,72 +178,69 @@ class ProductCard extends StatelessWidget {
             children: [
               IconButton(
                   onPressed: () async {
-     dynamic displayProduct = data.docs[index].id.toString();
-        User? user = _auth.currentUser;
-        UserModel userModel = UserModel();
-        var noteInfo = data!.docs[index].data()! as Map;
-        var object = Product(
-            imageURL: noteInfo['image'][0],
-            name: noteInfo['name'],
-            price: double.parse(noteInfo['Size'][0]['price']),
-            brandName: noteInfo['BrandName'],
-            quantitiy: 1,
-            description: noteInfo['description'].toString(),
-            size: null);
-        if (FirebaseAuth.instance.currentUser?.uid == null) {
-          return;
-        } else if (FirebaseAuth.instance.currentUser?.uid != null) {
-          var value = await FirebaseFirestore.instance
-              .collection('users')
-              .doc(FirebaseAuth.instance.currentUser?.uid)
-              .collection('Favourites')
-              .limit(1)
-              .get();
-          if (value.docs.isNotEmpty == false) {
-            if(pressed == 0)
-            AddToFavourites(object, user);
-            pressed++;
- 
-            return;
-          }
+                    dynamic displayProduct = data.docs[index].id.toString();
+                    User? user = _auth.currentUser;
+                    UserModel userModel = UserModel();
+                    var noteInfo = data!.docs[index].data()! as Map;
+                    var object = Product(
+                        imageURL: noteInfo['image'][0],
+                        name: noteInfo['name'],
+                        price: double.parse(noteInfo['Size'][0]['price']),
+                        brandName: noteInfo['BrandName'],
+                        quantitiy: 1,
+                        description: noteInfo['description'].toString(),
+                        size: null);
+                    if (FirebaseAuth.instance.currentUser?.uid == null) {
+                      return;
+                    } else if (FirebaseAuth.instance.currentUser?.uid != null) {
+                      var value = await FirebaseFirestore.instance
+                          .collection('users')
+                          .doc(FirebaseAuth.instance.currentUser?.uid)
+                          .collection('Favourites')
+                          .limit(1)
+                          .get();
+                      if (value.docs.isNotEmpty == false) {
+                        if (pressed == 0) AddToFavourites(object, user);
+                        pressed++;
 
-          bool found = false;
-          await FirebaseFirestore.instance
-              .collection("users")
-              .doc(FirebaseAuth.instance.currentUser?.uid)
-              .collection('Favourites')
-              .get()
-              .then((querySnapshot) {
-            querySnapshot.docs.forEach((doc) {
-              //  print( noteInfo['BrandName']);
-              if (doc.data()['productBrandName'] == noteInfo['BrandName'] &&
-                      doc.data()['productDescription'] ==
-                          noteInfo['description'] &&
-                      doc.data()['productName'] == noteInfo['name'] //&&
-                  //  doc.data()['productPrice'] == noteInfo['price']
-                  ) {
-                found = true;
-              }
-            });
-            if (found == true) {
-              return;
-            } 
-            else{
-               if(pressed == 0){
-            print(pressed);
-              AddToFavourites(object, user);
-              ++pressed;
+                        return;
+                      }
 
-              return;
-            }
-          
-              }
-           
-              
-              });
-        }
-                            
-                  }, icon: Icon(Icons.favorite_outline))
+                      bool found = false;
+                      await FirebaseFirestore.instance
+                          .collection("users")
+                          .doc(FirebaseAuth.instance.currentUser?.uid)
+                          .collection('Favourites')
+                          .get()
+                          .then((querySnapshot) {
+                        querySnapshot.docs.forEach((doc) {
+                          //  print( noteInfo['BrandName']);
+                          if (doc.data()['productBrandName'] ==
+                                      noteInfo['BrandName'] &&
+                                  doc.data()['productDescription'] ==
+                                      noteInfo['description'] &&
+                                  doc.data()['productName'] ==
+                                      noteInfo['name'] //&&
+                              //  doc.data()['productPrice'] == noteInfo['price']
+                              ) {
+                            found = true;
+                          }
+                        });
+                        if (found == true) {
+                          return;
+                        } else {
+                          if (pressed == 0) {
+                            print(pressed);
+                            AddToFavourites(object, user);
+                            ++pressed;
+
+                            return;
+                          }
+                        }
+                      });
+                    }
+                  },
+                  icon: Icon(Icons.favorite_outline))
             ],
           ),
           Image.network(
@@ -252,14 +261,14 @@ class ProductCard extends StatelessWidget {
   }
 
   void lastVisitedProducts(Product product, User? user) async {
-  dynamic displayProduct = data.docs[index].id.toString();
+    dynamic displayProduct = data.docs[index].id.toString();
 
-    DocumentReference ref =  FirebaseFirestore.instance
+    DocumentReference ref = FirebaseFirestore.instance
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser?.uid)
         .collection('LastViewdProducts')
         .doc(displayProduct);
-        ref.set(   {
+    ref.set({
       'productName': product.name,
       'productImage': product.imageURL,
       'productPrice': product.price,
@@ -267,10 +276,9 @@ class ProductCard extends StatelessWidget {
       'productQuantity': product.quantitiy,
       'productDescription': product.description
     });
-
-     
   }
-   void AddToFavourites(Product product, User? user) async {
+
+  void AddToFavourites(Product product, User? user) async {
     var id;
 
     await FirebaseFirestore.instance

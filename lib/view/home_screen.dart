@@ -530,6 +530,7 @@ Widget _searchBox() {
                   filled: false,
                 ),
                 onFieldSubmitted: (text) async {
+                  if (text == '') return;
                   bool flag = datacheck;
                   await FirebaseFirestore.instance
                       .collection("Products")
