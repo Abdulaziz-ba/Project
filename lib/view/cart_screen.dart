@@ -7,7 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 // Project imports:
 import '../widgets/cart_products.dart';
 import '../widgets/cart_total.dart';
-import 'checkout.dart';
+import 'checkout_screen.dart';
 
 class CartPage extends StatefulWidget {
   @override
