@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 // Project imports:
 import '../widgets/cart_products.dart';
 import '../widgets/cart_total.dart';
+import 'checkout.dart';
 
 class CartPage extends StatefulWidget {
   @override
@@ -16,6 +17,16 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   _CartPageState();
   //final CartController controller = Get.find();
   @override
@@ -46,6 +57,10 @@ class _CartPageState extends State<CartPage> {
                   borderRadius: BorderRadius.circular(10)),
               onPressed: () {
                 print('CHECKOUT');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Checkout()),
+                );
               },
               child: Text("CHECKOUT"),
             ),
