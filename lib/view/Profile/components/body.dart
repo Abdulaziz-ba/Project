@@ -1,10 +1,14 @@
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:flutter_svg/flutter_svg.dart';
 
+// Project imports:
 import 'MyDetails.dart';
-import 'profile_pic.dart';
 import 'profile_menu.dart';
+import 'profile_pic.dart';
 
 class Body extends StatelessWidget {
   const Body({Key? key}) : super(key: key);

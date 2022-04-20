@@ -1,7 +1,11 @@
-import 'package:brandz/core/view_model/auth.dart';
-import 'package:flutter/cupertino.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:get/get.dart';
+
+// Project imports:
+import '../../core/view_model/auth.dart';
 
 class SecondScreen extends StatelessWidget {
   Auth viewModel = Get.put(Auth());

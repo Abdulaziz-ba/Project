@@ -4,16 +4,16 @@
 //import 'package:brandz/view/auth/widget/custom_txt_from.dart';
 //import 'package:brandz/view/home_screen.dart';
 //import 'package:brandz/view/regScreen.dart';
-import 'package:brandz/view/auth/login_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
+// Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:get/route_manager.dart';
+
+// Package imports:
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../main_screen.dart';
-import '../regScreen.dart';
+// Project imports:
+import 'login_screen.dart';
 
 class ResetScreen extends StatelessWidget {
   @override
@@ -76,12 +76,9 @@ class ResetScreen extends StatelessWidget {
         preferredSize: Size.fromHeight(30),
         child: AppBar(
           title: Text(
-            'Reset Password', style: GoogleFonts.adamina(
-        fontWeight: FontWeight.bold,
-        fontSize : 22,
-        color: Colors.black
-        
-      ), 
+            'Reset Password',
+            style: GoogleFonts.adamina(
+                fontWeight: FontWeight.bold, fontSize: 22, color: Colors.black),
           ),
           toolbarHeight: 35,
           centerTitle: true,
@@ -89,11 +86,11 @@ class ResetScreen extends StatelessWidget {
           backgroundColor: Colors.white, // leadingWidth: 0,
           elevation: 0,
           leading: BackButton(
-                  color: Colors.black,
-                  onPressed: () {
-                            Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => const LoginScreen()));
-                  }),
+              color: Colors.black,
+              onPressed: () {
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (context) => const LoginScreen()));
+              }),
           // leadingWidth: 3,)
         ),
       ),

@@ -1,10 +1,11 @@
-import '../model/product_model.dart';
-
+// Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:get/get.dart';
 
-import '../controller/cart_controller.dart';
+// Package imports:
+import 'package:cached_network_image/cached_network_image.dart';
+
+// Project imports:
+import '../model/product_model.dart';
 
 class ListOfProducts extends StatelessWidget {
   const ListOfProducts({Key? key}) : super(key: key);
@@ -46,11 +47,10 @@ class ProductCard extends StatelessWidget {
       child: Column(
         children: [
           Image(
-           image: CachedNetworkImageProvider(Product.products[index].imageURL),
-           height: 100,
+            image: CachedNetworkImageProvider(Product.products[index].imageURL),
+            height: 100,
             //width: 100,
           ),
-          
           Text(Product.products[index].name),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,

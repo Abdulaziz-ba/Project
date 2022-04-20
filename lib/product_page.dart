@@ -1,26 +1,22 @@
-import 'package:brandz/product_brand.dart';
-import 'package:brandz/view/compare_screen.dart';
-import 'package:brandz/view/main_screen.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:get/get_navigation/get_navigation.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'dart:async';
-import 'package:brandz/product_page.dart';
+
+// Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import "package:brandz/controller/cart_controller.dart";
 import 'package:google_fonts/google_fonts.dart';
-//import 'package:photo_view/photo_view_gallery.dart';
+
+// Project imports:
+import "controller/cart_controller.dart";
 import 'model/product_model.dart';
 import 'model/user_model.dart';
-import 'package:brandz/view/auth/login_screen.dart';
+import 'view/cart_screen.dart';
+import 'view/compare_screen.dart';
+
+//import 'package:photo_view/photo_view_gallery.dart';
 //import 'package:photo_view/photo_view.dart';
 
-import 'view/cart_screen.dart';
 
 class product_page extends StatefulWidget {
   String id;
@@ -327,7 +323,8 @@ class _product_pageState extends State<product_page> {
                                       );
                                       await FirebaseFirestore.instance
                                           .collection("users")
-                                          .doc(FirebaseAuth.instance.currentUser?.uid)
+                                          .doc(FirebaseAuth
+                                              .instance.currentUser?.uid)
                                           .collection('Cart')
                                           .get()
                                           .then((querySnapshot) async {
@@ -335,8 +332,9 @@ class _product_pageState extends State<product_page> {
                                         print(CartController.id);
                                         querySnapshot.docs.forEach((doc) {
                                           if (doc.data()['productImage'] ==
-                                        noteInfo['image'][0] && newValue == doc.data()['productSize']) {
-
+                                                  noteInfo['image'][0] &&
+                                              newValue ==
+                                                  doc.data()['productSize']) {
                                             found = true;
                                           }
                                         });
@@ -472,25 +470,23 @@ class _product_pageState extends State<product_page> {
         ),
       );
   void AddToCart(Product product, User? user) async {
-   try{
-     await FirebaseFirestore.instance
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser?.uid)
-        .collection('Cart')
-        .add({
-      'productName': product.name,
-      'productImage': product.imageURL,
-      'productPrice': product.price,
-      'productBrandName': product.brandName,
-      'productQuantity': product.quantitiy,
-      'productDescription': product.description,
-      'productSize' : product.size
-    });
-   } catch(e){
-     e.toString();
-   }
-
-
+    try {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser?.uid)
+          .collection('Cart')
+          .add({
+        'productName': product.name,
+        'productImage': product.imageURL,
+        'productPrice': product.price,
+        'productBrandName': product.brandName,
+        'productQuantity': product.quantitiy,
+        'productDescription': product.description,
+        'productSize': product.size
+      });
+    } catch (e) {
+      e.toString();
+    }
   }
 
   void AddToFavourites(Product product, User? user) async {

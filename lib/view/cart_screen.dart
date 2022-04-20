@@ -1,9 +1,10 @@
-import 'package:flutter/cupertino.dart';
-import 'package:get/get.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:google_fonts/google_fonts.dart';
 
-import '../controller/cart_controller.dart';
+// Project imports:
 import '../widgets/cart_products.dart';
 import '../widgets/cart_total.dart';
 

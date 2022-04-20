@@ -1,9 +1,13 @@
 //import 'package:brandz/view/auth/login_screen.dart';
 //import 'package:brandz/view/regScreen.dart';
-import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:get/get_navigation/src/root/get_material_app.dart';
 
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:firebase_core/firebase_core.dart';
+
+// Project imports:
 import 'view/auth/login_screen.dart';
 
 Future<void> main() async {

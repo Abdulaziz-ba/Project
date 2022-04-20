@@ -1,28 +1,23 @@
 //import 'package:brandz/model/category_model.dart';
 //import 'package:brandz/model/home_view_model.dart';
-import 'package:brandz/Favourites.dart';
-import 'package:brandz/brand_Category.dart';
-import 'package:brandz/controller/cart_controller.dart';
-import 'package:brandz/model/product_model.dart';
-import 'package:brandz/model/user_model.dart';
-import 'package:brandz/product_brand.dart';
-import 'package:brandz/product_page.dart';
-import 'package:brandz/view/auth/login_screen.dart';
-import 'package:brandz/view/regScreen.dart';
+
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../constats.dart';
+
+// Project imports:
+import '../Favourites.dart';
+import '../brand_Category.dart';
 import '../model/control_view_model.dart';
-import '../model/home_view_model.dart';
+import '../product_brand.dart';
+import '../product_page.dart';
+import '../view/auth/login_screen.dart';
 import '../widgets/searched_products.dart';
-import 'auth/widget/custom_text.dart';
 
 final controller = ControlViewModel();
 late String id;

@@ -1,6 +1,5 @@
+// Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:get/get.dart';
 
 class HomeViewModel {
   final CollectionReference _categoryCollectionRef =

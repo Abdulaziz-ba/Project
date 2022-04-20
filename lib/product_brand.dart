@@ -1,15 +1,20 @@
+// Dart imports:
 import 'dart:async';
 
-import 'package:brandz/product_page.dart';
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import "package:brandz/controller/cart_controller.dart";
 import 'package:google_fonts/google_fonts.dart';
+
+// Project imports:
+import "controller/cart_controller.dart";
 import 'model/product_model.dart';
 import 'model/user_model.dart';
-import 'package:brandz/view/auth/login_screen.dart';
+import 'product_page.dart';
 
 var data;
 

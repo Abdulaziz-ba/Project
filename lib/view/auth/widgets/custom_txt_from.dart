@@ -1,9 +1,9 @@
 // ignore_for_file: empty_constructor_bodies
 
-import 'package:flutter/cupertino.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
+
+// Project imports:
 import 'custom_text.dart';
 
 class custom_txt_from extends StatelessWidget {

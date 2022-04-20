@@ -1,8 +1,9 @@
 // ignore_for_file: deprecated_member_use
 
-import 'package:flutter/cupertino.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
+
+// Project imports:
 import 'custom_txt.dart';
 
 class Custom_button extends StatelessWidget {

@@ -1,11 +1,12 @@
-import 'package:brandz/brand_Category.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../constats.dart';
+// Project imports:
+import '../brand_Category.dart';
 
 class CategoryPage extends StatelessWidget {
   const CategoryPage({Key? key}) : super(key: key);

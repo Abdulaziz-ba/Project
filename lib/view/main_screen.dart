@@ -2,16 +2,19 @@
 //import 'package:brandz/view/profile_screen.dart';
 //import 'package:brandz/view/search_screen.dart';
 
-import 'package:brandz/controller/cart_controller.dart';
-import 'package:brandz/view/compare_screen.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:get/get.dart';
 
+// Project imports:
+import '../controller/cart_controller.dart';
+import '../view/compare_screen.dart';
+import 'Profile/profile_screen.dart';
 import 'cart_screen.dart';
 import 'category_screen.dart';
 import 'home_screen.dart';
-import 'Profile/profile_screen.dart';
-import 'search_screen.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -54,7 +57,8 @@ class _MainPageState extends State<MainPage> {
           elevation: 0,
           items: [
             BottomNavigationBarItem(label: "Home", icon: Icon(Icons.home)),
-            BottomNavigationBarItem(label: "Search", icon: Icon(Icons.compare_arrows)),
+            BottomNavigationBarItem(
+                label: "Search", icon: Icon(Icons.compare_arrows)),
             BottomNavigationBarItem(
                 label: "Category", icon: Icon(Icons.category_sharp)),
             BottomNavigationBarItem(

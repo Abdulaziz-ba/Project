@@ -1,18 +1,14 @@
-import 'package:brandz/controller/cart_controller.dart';
-import 'package:brandz/view/auth/reset_password_screen.dart';
-import 'package:brandz/view/home_screen.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:get/get_instance/get_instance.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:get/route_manager.dart';
-import 'package:brandz/model/user_model.dart';
+
+// Project imports:
 import '../main_screen.dart';
 import '../regScreen.dart';
+import 'reset_password_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -242,7 +238,7 @@ class _LoginScreenState extends State<LoginScreen> {
           .signInWithEmailAndPassword(email: email, password: password)
           .then((uid) => {
                 Fluttertoast.showToast(msg: "Login Successful"),
-                // Get.to(reg_screen())                
+                // Get.to(reg_screen())
                 Navigator.of(context).pushReplacement(
                     //here we should put the hom Screen instead of the login screen
                     MaterialPageRoute(builder: (context) => MainPage()))

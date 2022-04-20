@@ -1,33 +1,30 @@
-import 'package:brandz/product_brand.dart';
-import 'package:brandz/view/cart_screen.dart';
-import 'package:brandz/widgets/cart_total.dart';
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:meta/meta.dart';
 
+// Project imports:
 import '../controller/cart_controller.dart';
-import '../model/product_model.dart';
-import '../model/user_model.dart';
 
 class CartProducts extends StatelessWidget {
   //final CartController controller = Get.find();
 
   CartProducts({Key? key}) : super(key: key);
- 
+
   @override
   Widget build(BuildContext context) {
     // ignore: non_constant_identifier_names
-  
+
     return Scaffold(
         body: StreamBuilder(
             stream: FirebaseFirestore.instance
-            .collection('users')
-            .doc(FirebaseAuth.instance.currentUser?.uid)
-            .collection('Cart')
-            .snapshots(),
+                .collection('users')
+                .doc(FirebaseAuth.instance.currentUser?.uid)
+                .collection('Cart')
+                .snapshots(),
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (!snapshot.hasData) {
@@ -56,19 +53,18 @@ class CartProductsCard extends StatelessWidget {
   int number = 1;
   CartProductsCard({required this.data, required this.index});
   Widget build(BuildContext context) {
-    if(FirebaseAuth.instance.currentUser?.uid != null){
-    return Card(
-      child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[_productBox(index)]),
-    );
-    }
-    else{
-       return Card(
-      child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[]),
-    );
+    if (FirebaseAuth.instance.currentUser?.uid != null) {
+      return Card(
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[_productBox(index)]),
+      );
+    } else {
+      return Card(
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[]),
+      );
     }
   }
 
@@ -107,11 +103,11 @@ class CartProductsCard extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          data.docs[index]['productName'] ,
+                          data.docs[index]['productName'],
                           overflow: TextOverflow.ellipsis,
                         ),
-                          Text(
-                          data.docs[index]['productSize'] ,
+                        Text(
+                          data.docs[index]['productSize'],
                           overflow: TextOverflow.ellipsis,
                         ),
                         Padding(padding: EdgeInsets.only(bottom: 10)),

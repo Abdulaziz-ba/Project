@@ -1,16 +1,14 @@
-import 'package:brandz/model/product_model.dart';
-import 'package:brandz/view/category_screen.dart';
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../controller/cart_controller.dart';
-import '../model/list_of_products.dart';
-import '../model/user_model.dart';
+// Project imports:
+import '../model/product_model.dart';
+import '../view/category_screen.dart';
 
 class ComparePage extends StatefulWidget {
   static List<Product> productInComparison = []; // list to store products

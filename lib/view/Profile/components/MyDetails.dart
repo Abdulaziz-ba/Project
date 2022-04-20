@@ -1,9 +1,14 @@
-import 'package:brandz/view/Profile/components/body.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+// Project imports:
+import 'package:brandz/view/Profile/components/body.dart';
 
 class MyDetails extends StatefulWidget {
   MyDetails({Key? key}) : super(key: key);

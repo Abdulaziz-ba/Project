@@ -1,10 +1,12 @@
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:get/route_manager.dart';
 
+// Project imports:
 import '../model/user_model.dart';
 import 'auth/login_screen.dart';
 
