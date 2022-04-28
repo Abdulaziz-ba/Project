@@ -15,13 +15,16 @@ class CartTotal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Text("TOTAL"),
-          Text('${controller.total} SAR'),
-        ],
+      () => Padding(
+        padding: const EdgeInsets.only(top: 8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          //crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Text("TOTAL"),
+            Text('${controller.total} SAR'),
+          ],
+        ),
       ),
     );
   }
