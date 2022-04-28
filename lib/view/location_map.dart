@@ -114,7 +114,7 @@ class _LocationOnMapState extends State<LocationOnMap> {
       body: Stack(
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 50.0),
+            padding: const EdgeInsets.only(top: 70.0),
             child: Container(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
@@ -131,39 +131,42 @@ class _LocationOnMapState extends State<LocationOnMap> {
               ),
             ),
           ),
-          Container(
-            //color: Colors.white,
-            height: 50,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Container(
-                  padding: EdgeInsets.only(
-                    bottom: 5, // Space between underline and text
-                  ),
-                  decoration: BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(
-                    color: Color.fromARGB(255, 0, 129, 172),
-                    width: 1.0, // Underline thickness
-                  ))),
-                  child: Text(
-                    'Shipping Address',
-                    style: TextStyle(
-                      color: Colors.black,
+          Padding(
+            padding: const EdgeInsets.only(top: 20.0),
+            child: Container(
+              //color: Colors.white,
+              height: 50,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Container(
+                    padding: EdgeInsets.only(
+                      bottom: 5, // Space between underline and text
+                    ),
+                    decoration: BoxDecoration(
+                        border: Border(
+                            bottom: BorderSide(
+                      color: Color.fromARGB(255, 0, 129, 172),
+                      width: 1.0, // Underline thickness
+                    ))),
+                    child: Text(
+                      'Shipping Address',
+                      style: TextStyle(
+                        color: Colors.black,
+                      ),
                     ),
                   ),
-                ),
-                Text('Summary & Payment')
-              ],
+                  Text('Summary & Payment')
+                ],
+              ),
+              decoration: BoxDecoration(
+                  //color: Colors.blueGrey,
+                  border: Border(
+                      bottom: BorderSide(
+                color: Color.fromARGB(30, 0, 0, 0),
+                width: 1,
+              ))),
             ),
-            decoration: BoxDecoration(
-                //color: Colors.blueGrey,
-                border: Border(
-                    bottom: BorderSide(
-              color: Color.fromARGB(30, 0, 0, 0),
-              width: 1,
-            ))),
           ),
           Positioned.fill(
             child: Align(
