@@ -1,6 +1,14 @@
-import 'package:brandz/view/main_screen.dart';
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
+
+import 'location_map.dart';
 
 class Checkout extends StatefulWidget {
   const Checkout({Key? key}) : super(key: key);
@@ -12,16 +20,46 @@ class Checkout extends StatefulWidget {
 class _CheckoutState extends State<Checkout>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  String location = '';
+  late TextEditingController locationController;
+
+  Future<void> _getdata() async {
+    User? user = _firebaseAuth.currentUser;
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(user?.uid)
+        .snapshots()
+        .listen((userData) {
+      final llocation = userData.data()!['location'];
+      //location = llocation;
+
+      setState(() {
+        location = llocation;
+        locationController.text = llocation;
+      });
+    });
+  }
 
   @override
   void initState() {
     super.initState();
+    _getdata();
+    // Location Controller
+    locationController = TextEditingController(text: location);
+    /* locationController.addListener(() {
+      final isButtonActive = locationController.text.isNotEmpty &&
+          locationController.text != location;
+      setState(() {});
+    }); */
     _controller = AnimationController(vsync: this);
   }
 
   @override
   void dispose() {
     super.dispose();
+    locationController.dispose();
+
     _controller.dispose();
   }
 
@@ -90,16 +128,52 @@ class _CheckoutState extends State<Checkout>
                   children: [
                     Expanded(
                       flex: 1,
-                      child: FlatButton.icon(
-                          height: 60,
-                          //color: Colors.amber[100],
-                          onPressed: () {},
-                          icon: Icon(Icons.add_circle_rounded),
-                          label: Text('Add a new Address')),
+                      child: location == ''
+                          ? FlatButton.icon(
+                              height: 60,
+                              //color: Colors.amber[100],
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => LocationOnMap()));
+                              },
+                              icon: Icon(Icons.add_circle_rounded),
+                              label: Text('Add A New Address'))
+                          : LocationField(),
                     ),
                   ],
                 ),
               ),
+              SizedBox(
+                height: 10,
+              ),
+              location == ''
+                  ? Container()
+                  : Container(
+                      height: 150,
+                      //color: Colors.amber,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: FlatButton.icon(
+                                height: 60,
+                                //color: Colors.amber[100],
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              LocationOnMap()));
+                                },
+                                icon: Icon(Icons.update_rounded),
+                                label: Text('Update Address On Map')),
+                          ),
+                        ],
+                      ),
+                    ),
               Expanded(
                   child: Align(
                       alignment: Alignment.bottomCenter,
@@ -118,6 +192,39 @@ class _CheckoutState extends State<Checkout>
             ],
           ),
         ));
+  }
+
+  Container LocationField() {
+    return Container(
+      padding: EdgeInsets.all(20),
+      child: TextFormField(
+        readOnly: true,
+
+        controller: locationController,
+        onChanged: (value) {
+          setState(() {});
+        },
+        validator: (value) {
+          return null;
+        },
+        onSaved: (value) {},
+        autofocus: false,
+        keyboardType: TextInputType.name, // change based on input
+        textInputAction: TextInputAction.next,
+        decoration: InputDecoration(
+          prefixIcon: Icon(
+            Icons.location_city,
+          ),
+          contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+          hintStyle: TextStyle(color: Colors.black),
+          labelText: 'ADDRESS',
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+      ),
+    );
   }
 }
 
