@@ -111,41 +111,53 @@ class CartCase1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const Image(
-            image: ResizeImage(AssetImage('assets/images/empty-cart2.png'),
-                height: 400, width: 400)),
-        Padding(
-          padding: const EdgeInsets.only(top: 20.0),
-          child: Text(
-            'Cart is Empty',
-            style: GoogleFonts.adamina(color: Colors.black, fontSize: 28),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: [
+          const Image(
+              image: ResizeImage(AssetImage('assets/images/empty-cart2.png'),
+                  height: 400, width: 400)),
+          Padding(
+            padding: const EdgeInsets.only(top: 20.0),
+            child: Text(
+              'Cart is Empty',
+              style: GoogleFonts.adamina(color: Colors.black, fontSize: 28),
+            ),
           ),
-        ),
-        Expanded(
-          child: Align(
-            alignment: FractionalOffset.bottomCenter,
-            child: FlatButton(
-              height: 50,
-              minWidth: MediaQuery.of(context).size.width - 20,
-              color: Color.fromARGB(70, 0, 129, 172),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => MainPage()),
-                );
-              },
-              child: Text(
-                "continue shopping",
-                style: TextStyle(color: Colors.black),
+          Expanded(
+            child: Align(
+              alignment: FractionalOffset.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 10.0),
+                child: FlatButton(
+                  height: 50,
+                  minWidth: MediaQuery.of(context).size.width - 20,
+                  color: Color.fromARGB(70, 0, 129, 172),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  onPressed: () {
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => MainPage()),
+                      (Route<dynamic> route) => false,
+                    );
+                    /*               Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MainPage()),
+                    ); */
+                  },
+                  child: Text(
+                    "Continue Shopping",
+                    style:
+                        GoogleFonts.adamina(color: Colors.black, fontSize: 16),
+                  ),
+                ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
@@ -192,21 +204,30 @@ class CartCase2 extends StatelessWidget {
           Expanded(
             child: Align(
               alignment: FractionalOffset.bottomCenter,
-              child: FlatButton(
-                height: 50,
-                minWidth: MediaQuery.of(context).size.width - 20,
-                color: Color.fromARGB(70, 0, 129, 172),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => MainPage()),
-                  );
-                },
-                child: Text(
-                  "continue shopping",
-                  style: TextStyle(color: Colors.black),
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 10.0),
+                child: FlatButton(
+                  height: 50,
+                  minWidth: MediaQuery.of(context).size.width - 20,
+                  color: Color.fromARGB(70, 0, 129, 172),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  onPressed: () {
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => MainPage()),
+                      (Route<dynamic> route) => false,
+                    );
+                    /*  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MainPage()),
+                    ); */
+                  },
+                  child: Text(
+                    "Continue Shopping",
+                    style:
+                        GoogleFonts.adamina(color: Colors.black, fontSize: 16),
+                  ),
                 ),
               ),
             ),
@@ -245,6 +266,7 @@ Widget _listViewProduct() {
                 return FlatButton(
                   onPressed: () async {
                     dynamic displayProduct = data.docs[index].id.toString();
+
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) =>
                             product_page(id: displayProduct.toString())));
@@ -309,35 +331,77 @@ class CartCase3 extends StatelessWidget {
           children: [
             Expanded(flex: 5, child: CartProducts()),
             Expanded(
-              //flex: 1,
-              child: Column(
-                children: [
-                  CartTotal(),
-                  SizedBox(height: 10),
-                  FlatButton(
-                    height: 50,
-                    minWidth: MediaQuery.of(context).size.width -
-                        20, //double.infinity - 20,
-                    color: Color.fromARGB(70, 0, 129, 172),
-                    shape: RoundedRectangleBorder(
-                        //side: BorderSide(color: Colors.black),
-                        borderRadius: BorderRadius.circular(10)),
-                    onPressed: () {
-                      print('CHECKOUT');
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Checkout()),
-                      );
-                    },
-                    child: Text(
-                      "CHECKOUT",
-                      style: TextStyle(color: Colors.black),
-                    ),
+              child: Align(
+                alignment: FractionalOffset.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Column(
+                    children: [
+                      CartTotal(),
+
+                      SizedBox(height: 10),
+                      FlatButton(
+                        height: 50,
+                        minWidth: MediaQuery.of(context).size.width -
+                            20, //double.infinity - 20,
+                        color: Color.fromARGB(70, 0, 129, 172),
+                        shape: RoundedRectangleBorder(
+                            //side: BorderSide(color: Colors.black),
+                            borderRadius: BorderRadius.circular(10)),
+                        onPressed: () {
+                          print('CHECKOUT');
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => Checkout()),
+                          );
+                        },
+                        child: Text(
+                          "CHECKOUT",
+                          style: GoogleFonts.adamina(
+                              color: Colors.black, fontSize: 16),
+                        ),
+                      ),
+                      //SizedBox(height: 10),
+                    ],
                   ),
-                  SizedBox(height: 10),
-                ],
+                ),
               ),
-            )
+            ),
+
+            /*  Expanded(
+              //flex: 1,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    CartTotal(),
+                    SizedBox(height: 10),
+                    FlatButton(
+                      height: 50,
+                      minWidth: MediaQuery.of(context).size.width -
+                          20, //double.infinity - 20,
+                      color: Color.fromARGB(70, 0, 129, 172),
+                      shape: RoundedRectangleBorder(
+                          //side: BorderSide(color: Colors.black),
+                          borderRadius: BorderRadius.circular(10)),
+                      onPressed: () {
+                        print('CHECKOUT');
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Checkout()),
+                        );
+                      },
+                      child: Text(
+                        "CHECKOUT",
+                        style: GoogleFonts.adamina(
+                            color: Colors.black, fontSize: 16),
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                  ],
+                ),
+              ),
+            ) */
           ],
         ),
       ],

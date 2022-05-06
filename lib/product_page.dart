@@ -17,7 +17,6 @@ import 'view/compare_screen.dart';
 //import 'package:photo_view/photo_view_gallery.dart';
 //import 'package:photo_view/photo_view.dart';
 
-
 class product_page extends StatefulWidget {
   String id;
 

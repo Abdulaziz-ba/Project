@@ -1,13 +1,11 @@
 import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
 
+import 'package:google_fonts/google_fonts.dart';
+
+import '../widgets/order_products.dart';
 import 'location_map.dart';
 
 class Checkout extends StatefulWidget {
@@ -101,12 +99,19 @@ class _CheckoutState extends State<Checkout>
                       ))),
                       child: Text(
                         'Shipping Address',
-                        style: TextStyle(
-                          color: Colors.black,
-                        ),
+                        style: GoogleFonts.adamina(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 15,
+                            color: Colors.black87),
                       ),
                     ),
-                    Text('Summary & Payment')
+                    Text(
+                      'Summary & Payment',
+                      style: GoogleFonts.adamina(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 15,
+                          color: Colors.black87),
+                    )
                   ],
                 ),
                 decoration: BoxDecoration(
@@ -169,29 +174,55 @@ class _CheckoutState extends State<Checkout>
                                               LocationOnMap()));
                                 },
                                 icon: Icon(Icons.update_rounded),
-                                label: Text('Update Address On Map')),
+                                label: Text(
+                                  'Update Address On Map',
+                                  style: GoogleFonts.adamina(
+                                      //fontWeight: FontWeight.bold,
+                                      fontSize: 15,
+                                      color: Colors.black),
+                                )),
                           ),
                         ],
                       ),
                     ),
               Expanded(
-                  child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: FlatButton(
-                          height: 80,
-                          minWidth: double.infinity,
-                          color: Color.fromARGB(70, 0, 129, 172),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Checkout_review_pay()),
-                            );
-                          },
-                          child: Text('Review & Pay'))))
+                child: Align(
+                  alignment: FractionalOffset.bottomCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(
+                        8, 8, 8, 18), //EdgeInsets.all(8.0),
+                    child: FlatButton(
+                        height: 50,
+                        minWidth: MediaQuery.of(context).size.width -
+                            20, //double.infinity - 20,
+                        color: Color.fromARGB(70, 0, 129, 172),
+                        shape: RoundedRectangleBorder(
+                            //side: BorderSide(color: Colors.black),
+                            borderRadius: BorderRadius.circular(10)),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Checkout_review_pay()),
+                          );
+                        },
+                        child: Text(
+                          'Review & Pay',
+                          style: GoogleFonts.adamina(
+                              //fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              color: Colors.black),
+                        )),
+                  ),
+                ),
+              )
             ],
           ),
-        ));
+        ) /*)
+            ],
+          ),
+        ) */
+        );
   }
 
   Container LocationField() {
@@ -236,21 +267,19 @@ class Checkout_review_pay extends StatefulWidget {
   State<Checkout_review_pay> createState() => _Checkout_review_payState();
 }
 
-class _Checkout_review_payState extends State<Checkout_review_pay>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-
+class _Checkout_review_payState extends State<Checkout_review_pay> {
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(vsync: this);
   }
 
   @override
   void dispose() {
     super.dispose();
-    _controller.dispose();
   }
+
+  bool isButtonActive = false;
+  int _val = -1;
 
   @override
   Widget build(BuildContext context) {
@@ -259,7 +288,7 @@ class _Checkout_review_payState extends State<Checkout_review_pay>
           elevation: 0,
           backgroundColor: Colors.white10,
           //backgroundColor: Colors.pink,
-          leading: BackButton(color: Colors.black),
+          leading: const BackButton(color: Colors.black),
           centerTitle: true,
           title: Text(
             'Checkout',
@@ -269,55 +298,63 @@ class _Checkout_review_payState extends State<Checkout_review_pay>
         ),
         body: Padding(
           padding: const EdgeInsets.only(top: 20.0),
-          child: Column(
-            children: [
-              Container(
-                height: 50,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Text('Shipping Address'),
-                    Container(
-                      padding: EdgeInsets.only(
-                        bottom: 5, // Space between underline and text
-                      ),
-                      decoration: BoxDecoration(
-                          border: Border(
-                              bottom: BorderSide(
-                        color: Color.fromARGB(255, 0, 129, 172),
-                        width: 1.0, // Underline thickness
-                      ))),
-                      child: Text(
-                        'Summary & Payment',
-                        style: TextStyle(
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                decoration: BoxDecoration(
-                    //color: Colors.blueGrey,
-                    border: Border(
-                        bottom: BorderSide(
-                  color: Color.fromARGB(30, 0, 0, 0),
-                  width: 1,
-                ))),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Expanded(
-                  child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: FlatButton(
-                          height: 80,
-                          minWidth: double.infinity,
-                          color: Color.fromARGB(70, 0, 129, 172),
-                          onPressed: () {},
-                          child: Text('Buy Now'))))
-            ],
-          ),
+          child: Column(children: [
+            const Checkout_header2(),
+            const SizedBox(
+              height: 10,
+            ),
+            Expanded(child: OrderProducts()),
+          ]),
         ));
+  }
+}
+
+class Checkout_header2 extends StatelessWidget {
+  const Checkout_header2({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 50,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Text(
+            'Shipping Address',
+            style: GoogleFonts.adamina(
+                fontWeight: FontWeight.w600,
+                fontSize: 15,
+                color: Colors.black87),
+          ),
+          Container(
+            padding: const EdgeInsets.only(
+              bottom: 5, // Space between underline and text
+            ),
+            decoration: const BoxDecoration(
+                border: Border(
+                    bottom: BorderSide(
+              color: Color.fromARGB(255, 0, 129, 172),
+              width: 1.0, // Underline thickness
+            ))),
+            child: Text(
+              'Summary & Payment',
+              style: GoogleFonts.adamina(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 15,
+                  color: Colors.black87),
+            ),
+          ),
+        ],
+      ),
+      decoration: const BoxDecoration(
+          //color: Colors.blueGrey,
+          border: Border(
+              bottom: BorderSide(
+        color: Color.fromARGB(30, 0, 0, 0),
+        width: 1,
+      ))),
+    );
   }
 }

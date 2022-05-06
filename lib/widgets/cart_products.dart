@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 // Project imports:
 import '../controller/cart_controller.dart';
@@ -53,6 +54,8 @@ class CartProductsCard extends StatelessWidget {
   int number = 1;
   CartProductsCard({required this.data, required this.index});
   Widget build(BuildContext context) {
+    //print('index ======== $index'); // index of product in cart
+
     if (FirebaseAuth.instance.currentUser?.uid != null) {
       return Card(
         child: Column(
@@ -74,7 +77,7 @@ class CartProductsCard extends StatelessWidget {
       CartController().total;
     });
     return Container(
-        height: 95,
+        height: 120,
         padding: const EdgeInsets.all(8.0),
         // width: 100,
         margin: EdgeInsets.all(4.0),
@@ -96,29 +99,35 @@ class CartProductsCard extends StatelessWidget {
                       children: [
                         Text(
                           data.docs[index]['productBrandName'],
+                          style: GoogleFonts.adamina(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                              color: Colors.black),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
                         ),
                         Text(
                           data.docs[index]['productName'],
+                          style: GoogleFonts.adamina(
+                              fontSize: 15, color: Colors.black),
                           overflow: TextOverflow.ellipsis,
                         ),
                         Text(
                           data.docs[index]['productSize'],
+                          style: GoogleFonts.adamina(
+                              fontSize: 15, color: Colors.black),
                           overflow: TextOverflow.ellipsis,
                         ),
                         Padding(padding: EdgeInsets.only(bottom: 10)),
                         Text(
                           data.docs[index]['productPrice'].toString() + ' SAR',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: GoogleFonts.adamina(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                              color: Colors.black),
                         ),
                       ]))),
-          Column(children: [
+          Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
             GestureDetector(
               onTap: () async {
                 var documentID;
@@ -190,7 +199,10 @@ class CartProductsCard extends StatelessWidget {
               ),
               Container(
                 padding: EdgeInsets.all(8.0),
-                child: Text(data.docs[index]['productQuantity'].toString()),
+                child: Text(
+                  data.docs[index]['productQuantity'].toString(),
+                  style: GoogleFonts.adamina(fontSize: 15, color: Colors.black),
+                ),
               ),
               GestureDetector(
                 onTap: () async {

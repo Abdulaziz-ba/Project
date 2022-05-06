@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 // Project imports:
 import 'MyDetails.dart';
+import 'MyOrders.dart';
 import 'profile_menu.dart';
 import 'profile_pic.dart';
 
@@ -33,7 +34,12 @@ class Body extends StatelessWidget {
         ),
         ProfileMenu(
           icon: 'assets/User Icon.svg',
-          press: () {},
+          press: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => MyOrders()),
+            );
+          },
           text: 'My Orders',
         ),
         ProfileMenu(
