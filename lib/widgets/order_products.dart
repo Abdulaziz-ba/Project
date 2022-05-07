@@ -11,6 +11,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../view/checkout_screen.dart';
 import '../view/order_complet.dart';
+import 'package:async_builder/async_builder.dart';
+import 'package:async_builder/init_builder.dart';
 
 class OrderProducts extends StatelessWidget {
   OrderProducts({Key? key}) : super(key: key);
@@ -61,8 +63,22 @@ class _OrderProductsCardState extends State<OrderProductsCard> {
   bool isButtonActive = false;
   int _val = -1;
   static double total = 0;
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    _getTotalFC();
+
+    Future.delayed(Duration(seconds: 1), () {
+      setState(() {
+        _isLoading = false;
+      });
+    });
+    super.initState();
+  }
 
   Widget build(BuildContext context) {
+    // _isLoading ? const CircularProgressIndicator() : {};
     dataSize = widget.data.docs.length - 1;
 
     print('index ======== ${widget.index}'); // index of product in cart
@@ -70,117 +86,123 @@ class _OrderProductsCardState extends State<OrderProductsCard> {
     print(widget.data.docs.length);
 
     if (FirebaseAuth.instance.currentUser?.uid != null) {
-      return Column(
-          //crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            if (widget.index == 0) ...[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  color: Colors.white,
-                  height: 50,
-                  width: double.infinity,
-                  //color: Color.fromARGB(30, 0, 0, 0),
-                  child: Center(
-                    child: Text(
-                      'Review Your Order',
-                      style: GoogleFonts.adamina(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16,
-                          color: Colors.black87),
-                    ),
-                  ),
-                ),
-              ),
-              //),
-            ],
-            Card(child: _productBox(widget.index)),
-            if (widget.index == dataSize) ...[
-              totalBox(),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  color: Colors.white,
-                  height: 50,
-                  width: double.infinity,
-                  child: Center(
-                    child: Text(
-                      'Payment Method',
-                      style: GoogleFonts.adamina(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16,
-                          color: Colors.black87),
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  color: Colors.white,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Radio(
-                        value: 1,
-                        groupValue: _val,
-                        onChanged: (int? value) {
-                          setState(() {
-                            _val = value!;
-
-                            isButtonActive = true;
-                          });
-                        },
-                        //activeColor: Colors.green,
-                      ),
-                      Text(
-                        'Cash on delivery',
-                        style: GoogleFonts.adamina(
-                            fontSize: 15, color: Colors.black),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Align(
-                  alignment: FractionalOffset.bottomCenter,
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(8, 8, 8, 18),
-                    child: FlatButton(
+      return AsyncBuilder<void>(
+          future: _getTotalFC(),
+          error: (context, error, stackTrace) => Text('Error! $error'),
+          builder: (context, snapshot) {
+            return Column(
+                // Column(
+                //crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  if (widget.index == 0) ...[
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        color: Colors.white,
                         height: 50,
-                        minWidth: MediaQuery.of(context).size.width -
-                            20, //double.infinity - 20,
-                        color: Color.fromARGB(70, 0, 129, 172),
-                        shape: RoundedRectangleBorder(
-                            //side: BorderSide(color: Colors.black),
-                            borderRadius: BorderRadius.circular(10)),
-                        textColor: Colors.black,
-                        disabledColor: Colors.black12,
-                        disabledTextColor: Colors.blueGrey,
-                        onPressed: isButtonActive
-                            ? () async {
-                                // add cart items to order  && empty the cart
-
-                                await Create_New_Order();
-
-                                await Empty_The_Cart();
-
-                                // navigate to next page
-                                await _nav();
-                              }
-                            : null,
-                        child: Text(
-                          'Pay Now',
-                          style: GoogleFonts.adamina(
-                            //fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                            //color: Colors.black
+                        width: double.infinity,
+                        //color: Color.fromARGB(30, 0, 0, 0),
+                        child: Center(
+                          child: Text(
+                            'Review Your Order',
+                            style: GoogleFonts.adamina(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16,
+                                color: Colors.black87),
                           ),
+                        ),
+                      ),
+                    ),
+                    //),
+                  ],
+                  Card(child: _productBox(widget.index)),
+                  if (widget.index == dataSize) ...[
+                    totalBox(),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        color: Colors.white,
+                        height: 50,
+                        width: double.infinity,
+                        child: Center(
+                          child: Text(
+                            'Payment Method',
+                            style: GoogleFonts.adamina(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16,
+                                color: Colors.black87),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        color: Colors.white,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Radio(
+                              value: 1,
+                              groupValue: _val,
+                              onChanged: (int? value) {
+                                setState(() {
+                                  _val = value!;
+
+                                  isButtonActive = true;
+                                });
+                              },
+                              //activeColor: Colors.green,
+                            ),
+                            Text(
+                              'Cash on delivery',
+                              style: GoogleFonts.adamina(
+                                  fontSize: 15, color: Colors.black),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Align(
+                        alignment: FractionalOffset.bottomCenter,
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(8, 8, 8, 18),
+                          child: FlatButton(
+                              height: 50,
+                              minWidth: MediaQuery.of(context).size.width -
+                                  20, //double.infinity - 20,
+                              color: Color.fromARGB(70, 0, 129, 172),
+                              shape: RoundedRectangleBorder(
+                                  //side: BorderSide(color: Colors.black),
+                                  borderRadius: BorderRadius.circular(10)),
+                              textColor: Colors.black,
+                              disabledColor: Colors.black12,
+                              disabledTextColor: Colors.blueGrey,
+                              onPressed: isButtonActive
+                                  ? () async {
+                                      // add cart items to order  && empty the cart
+
+                                      await Create_New_Order();
+
+                                      await Empty_The_Cart();
+
+                                      // navigate to next page
+                                      await _nav();
+                                    }
+                                  : null,
+                              child: Text(
+                                'Pay Now',
+                                style: GoogleFonts.adamina(
+                                  //fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                  //color: Colors.black
+                                ),
+                              )),
                         )),
-                  )),
-            ],
-          ]);
+                  ],
+                ]);
+          });
     } else {
       return Card(
         child: Column(
@@ -192,7 +214,7 @@ class _OrderProductsCardState extends State<OrderProductsCard> {
   }
 
   _nav() async {
-    await Future.delayed(Duration(seconds: 3));
+    await Future.delayed(Duration(seconds: 1));
     if (mounted)
       Navigator.pushAndRemoveUntil(
         context, //context,
@@ -204,7 +226,7 @@ class _OrderProductsCardState extends State<OrderProductsCard> {
   }
 
   Future<void> Empty_The_Cart() async {
-    Future.delayed(const Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 1), () {
       FirebaseFirestore.instance
           .collection('users')
           .doc(FirebaseAuth.instance.currentUser?.uid)
@@ -261,13 +283,14 @@ class _OrderProductsCardState extends State<OrderProductsCard> {
     String? userID = FirebaseAuth.instance.currentUser?.uid;
 
     Map<String, dynamic> data = <String, dynamic>{
-      "orderNumber": Random().nextInt(100 - 1),
+      "orderNumber": getOrderNumber(), //Random().nextInt(100 - 1),
       "customerID": userID!,
       "products": FieldValue.arrayUnion(yourProductsList),
       "totalPrice": _getTotal(productsPrices, productsQuantitiys),
       "orderDate": DateTime.now(),
     };
-
+    //print("order number =======================");
+    //print(getOrderNumber());
     // add order to database
     DocumentReference documentReferencer =
         FirebaseFirestore.instance.collection("Orders").doc();
@@ -362,8 +385,9 @@ class _OrderProductsCardState extends State<OrderProductsCard> {
   }
 
   Widget totalBox() {
-    _getTotalFC();
-    Future.delayed(const Duration(seconds: 5), () {});
+    /* Future.delayed(const Duration(seconds: 2), () {
+      _getTotalFC();
+    }); */
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -435,13 +459,13 @@ class _OrderProductsCardState extends State<OrderProductsCard> {
     );
   }
 
-  void _getTotalFC() {
+  Future<void> _getTotalFC() async {
     double sum = 0;
     List quantityList = [];
     List priceList = [];
 //print(data.size);
 
-    FirebaseFirestore.instance
+    await FirebaseFirestore.instance
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser?.uid)
         .collection('Cart')
@@ -476,5 +500,9 @@ class _OrderProductsCardState extends State<OrderProductsCard> {
 //print(quantityList);
 //print(priceList);
 //print(sum);
+  }
+
+  getOrderNumber() {
+    return DateTime.now().millisecondsSinceEpoch + Random().nextInt(100000);
   }
 }

@@ -37,6 +37,12 @@ class Order_Completed extends StatelessWidget {
               .snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (!snapshot.hasData) {
+              return const Text('Loading...');
+            }
+            if (snapshot.hasError) {
+              return const Text('Something went wrong.');
+            }
             final data = snapshot.requireData;
             final orderDoc = data.docs[0];
             if (orderDoc.exists) {

@@ -34,6 +34,8 @@ dependencies:
   geolocator: ^8.2.0
   geocoding: ^2.0.4
   geocoder: ^0.2.1
+  async_builder: ^1.2.0
+
 
 
 dev_dependencies:
