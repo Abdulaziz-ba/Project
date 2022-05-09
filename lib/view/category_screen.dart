@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 
 // Project imports:
 import '../brand_Category.dart';
@@ -20,7 +21,7 @@ class CategoryPage extends StatelessWidget {
         appBar: AppBar(
           leading: BackButton(color: Colors.black),
           title: Text(
-            'Categories',
+            "catigories1".tr,
             style: GoogleFonts.adamina(
                 fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black),
           ),

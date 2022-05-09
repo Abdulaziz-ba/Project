@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 
 // Project imports:
 import 'login_screen.dart';
@@ -25,12 +26,12 @@ class ResetScreen extends StatelessWidget {
       keyboardType: TextInputType.emailAddress,
       validator: (value) {
         if (value!.isEmpty) {
-          return ("Please enter your Email");
+          return ("reset4".tr);
         }
         //This is a Regex for the email Valdiation ==> (Valid Email or Not)
         if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9+_.-]+.[a-z]")
             .hasMatch(value)) {
-          return ("Please enter a valid Email!");
+          return ("reset5".tr);
         }
         return null;
       },
@@ -43,7 +44,7 @@ class ResetScreen extends StatelessWidget {
           Icons.mail,
         ),
         contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-        hintText: "Email",
+        hintText: "reset2".tr,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
         ),
@@ -65,7 +66,7 @@ class ResetScreen extends StatelessWidget {
             });
           },
           child: Text(
-            "Reset Password",
+            "reset3".tr,
             textAlign: TextAlign.center,
             style: TextStyle(
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
@@ -76,7 +77,7 @@ class ResetScreen extends StatelessWidget {
         preferredSize: Size.fromHeight(30),
         child: AppBar(
           title: Text(
-            'Reset Password',
+            "reset3".tr,
             style: GoogleFonts.adamina(
                 fontWeight: FontWeight.bold, fontSize: 22, color: Colors.black),
           ),

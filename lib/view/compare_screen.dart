@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
+
 
 // Project imports:
 import '../model/product_model.dart';
@@ -47,7 +49,7 @@ class _ComparePageState extends State<ComparePage> {
           leading: BackButton(color: Colors.black),
           centerTitle: true,
           title: Text(
-            'Products Comparison',
+            "compare1".tr,
             style: GoogleFonts.adamina(
                 fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black),
           ),
@@ -59,7 +61,7 @@ class _ComparePageState extends State<ComparePage> {
                   setState(() {});
                 },
                 child: Text(
-                  'Clear',
+                  "compare2".tr,
                   style: GoogleFonts.adamina(color: Colors.black, fontSize: 15),
                 )),
           ],
@@ -83,7 +85,7 @@ class _ComparePageState extends State<ComparePage> {
                               ),
                               Center(
                                   child: Text(
-                                'Products',
+                                "compare3".tr,
                                 style: GoogleFonts.adamina(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 12,
@@ -131,7 +133,7 @@ class _ComparePageState extends State<ComparePage> {
                               });
                             },
                             child: Text(
-                              "Add to Cart",
+                              "compare4".tr,
                               style: TextStyle(color: Colors.white),
                             ),
                             color: Colors.black,
@@ -170,7 +172,7 @@ class _ComparePageState extends State<ComparePage> {
                               });
                             },
                             child: Text(
-                              "Add to Cart",
+                              "compare5".tr,
                               style: TextStyle(color: Colors.white),
                             ),
                             color: Colors.black,
@@ -187,17 +189,17 @@ class _ComparePageState extends State<ComparePage> {
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 Text(productInComparison[0].price.toString() +
-                                    ' SAR'),
+                                    "compare6".tr),
                                 Center(
                                     child: Text(
-                                  'Price',
+                                  "compare7".tr,
                                   style: GoogleFonts.adamina(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 12,
                                       color: Colors.black),
                                 )),
                                 Text(productInComparison[1].price.toString() +
-                                    ' SAR')
+                                    "compare8".tr)
                               ],
                             ),
                             // price
@@ -217,7 +219,7 @@ class _ComparePageState extends State<ComparePage> {
                                     productInComparison[0].size), // update late
                                 Center(
                                     child: Text(
-                                  'Size',
+                                  "compare9".tr,
                                   style: GoogleFonts.adamina(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 12,
@@ -242,7 +244,7 @@ class _ComparePageState extends State<ComparePage> {
                                 Text(productInComparison[0].brandName),
                                 Center(
                                     child: Text(
-                                  'Brand',
+                                  "compare10".tr,
                                   style: GoogleFonts.adamina(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 12,
@@ -275,7 +277,7 @@ class _ComparePageState extends State<ComparePage> {
                                   ),
                                 ),
                                 Text(
-                                  'Details',
+                                  "compare11".tr,
                                   style: GoogleFonts.adamina(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 12,
@@ -318,7 +320,7 @@ class _ComparePageState extends State<ComparePage> {
                       }
                     },
                     child: Text(
-                      'Remove Product',
+                      "compare12".tr,
                       style: GoogleFonts.adamina(
                           textStyle: TextStyle(
                             decoration: TextDecoration.underline,
@@ -375,7 +377,7 @@ class _ComparePageState extends State<ComparePage> {
                       }
                     },
                     child: Text(
-                      'Remove Product',
+                      "compare13".tr,
                       style: GoogleFonts.adamina(
                           textStyle: TextStyle(
                             decoration: TextDecoration.underline,
@@ -422,7 +424,7 @@ class _ComparePageState extends State<ComparePage> {
                 child: Column(
               children: [
                 Text(
-                  'Add Another Product To Compare With',
+                  "compare14".tr,
                   style: GoogleFonts.adamina(fontSize: 12, color: Colors.black),
                 ),
                 RaisedButton(
@@ -435,7 +437,7 @@ class _ComparePageState extends State<ComparePage> {
                     );
                   },
                   child: Text(
-                    "View Products Category",
+                    "compare15".tr,
                     style: TextStyle(color: Colors.white),
                   ),
                   color: Colors.black,
@@ -495,7 +497,7 @@ class emptyComparison extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          'No Products To Compare With',
+          "compare16".tr,
           style: GoogleFonts.adamina(fontSize: 12, color: Colors.black),
         ),
         RaisedButton(
@@ -508,7 +510,7 @@ class emptyComparison extends StatelessWidget {
             );
           },
           child: Text(
-            "View Products Category",
+            "compare17".tr,
             style: TextStyle(color: Colors.white),
           ),
           color: Colors.black,

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 
 // Project imports:
 import '../main_screen.dart';
@@ -19,7 +20,6 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _auth = FirebaseAuth.instance;
-
 // form key for email & Password
   final _formkey = GlobalKey<FormState>();
   bool check = false;
@@ -28,6 +28,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailController = new TextEditingController();
   final TextEditingController passwordController = new TextEditingController();
   @override
+
+
   Widget build(BuildContext context) {
     //Email Field
     final emailField = TextFormField(
@@ -36,12 +38,12 @@ class _LoginScreenState extends State<LoginScreen> {
       keyboardType: TextInputType.emailAddress,
       validator: (value) {
         if (value!.isEmpty) {
-          return ("Please enter your Email");
+          return ("LogIn11".tr);
         }
         //This is a Regex for the email Valdiation ==> (Valid Email or Not)
         if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9+_.-]+.[a-z]")
             .hasMatch(value)) {
-          return ("Please enter a valid Email!");
+          return ("LogIn14".tr);
         }
         return null;
       },
@@ -54,7 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
           Icons.mail,
         ),
         contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-        hintText: "Email",
+        hintText: "LogIn1".tr,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
         ),
@@ -68,7 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
       controller: passwordController,
       validator: (value) {
         RegExp regex = new RegExp(r'^.{6,}$');
-        if (value!.isEmpty) return ("Password is required for login");
+        if (value!.isEmpty) return ("LogIn12".tr);
         if (!regex.hasMatch(value))
           return ("Enter a valid password (Min: 6 character");
       },
@@ -79,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
       decoration: InputDecoration(
         prefixIcon: Icon(Icons.password),
         contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-        hintText: "Password",
+        hintText: "LogIn2".tr,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
         ),
@@ -97,7 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
             signIn(emailController.text, passwordController.text);
           },
           child: Text(
-            "Sign In",
+            "LogIn3".tr,
             textAlign: TextAlign.center,
             style: TextStyle(
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
@@ -140,7 +142,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Text("Forgot your password? "),
+                        Text("LogIn4".tr),
                         GestureDetector(
                           onTap: () {
                             Navigator.push(
@@ -149,7 +151,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     builder: (context) => ResetScreen()));
                           },
                           child: Text(
-                            "Reset Password",
+                            "LogIn5".tr,
                             style: TextStyle(
                               fontWeight: FontWeight.w700,
                               fontSize: 15,
@@ -166,7 +168,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Text("Don't have an account? "),
+                        Text("LogIn6".tr),
                         GestureDetector(
                           onTap: () {
                             Navigator.push(
@@ -175,7 +177,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     builder: (context) => reg_screen()));
                           },
                           child: Text(
-                            "SignUp",
+                            "LogIn7".tr,
                             style: TextStyle(
                               fontWeight: FontWeight.w700,
                               fontSize: 15,
@@ -192,7 +194,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          "- OR -",
+                          "LogIn8".tr,
                           style: TextStyle(fontSize: 25, color: Colors.grey),
                         )
                       ],
@@ -203,7 +205,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Text("Continue as a guest? "),
+                        Text("LogIn9".tr),
                         GestureDetector(
                           onTap: () {
                             Navigator.of(context).pushReplacement(
@@ -212,7 +214,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     builder: (context) => MainPage()));
                           },
                           child: Text(
-                            "Click here!",
+                            "LogIn10".tr,
                             style: TextStyle(
                               fontWeight: FontWeight.w700,
                               fontSize: 15,
@@ -237,7 +239,7 @@ class _LoginScreenState extends State<LoginScreen> {
       await _auth
           .signInWithEmailAndPassword(email: email, password: password)
           .then((uid) => {
-                Fluttertoast.showToast(msg: "Login Successful"),
+                Fluttertoast.showToast(msg: "LogIn13".tr),
                 // Get.to(reg_screen())
                 Navigator.of(context).pushReplacement(
                     //here we should put the hom Screen instead of the login screen

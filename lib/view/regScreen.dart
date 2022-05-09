@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 
 // Project imports:
 import '../model/user_model.dart';
@@ -37,9 +38,9 @@ class _reg_screenState extends State<reg_screen> {
       keyboardType: TextInputType.name,
       validator: (value) {
         RegExp regex = new RegExp(r'^.{3,}$');
-        if (value!.isEmpty) return ("First Name cannot be Empty!");
+        if (value!.isEmpty) return ("signUp1".tr);
         if (!regex.hasMatch(value))
-          return ("Enter a valid name (Min: 3 character)");
+          return ("signUp2".tr);
       },
       onSaved: (value) {
         fNameController.text = value!;
@@ -50,7 +51,7 @@ class _reg_screenState extends State<reg_screen> {
           Icons.face,
         ),
         contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-        hintText: "First Name",
+        hintText: "signUp3".tr,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
         ),
@@ -63,9 +64,9 @@ class _reg_screenState extends State<reg_screen> {
       keyboardType: TextInputType.name,
       validator: (value) {
         RegExp regex = new RegExp(r'^.{3,}$');
-        if (value!.isEmpty) return ("Last Name cannot be Empty!");
+        if (value!.isEmpty) return ("signUp4".tr);
         if (!regex.hasMatch(value))
-          return ("Enter a valid name (Min: 3 character)");
+          return ("signUp5".tr);
         return null;
       },
       onSaved: (value) {
@@ -77,7 +78,7 @@ class _reg_screenState extends State<reg_screen> {
           Icons.face,
         ),
         contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-        hintText: "Last Name",
+        hintText: "signUp6".tr,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
         ),
@@ -90,11 +91,11 @@ class _reg_screenState extends State<reg_screen> {
       keyboardType: TextInputType.emailAddress,
       validator: (value) {
         if (value!.isEmpty) {
-          return ("Please enter your Email");
+          return ("signUp7".tr);
         }
         //This is a Regex for the email Valdiation ==> (Valid Email or Not)
         if (!RegExp(r"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$").hasMatch(value)) {
-          return ("Please enter a valid Email!");
+          return ("signUp8".tr);
         }
         return null;
       },
@@ -107,7 +108,7 @@ class _reg_screenState extends State<reg_screen> {
           Icons.mail,
         ),
         contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-        hintText: "Email",
+        hintText: "signUp9".tr,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
         ),
@@ -120,9 +121,9 @@ class _reg_screenState extends State<reg_screen> {
       keyboardType: TextInputType.name,
       validator: (value) {
         RegExp regex = new RegExp(r'^(05)\d{8}$');
-        if (value!.isEmpty) return ("Phone Number cannot be Empty!");
+        if (value!.isEmpty) return ("signUp10".tr);
         if (!regex.hasMatch(value))
-          return ("Enter a valid phone number (10 digits starting with 05)");
+          return ("signUp11".tr);
       },
       onSaved: (value) {
         phoneController.text = value!;
@@ -133,7 +134,7 @@ class _reg_screenState extends State<reg_screen> {
           Icons.phone,
         ),
         contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-        hintText: "Phone Number",
+        hintText: "signUp12".tr,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
         ),
@@ -146,9 +147,9 @@ class _reg_screenState extends State<reg_screen> {
       controller: passwordController,
       validator: (value) {
         RegExp regex = new RegExp(r'^.{6,}$');
-        if (value!.isEmpty) return ("Password is required for login");
+        if (value!.isEmpty) return ("signUp13".tr);
         if (!regex.hasMatch(value))
-          return ("Enter a valid password (Min: 6 character");
+          return ("signUp14".tr);
       },
       onSaved: (value) {
         passwordController.text = value!;
@@ -157,7 +158,7 @@ class _reg_screenState extends State<reg_screen> {
       decoration: InputDecoration(
         prefixIcon: Icon(Icons.password),
         contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-        hintText: "Password",
+        hintText: "signUp15".tr,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
         ),
@@ -171,7 +172,7 @@ class _reg_screenState extends State<reg_screen> {
       validator: (value) {
         if (conpasswordController.text.length > 6 &&
             conpasswordController.text != value) {
-          return ("password doesn't match!");
+          return ("signUp16".tr);
         }
         return null;
       },
@@ -182,7 +183,7 @@ class _reg_screenState extends State<reg_screen> {
       decoration: InputDecoration(
         prefixIcon: Icon(Icons.password),
         contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-        hintText: "Confirm Password",
+        hintText: "signUp17".tr,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
         ),
@@ -200,7 +201,7 @@ class _reg_screenState extends State<reg_screen> {
             signUp(emailController.text, passwordController.text);
           },
           child: Text(
-            "SignUp",
+            "signUp18".tr,
             textAlign: TextAlign.center,
             style: TextStyle(
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),

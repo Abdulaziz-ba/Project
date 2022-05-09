@@ -35,7 +35,7 @@ class _HomeViewState extends State<HomeView> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Brandz',
+          "home1".tr,
           style: GoogleFonts.adamina(
               fontWeight: FontWeight.bold, fontSize: 25, color: Colors.black),
         ),
@@ -107,7 +107,7 @@ class _HomeViewState extends State<HomeView> {
                     Container(
                       alignment: Alignment.topLeft,
                       child: Text(
-                        'Categories',
+                        "home2".tr,
                         style: GoogleFonts.adamina(
                             color: Colors.black, fontSize: 22),
                       ),
@@ -123,7 +123,7 @@ class _HomeViewState extends State<HomeView> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Brands',
+                          "home3".tr,
                           style: GoogleFonts.adamina(
                               color: Colors.black, fontSize: 22),
                         ),
@@ -136,7 +136,7 @@ class _HomeViewState extends State<HomeView> {
                                           )));
                             },
                             child: Text(
-                              'View All',
+                              "home4".tr,
                               style: GoogleFonts.adamina(
                                   color: Colors.black,
                                   fontSize: 18,
@@ -156,7 +156,7 @@ class _HomeViewState extends State<HomeView> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Recently viewed',
+                          "home5".tr,
                           style: GoogleFonts.adamina(
                               color: Colors.black, fontSize: 22),
                         ),
@@ -174,7 +174,7 @@ class _HomeViewState extends State<HomeView> {
                               });
                             },
                             child: Text(
-                              'Clear',
+                              "home6".tr,
                               style: GoogleFonts.adamina(
                                   color: Colors.black,
                                   fontSize: 18,
@@ -440,7 +440,7 @@ Widget _listViewProduct() {
                           SizedBox(height: 5),
                           Text(
                             data.docs[index]['productPrice'].toString() +
-                                " SAR",
+                                "home7".tr,
                             style: GoogleFonts.adamina(
                               fontSize: 15,
                             ),
@@ -520,7 +520,7 @@ Widget _searchBox() {
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.only(top: 5, bottom: 5),
                   prefixIcon: Icon(Icons.search),
-                  hintText: 'Enter search',
+                  hintText: "home8".tr,
                   border: OutlineInputBorder(),
                   filled: false,
                 ),
