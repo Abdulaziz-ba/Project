@@ -1,4 +1,5 @@
 // Flutter imports:
+import 'package:brandz/brand_Category.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -73,6 +74,8 @@ class _ComparePageState extends State<ComparePage> {
                 :
                 // case 3 compare 2 products
                 Column(
+                  mainAxisSize: MainAxisSize.min,
+
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -190,15 +193,14 @@ class _ComparePageState extends State<ComparePage> {
                               children: [
                                 Text(productInComparison[0].price.toString() +
                                     "compare6".tr),
-                                Center(
-                                    child: Text(
+                                  Text(
                                   "compare7".tr,
                                   style: GoogleFonts.adamina(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 12,
                                       color: Colors.black),
-                                )),
-                                Text(productInComparison[1].price.toString() +
+                                )
+                               , Text(productInComparison[1].price.toString() +
                                     "compare8".tr)
                               ],
                             ),
@@ -242,15 +244,16 @@ class _ComparePageState extends State<ComparePage> {
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 Text(productInComparison[0].brandName),
-                                Center(
-                                    child: Text(
+                                
+                              Text(
                                   "compare10".tr,
                                   style: GoogleFonts.adamina(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 12,
                                       color: Colors.black),
-                                )),
-                                Text(productInComparison[1].brandName)
+                                ),
+                                Text(productInComparison[1].brandName
+                                , )
                               ],
                             ), // brand
                             Divider(
@@ -314,7 +317,6 @@ class _ComparePageState extends State<ComparePage> {
                 FlatButton(
                     onPressed: () {
                       if (!productInComparison.isEmpty) {
-                        print(productInComparison[index].name);
                         removeFromCompare(index);
                         setState(() {});
                       }
@@ -327,7 +329,7 @@ class _ComparePageState extends State<ComparePage> {
                           ),
                           fontWeight: FontWeight.bold,
                           fontSize: 14,
-                          color: Color.fromARGB(88, 0, 0, 0)),
+                          color: Color.fromARGB(205, 227, 18, 18)),
                     )),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
@@ -340,9 +342,9 @@ class _ComparePageState extends State<ComparePage> {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.all(8), // Border width
+                  padding: EdgeInsets.all(6), // Border width
                   decoration: BoxDecoration(
-                      color: Color.fromARGB(88, 0, 0, 0),
+                      color: Color.fromARGB(255, 229, 229, 229),
                       borderRadius: BorderRadius.circular(20)),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
@@ -371,7 +373,6 @@ class _ComparePageState extends State<ComparePage> {
                 FlatButton(
                     onPressed: () {
                       if (!productInComparison.isEmpty) {
-                        print(productInComparison[0].name);
                         removeFromCompare(0);
                         setState(() {});
                       }
@@ -384,7 +385,7 @@ class _ComparePageState extends State<ComparePage> {
                           ),
                           fontWeight: FontWeight.bold,
                           fontSize: 14,
-                          color: Color.fromARGB(88, 0, 0, 0)),
+                          color: Color.fromARGB(205, 227, 18, 18)),
                     )),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
@@ -397,9 +398,9 @@ class _ComparePageState extends State<ComparePage> {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.all(8), // Border width
+                  padding: EdgeInsets.all(6), // Border width
                   decoration: BoxDecoration(
-                      color: Color.fromARGB(88, 0, 0, 0),
+                      color: Color.fromARGB(255, 229, 229, 229),
                       borderRadius: BorderRadius.circular(20)),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
@@ -431,10 +432,12 @@ class _ComparePageState extends State<ComparePage> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25)),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => CategoryPage()),
-                    );
+                    print('hehehee');
+                        Navigator.of(context)
+                                  .pushReplacement(MaterialPageRoute(
+                                      builder: (context) => BrandzCategory(
+                                            id: "ALL",
+                                          )));
                   },
                   child: Text(
                     "compare15".tr,
@@ -504,10 +507,11 @@ class emptyComparison extends StatelessWidget {
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => CategoryPage()),
-            );
+       Navigator.of(context)
+                                  .pushReplacement(MaterialPageRoute(
+                                      builder: (context) => BrandzCategory(
+                                            id: "ALL",
+                                          )));
           },
           child: Text(
             "compare17".tr,

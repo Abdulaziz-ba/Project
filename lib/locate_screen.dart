@@ -17,7 +17,8 @@ class SplashState extends State<Splash> with AfterLayoutMixin<Splash> {
   Future checkFirstSeen() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool _seen = (prefs.getBool('seen') ?? false);
-    _seen =false;
+    // <<<if you want the page to not open again put a comment below>>>>
+     //_seen =false;
     
     
     print('did uuuuu se me ? $_seen');

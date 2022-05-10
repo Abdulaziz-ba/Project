@@ -14,16 +14,15 @@ import 'package:google_fonts/google_fonts.dart';
 import '../product_page.dart';
 import '../widgets/cart_products.dart';
 import '../widgets/cart_total.dart';
-import 'checkout_screen.dart';
-
-class CartPage extends StatefulWidget {
+import 'package:brandz/view/checkout_screen.dart';
+class CartPage1 extends StatefulWidget {
   @override
   late String BrandName;
-  CartPage({required this.BrandName});
-  State<CartPage> createState() => _CartPageState();
+  CartPage1({required this.BrandName});
+  State<CartPage1> createState() => _CartPageState();
 }
 
-class _CartPageState extends State<CartPage> {
+class _CartPageState extends State<CartPage1> {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   bool isTheCartEmpty = true;
   bool isTheRecentlyViewEmpty = true;
@@ -98,6 +97,7 @@ class _CartPageState extends State<CartPage> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white10,
+        leading: BackButton(color: Colors.black),
         centerTitle: true,
         title: Text(
           'Shopping Cart',

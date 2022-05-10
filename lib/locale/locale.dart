@@ -133,7 +133,7 @@ class MyLocal implements Translations{
        "compare14" : "Add Another Product To Compare With",
        "compare15" : "View Products Category",
        "compare16" : "No Products To Compare With",
-       "compare17" : "View Products Category",
+       "compare17" : "View Brandz Products",
        "categories1": "Catigories"
 
 

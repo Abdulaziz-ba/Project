@@ -56,9 +56,9 @@ class Favourites extends StatelessWidget {
                       for (DocumentSnapshot ds in snapshot.docs) {
                         ds.reference.delete();
                       }
-                      ;
-                      ;
-                      ;
+                      
+                      
+                      
                     });
                   },
                   child: Icon(
@@ -99,14 +99,19 @@ class CartProductsCard extends StatelessWidget {
   CartProductsCard({required this.data, required this.index});
   Widget build(BuildContext context) {
     if (FirebaseAuth.instance.currentUser?.uid != null) {
-      return Card(
+      return Card(          
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[_productBox(index)]),
       );
     } else {
       return Card(
+              shape: RoundedRectangleBorder(
+         borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    shadowColor: Colors.white,
         child: Column(
+          
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[]),
       );
@@ -136,24 +141,25 @@ class CartProductsCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          data.docs[index]['productBrandName'],
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
+                            data.docs[index]['productBrandName'],
+                            style: GoogleFonts.adamina(
+                                fontSize: 15, fontWeight: FontWeight.bold),
                           ),
-                        ),
                         Text(
-                          data.docs[index]['productName'] + '\nSize: X',
-                          overflow: TextOverflow.ellipsis,
-                        ),
+                            data.docs[index]['productName'].toString() 
+                                ,
+                            style: GoogleFonts.adamina(
+                              fontSize: 15,
+                            ),
+                          ),
                         Padding(padding: EdgeInsets.only(bottom: 10)),
-                        Text(
-                          data.docs[index]['productPrice'].toString() + ' SAR',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
+                         Text(
+                            data.docs[index]['productPrice'].toString() +
+                                " SAR",
+                            style: GoogleFonts.adamina(
+                              fontSize: 15,
+                            ),
                           ),
-                        ),
                       ]))),
           Column(children: [
             GestureDetector(

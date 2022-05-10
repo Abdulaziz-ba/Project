@@ -19,9 +19,8 @@ class CategoryPage extends StatelessWidget {
 
     return Scaffold(
         appBar: AppBar(
-          leading: BackButton(color: Colors.black),
           title: Text(
-            "catigories1".tr,
+            "categories1".tr,
             style: GoogleFonts.adamina(
                 fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black),
           ),
@@ -81,9 +80,10 @@ class CartProductsCard extends StatelessWidget {
         });
       },
       child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30.0),
-        ),
+      shape: RoundedRectangleBorder(
+         borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    shadowColor: Colors.white,
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[_productBox(index)]),
@@ -94,23 +94,27 @@ class CartProductsCard extends StatelessWidget {
   Widget _productBox(int index) {
     return Container(
         height: 95,
-        padding: const EdgeInsets.all(8.0),
+      //  padding: const EdgeInsets.all(2.0),
         // width: 100,
-        margin: EdgeInsets.all(4.0),
-        child: Row(children: [
+        margin: EdgeInsets.all(2.0),
+        child: Row(
+          
+          children: [
+            SizedBox(width: 20),
           Container(
+          alignment: Alignment.centerLeft,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(50),
-              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+            //  color: Colors.white,
             ),
             height: 110,
             width: 110,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Image.network(
-                data.docs[index]['image'],
-              ),
-            ),
+            
+            child:Text(
+                          data.docs[index]['name'],
+                          style: GoogleFonts.adamina(
+                              fontSize: 15, fontWeight: FontWeight.bold),
+                        )
           ),
           SizedBox(width: 16),
           Expanded(
@@ -119,14 +123,23 @@ class CartProductsCard extends StatelessWidget {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        SizedBox(height: 30),
-                        Text(
-                          data.docs[index]['name'],
-                          style: GoogleFonts.adamina(
-                              fontSize: 15, fontWeight: FontWeight.bold),
-                        )
+                        SizedBox(height: 5),
+             Container(
+               alignment: Alignment.centerRight,
+                  decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+            //  color: Colors.white,
+      ),
+            height: 90,
+            width: 90,
+               child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Image.network(
+                  data.docs[index]['image'],
+                ),
+            ),
+             ),
                       ]))),
-          Icon(Icons.arrow_forward)
         ]));
   }
 }

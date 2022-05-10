@@ -344,7 +344,7 @@ Widget _listViewBrands() {
                         },
                         child: Container(
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
+                            borderRadius: BorderRadius.circular(60),
                             color: Colors.white,
                           ),
                           height: 70,

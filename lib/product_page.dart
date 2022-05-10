@@ -1,4 +1,5 @@
 // Flutter imports:
+import 'package:brandz/cart_screen1.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -100,7 +101,7 @@ class _product_pageState extends State<product_page> {
                         onPressed: () {
                           Navigator.of(context)
                               .pushReplacement(MaterialPageRoute(
-                                  builder: (context) => CartPage(
+                                  builder: (context) => CartPage1(
                                         BrandName: '',
                                       )));
                         },
@@ -301,7 +302,6 @@ class _product_pageState extends State<product_page> {
                                     onPressed: () async {
                                       if (newValue == '') {
                                         newValue = Sizes[0]['size'];
-                                        print('I am here too');
                                       }
 
                                       bool found = false;
@@ -327,8 +327,6 @@ class _product_pageState extends State<product_page> {
                                           .collection('Cart')
                                           .get()
                                           .then((querySnapshot) async {
-                                        print(querySnapshot.docs);
-                                        print(CartController.id);
                                         querySnapshot.docs.forEach((doc) {
                                           if (doc.data()['productImage'] ==
                                                   noteInfo['image'][0] &&
@@ -341,7 +339,6 @@ class _product_pageState extends State<product_page> {
                                           return;
                                         } else {
                                           if (pressed == 0) {
-                                            print('I am here');
                                             AddToCart(object, user);
                                             ++pressed;
                                           }
@@ -399,7 +396,6 @@ class _product_pageState extends State<product_page> {
                                             .limit(1)
                                             .get();
                                         if (value.docs.isNotEmpty == false) {
-                                          print('hiihihhiih');
                                           AddToFavourites(object, user);
 
                                           return;
