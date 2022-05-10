@@ -1,4 +1,5 @@
 // Flutter imports:
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -8,7 +9,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
+import '../model/product_model.dart';
 import '../view/checkout_screen.dart';
 import '../view/order_complet.dart';
 import 'package:async_builder/async_builder.dart';
@@ -213,6 +217,92 @@ class _OrderProductsCardState extends State<OrderProductsCard> {
     }
   }
 
+  Future sendEmailOLD({
+    required String name,
+    required String email,
+    required String subject,
+    required String message,
+  }) async {
+    const serviceId = 'service_bub97q7';
+    const templateId = 'template_rzcgui9';
+
+    final url = Uri.parse('https://api.emailjs.com/api/v1.0/email/send');
+    final response = await http.post(
+      url,
+      headers: {
+        'orgin': 'http://localhost',
+        'Content-Type': 'application/json',
+      },
+      body: json.encode({
+        'service_id': serviceId,
+        'template_id': templateId,
+        'user_id': '7XALWNk_4BTR0SW8W',
+        'template_params': {
+          'to_name': name,
+          //'from_name': 'BRANDZ',
+          'email_to': email,
+          'from_email': 'brandz.gp@gmail.com',
+          'subject': subject,
+          'message': message,
+        }
+      }),
+    );
+
+    print(response.body);
+    return response.statusCode;
+  }
+
+  Future sendEmail({
+    required String name,
+    required String email,
+    required String subject,
+    required String image,
+    required String brand,
+    required String item_name,
+    required String size,
+    required String price,
+    required String item_qty,
+    required String order_number,
+    required String order_date,
+    required String shipping_address,
+  }) async {
+    const serviceId = 'service_bub97q7';
+    const templateId = 'template_fjm0emd';
+
+    final url = Uri.parse('https://api.emailjs.com/api/v1.0/email/send');
+    final response = await http.post(
+      url,
+      headers: {
+        'orgin': 'http://localhost',
+        'Content-Type': 'application/json',
+      },
+      body: json.encode({
+        'service_id': serviceId,
+        'template_id': templateId,
+        'user_id': '7XALWNk_4BTR0SW8W',
+        'template_params': {
+          'to_name': name,
+          'email_to': email,
+          'from_email': 'brandz.gp@gmail.com',
+          'subject': subject,
+          'item_image': image,
+          'item_brand': brand,
+          'item_name': item_name,
+          'item_size': size,
+          'item_price': price,
+          'item_qty': item_qty,
+          'total': total,
+          'order_number': order_number,
+          'order_date': order_date,
+          'shipping_address': shipping_address,
+        }
+      }),
+    );
+
+    print(response.body);
+    return response.statusCode;
+  }
+
   _nav() async {
     await Future.delayed(Duration(seconds: 1));
     if (mounted)
@@ -243,7 +333,7 @@ class _OrderProductsCardState extends State<OrderProductsCard> {
   }
 
   Future<void> Create_New_Order() async {
-    //List<Product> products = [];
+    List<Product> products = [];
     List productsNames = [];
     List productsPrices = [];
     List productsImages = [];
@@ -260,7 +350,14 @@ class _OrderProductsCardState extends State<OrderProductsCard> {
     var querySnapshot = await collection.get();
     for (var queryDocumentSnapshot in querySnapshot.docs) {
       Map<String, dynamic> data = queryDocumentSnapshot.data();
-
+      products.add(Product(
+          name: data['productName'],
+          price: data['productPrice'],
+          imageURL: data['productImage'],
+          brandName: data['productBrandName'],
+          quantitiy: data['productQuantity'],
+          description: data['productDescription'],
+          size: data['productSize']));
       productsNames.add(data['productName']);
       productsBrandNames.add(data['productBrandName']);
       productsImages.add(data['productImage']);
@@ -281,9 +378,10 @@ class _OrderProductsCardState extends State<OrderProductsCard> {
       });
 
     String? userID = FirebaseAuth.instance.currentUser?.uid;
+    dynamic order_number = getOrderNumber();
 
     Map<String, dynamic> data = <String, dynamic>{
-      "orderNumber": getOrderNumber(), //Random().nextInt(100 - 1),
+      "orderNumber": order_number, //Random().nextInt(100 - 1),
       "customerID": userID!,
       "products": FieldValue.arrayUnion(yourProductsList),
       "totalPrice": _getTotal(productsPrices, productsQuantitiys),
@@ -298,6 +396,61 @@ class _OrderProductsCardState extends State<OrderProductsCard> {
         .set(data)
         .whenComplete(() => print("Order added to the database"))
         .catchError((e) => print(e));
+
+    // get user data
+    String userName = '';
+    String userEmail = '';
+    String message2 = '';
+    /*  String message =
+        '''<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<img class="adapt-img" src="assets/logo_size.jpg" alt width="105"> </html>'''; */
+
+    //String phone = '';
+    String userLocation = '';
+    final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+    User? user = _firebaseAuth.currentUser;
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(user?.uid)
+        .snapshots()
+        .listen((userData) {
+      final fname = userData.data()!['FirstName'];
+      final lname = userData.data()!['LastName'];
+      final email = userData.data()!['email'];
+      //final phone = userData.data()!['phone'];
+      final location = userData.data()!['location'];
+      userName = fname + ' ' + lname;
+      userEmail = email;
+      userLocation = location;
+    });
+    Future.delayed(const Duration(seconds: 1), () {
+      // send an email
+      /* sendEmailOLD(
+        name: userName,
+        email: userEmail,
+        subject: 'Your order has been placed',
+        message:
+            message2, //'Thank you for shopping with BRANDZ', // here we should add the html templete for the order
+      ); */
+      final DateTime now = DateTime.now();
+      final DateFormat formatter = DateFormat('yyyy-MM-dd');
+      final String dateFormatted = formatter.format(now);
+      sendEmail(
+        name: userName,
+        email: userEmail,
+        subject: 'Your order has been placed',
+        image: products[0].imageURL,
+        brand: products[0].brandName,
+        item_name: products[0].name,
+        size: products[0].size,
+        price: products[0].price.toString(),
+        item_qty: products[0].quantitiy.toString(),
+        order_number: order_number.toString(),
+        order_date: dateFormatted,
+        shipping_address: userLocation,
+      );
+    });
   }
 
   double _getTotal(List price, List quantitiy) {
