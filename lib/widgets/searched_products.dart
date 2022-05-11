@@ -90,12 +90,12 @@ class ProductCardSearch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('product index $index');
-    return Card(
-      child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[_productBox(index, context)]),
-    );
+        return Card(
+        child: Column(
+            //crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[_productBox(index, context)]),
+      );
+  
   }
 
   Widget _productBox(int index, BuildContext context) {
@@ -139,17 +139,10 @@ class ProductCardSearch extends StatelessWidget {
               .get()
               .then((querySnapshot) {
             querySnapshot.docs.forEach((doc) {
-              print(doc.data()['productBrandName'] == noteInfo['BrandName']);
-              print(
-                  doc.data()['productDescription'] == noteInfo['description']);
-              print(doc.data()['productName'] == noteInfo['name']);
-              print(doc.data()['productPrice'] == noteInfo['price']);
-              //  print( noteInfo['BrandName']);
               if (doc.data()['productBrandName'] == noteInfo['BrandName'] &&
                       doc.data()['productDescription'] ==
                           noteInfo['description'] &&
                       doc.data()['productName'] == noteInfo['name'] //&&
-                  //  doc.data()['productPrice'] == noteInfo['price']
                   ) {
                 found = true;
               }
@@ -169,64 +162,91 @@ class ProductCardSearch extends StatelessWidget {
       },
       child: Column(
         children: [
-          Text(data.docs[index]['name'] + "- " + data.docs[index]['BrandName'],
+          Text(data.docs[index]['BrandName'] ,
+              style: GoogleFonts.adamina(
+                fontSize: 16,
+                fontWeight: FontWeight.bold
+              )),
+               
+               Text(data.docs[index]['name'] ,
               style: GoogleFonts.adamina(
                 fontSize: 16,
               )),
-          // Text(data.docs[index]['BrandName'],
-          //     style: GoogleFonts.adamina(
-          //       fontSize: 13,
-          //     )),
           Row(
             children: [
               IconButton(
                   onPressed: () async {
-                    print('hello');
-                    bool found = false;
+                          dynamic displayProduct = data.docs[index].id.toString();
                     User? user = _auth.currentUser;
                     UserModel userModel = UserModel();
-                    String Brand = data.docs[index]['name'].toString();
                     var noteInfo = data!.docs[index].data()! as Map;
                     var object = Product(
                         imageURL: noteInfo['image'][0],
                         name: noteInfo['name'],
-                        price: double.parse(noteInfo['price']),
+                        price: double.parse(noteInfo['Size'][0]['price']),
                         brandName: noteInfo['BrandName'],
                         quantitiy: 1,
-                        description: noteInfo['description'],
+                        description: noteInfo['description'].toString(),
                         size: null);
-                    await FirebaseFirestore.instance
-                        .collection("Cart")
-                        .doc(CartController.id)
-                        .collection('Products')
-                        .get()
-                        .then((querySnapshot) async {
-                      querySnapshot.docs.forEach((doc) {
-                        print(
-                            doc.data()['productImage'] == noteInfo['image'][0]);
-                        if (doc.data()['productImage'] ==
-                            noteInfo['image'][0]) {
-                          found = true;
-                        }
-                      });
-                      if (found == true) {
-                        return;
-                      } else {
-                        if (pressed == 0) AddToCart(object, user);
-                        ++pressed;
+                    if (FirebaseAuth.instance.currentUser?.uid == null) {
+                      return;
+                    } else if (FirebaseAuth.instance.currentUser?.uid != null) {
+                      var value = await FirebaseFirestore.instance
+                          .collection('users')
+                          .doc(FirebaseAuth.instance.currentUser?.uid)
+                          .collection('Favourites')
+                          .limit(1)
+                          .get();
+                      if (value.docs.isNotEmpty == false) {
+                        if (pressed == 0) AddToFavourites(object, user);
+                        pressed++;
+
                         return;
                       }
-                      ;
-                    });
+
+                      bool found = false;
+                      await FirebaseFirestore.instance
+                          .collection("users")
+                          .doc(FirebaseAuth.instance.currentUser?.uid)
+                          .collection('Favourites')
+                          .get()
+                          .then((querySnapshot) {
+                        querySnapshot.docs.forEach((doc) {
+                          //  print( noteInfo['BrandName']);
+                          if (doc.data()['productBrandName'] ==
+                                      noteInfo['BrandName'] &&
+                                  doc.data()['productDescription'] ==
+                                      noteInfo['description'] &&
+                                  doc.data()['productName'] ==
+                                      noteInfo['name'] //&&
+                              //  doc.data()['productPrice'] == noteInfo['price']
+                              ) {
+                            found = true;
+                          }
+                        });
+                        if (found == true) {
+                          return;
+                        } else {
+                          if (pressed == 0) {
+                            print(pressed);
+                            AddToFavourites(object, user);
+                            ++pressed;
+
+                            return;
+                          }
+                        }
+                      });
+                    }
                   },
-                  icon: Icon(Icons.shopping_cart_checkout_rounded))
+                  icon: Icon(Icons.favorite_border))
             ],
           ),
           Image.network(
             data.docs[index]['image'][0],
             width: 100,
-            height: 87,
+            height: 73,
           ),
+          SizedBox(height: 10),
           Container(
             alignment: Alignment.bottomLeft,
             child: Text(data.docs[index]['Size'][0]['price'] + ' SAR',
@@ -257,21 +277,20 @@ class ProductCardSearch extends StatelessWidget {
     });
   }
 
-  void AddToCart(Product product, User? user) async {
-    try {
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(FirebaseAuth.instance.currentUser?.uid)
-          .collection('Cart')
-          .add({
-        'productName': product.name,
-        'productImage': product.imageURL,
-        'productPrice': product.price,
-        'productBrandName': product.brandName,
-        'productQuantity': product.quantitiy,
-        'productDescription': product.description,
-        'productSize': product.size
-      });
-    } catch (e) {}
+ void AddToFavourites(Product product, User? user) async {
+    var id;
+
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser?.uid)
+        .collection('Favourites')
+        .add({
+      'productName': product.name,
+      'productImage': product.imageURL,
+      'productPrice': product.price,
+      'productBrandName': product.brandName,
+      'productQuantity': product.quantitiy,
+      'productDescription': product.description
+    });
   }
 }

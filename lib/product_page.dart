@@ -302,6 +302,7 @@ class _product_pageState extends State<product_page> {
                                     onPressed: () async {
                                       if (newValue == '') {
                                         newValue = Sizes[0]['size'];
+                                        print(newValue);
                                       }
 
                                       bool found = false;
@@ -366,7 +367,6 @@ class _product_pageState extends State<product_page> {
                                     onPressed: () async {
                                       dynamic displayProduct =
                                           data.id.toString();
-                                      print(displayProduct);
                                       User? user = _auth.currentUser;
                                       UserModel userModel = UserModel();
                                       var noteInfo = data.data()! as Map;

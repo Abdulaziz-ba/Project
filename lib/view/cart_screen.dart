@@ -43,10 +43,11 @@ class _CartPageState extends State<CartPage> {
         .collection('LastViewdProducts')
         .limit(1)
         .get();
-  
+  if(this.mounted){
     setState(() {
       isTheRecentlyViewEmpty = value.docs.isEmpty;
     });
+  }
  
     return value.docs.isEmpty;
   }

@@ -191,9 +191,8 @@ class _reg_screenState extends State<reg_screen> {
     );
     //SignUp Buutn
     final signUpButton = Material(
-      elevation: 5,
       borderRadius: BorderRadius.circular(30),
-      color: Colors.black,
+      color: Color.fromARGB(70, 0, 129, 172),
       child: MaterialButton(
           padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           minWidth: MediaQuery.of(context).size.width,

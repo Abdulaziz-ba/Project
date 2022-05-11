@@ -51,9 +51,8 @@ class ResetScreen extends StatelessWidget {
       ),
     );
     final ResetButton = Material(
-      elevation: 5,
       borderRadius: BorderRadius.circular(30),
-      color: Colors.black,
+      color: Color.fromARGB(70, 0, 129, 172),
       child: MaterialButton(
           padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           minWidth: MediaQuery.of(context).size.width,

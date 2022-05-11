@@ -4,6 +4,7 @@
 
 // Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 
 // Package imports:
 import 'package:get/get.dart';
@@ -37,34 +38,73 @@ class _MainPageState extends State<MainPage> {
       currentIndex = index;
       if (index == 3) {
         Get.put(CartController());
+        
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
+   /* if(currentIndex == 3){
+      onTap(3);
+    }*/
+    Get.put(CartController());
     return Scaffold(
       body: pages[currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          //onTap: Get.put(pages[currentIndex]),
-          onTap: onTap,
-          currentIndex: currentIndex,
-          selectedItemColor: Colors.black54,
-          unselectedItemColor: Colors.grey.withOpacity(0.5),
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          elevation: 0,
-          items: [
-            BottomNavigationBarItem(label: "Home", icon: Icon(Icons.home)),
-            BottomNavigationBarItem(
-                label: "Search", icon: Icon(Icons.compare_arrows)),
-            BottomNavigationBarItem(
-                label: "Category", icon: Icon(Icons.category_sharp)),
-            BottomNavigationBarItem(
-                label: "Cart", icon: Icon(Icons.shopping_cart)),
-            BottomNavigationBarItem(label: "Profile", icon: Icon(Icons.person))
-          ]),
+      bottomNavigationBar: buildBottomNavigation(),
     );
+  }
+  Widget buildBottomNavigation(){
+    
+    final inactivecolor = Colors.grey; 
+    return BottomNavyBar(
+      
+      backgroundColor: Colors.white,
+      selectedIndex: currentIndex,
+      items: <BottomNavyBarItem>[
+        BottomNavyBarItem(
+          icon: Icon(Icons.home),
+          title: Text('Home'),
+          inactiveColor: inactivecolor,
+          activeColor: Colors.green,
+          textAlign: TextAlign.center
+        ),
+          BottomNavyBarItem(
+          icon: Icon(Icons.compare),
+          title: Text('Compare items'),
+          inactiveColor: inactivecolor,
+          activeColor: Colors.red,
+          textAlign: TextAlign.center
+        ),
+        BottomNavyBarItem(
+          icon: Icon(Icons.category_sharp),
+          title: Text('Categories'),
+          inactiveColor: inactivecolor,
+          activeColor: Colors.blue,
+          textAlign: TextAlign.center
+        ),
+           BottomNavyBarItem(
+          icon: Icon(Icons.shopping_cart),
+          title: Text('Cart'),
+          inactiveColor: inactivecolor,
+          activeColor: Colors.yellow,
+          textAlign: TextAlign.center
+        ),
+         BottomNavyBarItem(
+          icon: Icon(Icons.person),
+          title: Text('Profile'),
+          inactiveColor: inactivecolor,
+          activeColor: Colors.orange,
+          textAlign: TextAlign.center
+        ),
+    ] 
+    ,
+     onItemSelected: (index) => setState(() {
+       this.currentIndex = index;
+     })
+     
+     
+     );
+
   }
 }
